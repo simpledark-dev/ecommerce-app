@@ -1,45 +1,51 @@
 const products = [
   {
     id: generateUniqueId(),
-    name: 'Test',
+    name: 'River',
     price_in_USD: 12,
     description: 'Lorems mustaford',
-    images: ['https://random.imagecdn.app/200/200', 'https://picsum.photos/200']
+    images: [
+      'https://picsum.photos/id/237/200/200',
+      'https://picsum.photos/id/2/200/200'
+    ]
   },
   {
     id: generateUniqueId(),
-    name: 'Test',
+    name: 'Lelani',
     price_in_USD: 12,
     description: 'Lorems mustaford',
-    images: ['https://random.imagecdn.app/200/200']
+    images: ['https://picsum.photos/id/2/200/200']
   },
   {
     id: generateUniqueId(),
-    name: 'Test',
+    name: 'Carston',
     price_in_USD: 12,
     description: 'Lorems mustaford',
-    images: ['https://random.imagecdn.app/200/200', 'https://picsum.photos/200']
+    images: ['https://picsum.photos/id/33/200/200', 'https://picsum.photos/200']
   },
   {
     id: generateUniqueId(),
-    name: 'Test',
+    name: 'Ramy',
     price_in_USD: 12,
     description: 'Lorems mustaford',
-    images: ['https://random.imagecdn.app/200/200']
+    images: ['https://picsum.photos/id/21/200/200']
   },
   {
     id: generateUniqueId(),
-    name: 'Test',
+    name: 'Lua',
     price_in_USD: 12,
     description: 'Lorems mustaford',
-    images: ['https://random.imagecdn.app/200/200', 'https://picsum.photos/200']
+    images: [
+      'https://picsum.photos/id/23/200/200',
+      'https://picsum.photos/id/24/200/200'
+    ]
   },
   {
     id: generateUniqueId(),
-    name: 'Test',
+    name: 'Gope',
     price_in_USD: 12,
     description: 'Lorems mustaford',
-    images: ['https://random.imagecdn.app/200/200']
+    images: ['https://picsum.photos/id/25/200/200']
   }
 ]
 
