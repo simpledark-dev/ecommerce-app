@@ -8,6 +8,7 @@ const products = [
       'https://picsum.photos/id/2/200/200'
     ],
     base_price_in_USD: 0,
+    discount: 0,
     variations: [
       {
         variation_key: 'RAM',
@@ -43,7 +44,47 @@ const products = [
     description: 'Lorems mustaford',
     images: ['https://picsum.photos/id/2/200/200'],
     base_price_in_USD: 17,
+    discount: 0.1,
     variations: []
+  },
+  {
+    id: generateUniqueId(),
+    name: 'Tuyer',
+    description: 'Lorems mustaford',
+    images: [
+      'https://picsum.photos/id/249/200/200',
+      'https://picsum.photos/id/2/200/200'
+    ],
+    base_price_in_USD: 0,
+    discount: 0.05,
+    variations: [
+      {
+        variation_key: 'Addons',
+        variation_price_list: [
+          {
+            value: 'Charger',
+            price_in_USD: 120
+          },
+          {
+            value: 'Headsets',
+            price_in_USD: 450
+          }
+        ]
+      },
+      {
+        variation_key: 'Screen Size',
+        variation_price_list: [
+          {
+            value: '13 inch',
+            price_in_USD: 10
+          },
+          {
+            value: '15 inch',
+            price_in_USD: 20
+          }
+        ]
+      }
+    ]
   },
   {
     id: generateUniqueId(),
@@ -54,6 +95,7 @@ const products = [
       'https://picsum.photos/200'
     ],
     base_price_in_USD: 50,
+    discount: 0,
     variations: [
       {
         variation_key: 'Size',
@@ -80,6 +122,7 @@ const products = [
     description: 'Lorems mustaford',
     images: ['https://picsum.photos/id/21/200/200'],
     base_price_in_USD: 0,
+    discount: 0.15,
     variations: [
       {
         variation_key: 'Color',
@@ -122,6 +165,7 @@ const products = [
       'https://picsum.photos/id/24/200/200'
     ],
     base_price_in_USD: 100,
+    discount: 0,
     variations: []
   },
   {
@@ -130,6 +174,7 @@ const products = [
     description: 'Lorems mustaford',
     images: ['https://picsum.photos/id/25/200/200'],
     base_price_in_USD: 12,
+    discount: 0.3,
     variations: []
   }
 ]

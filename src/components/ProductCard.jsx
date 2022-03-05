@@ -1,15 +1,35 @@
 const ProductCard = ({ image, name, description, price }) => {
+  const {
+    minPrice,
+    maxPrice,
+    discount,
+    discountedMinPrice,
+    discountedMaxPrice
+  } = price
+
   const displayedPrice =
-    price.minPrice < price.maxPrice
-      ? `$${price.minPrice}-$${price.maxPrice}`
-      : `$${price.minPrice}`
+    minPrice < maxPrice ? `$${minPrice} - $${maxPrice}` : `$${minPrice}`
+
+  const displayedDiscountedPrice =
+    discountedMinPrice < discountedMaxPrice
+      ? `$${discountedMinPrice} - $${discountedMaxPrice}`
+      : `$${discountedMinPrice}`
 
   return (
     <div>
       <img src={image} alt="product" />
       <p>{name}</p>
       <p>{description}</p>
-      <p>{displayedPrice}</p>
+      {discount > 0 ? (
+        <>
+          <p>-{Math.round((discount * 100).toFixed(2))}%</p>
+          <p>
+            {displayedDiscountedPrice} (Old price: {displayedPrice})
+          </p>
+        </>
+      ) : (
+        <p>{displayedPrice}</p>
+      )}
     </div>
   )
 }
