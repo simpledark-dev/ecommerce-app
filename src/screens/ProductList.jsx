@@ -1,8 +1,21 @@
+import { useState } from 'react'
 import ProductCard from 'components/ProductCard'
 import { products } from 'data'
 
 const ProductList = () => {
-  const productList = products.map(product => {
+  const [productList, setProductList] = useState(products)
+  const [searchTextInput, setSearchTextInput] = useState('')
+
+  const handleProductSearch = e => {
+    e.preventDefault()
+    // Search product by name (Keep it simple for now - later will potentially search based on categories as well)
+    const searchedProducts = [...products].filter(product =>
+      product.name.toLowerCase().includes(searchTextInput.toLowerCase())
+    )
+    setProductList(searchedProducts)
+  }
+
+  const displayedProducts = productList.map(product => {
     const basePrice = product.base_price_in_USD
     const variations = product.variations || []
     const discount = product.discount || 0
@@ -43,7 +56,23 @@ const ProductList = () => {
       />
     )
   })
-  return <>{productList}</>
+
+  return (
+    <>
+      <form onSubmit={handleProductSearch}>
+        <p>
+          <input
+            type="search"
+            placeholder="Search your product here"
+            value={searchTextInput}
+            onChange={e => setSearchTextInput(e.target.value)}
+          />
+          <button onSubmit={handleProductSearch}>Search</button>
+        </p>
+      </form>
+      {displayedProducts}
+    </>
+  )
 }
 
 export default ProductList
