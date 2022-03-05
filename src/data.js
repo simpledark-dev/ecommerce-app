@@ -2,56 +2,141 @@ const products = [
   {
     id: generateUniqueId(),
     name: 'River',
-    price_in_USD: 12,
     description: 'Lorems mustaford',
     images: [
       'https://picsum.photos/id/237/200/200',
       'https://picsum.photos/id/2/200/200'
+    ],
+    base_price_in_USD: 0,
+    variations: [
+      {
+        variation_key: 'RAM',
+        variation_price_list: [
+          {
+            value: '16GB',
+            price_in_USD: 10
+          },
+          {
+            value: '32GB',
+            price_in_USD: 45
+          }
+        ]
+      },
+      {
+        variation_key: 'Screen Size',
+        variation_price_list: [
+          {
+            value: '13 inch',
+            price_in_USD: 10
+          },
+          {
+            value: '15 inch',
+            price_in_USD: 20
+          }
+        ]
+      }
     ]
   },
   {
     id: generateUniqueId(),
     name: 'Lelani',
-    price_in_USD: 12,
     description: 'Lorems mustaford',
-    images: ['https://picsum.photos/id/2/200/200']
+    images: ['https://picsum.photos/id/2/200/200'],
+    base_price_in_USD: 17,
+    variations: []
   },
   {
     id: generateUniqueId(),
     name: 'Carston',
-    price_in_USD: 12,
-    description: 'Lorems mustaford',
-    images: ['https://picsum.photos/id/33/200/200', 'https://picsum.photos/200']
-  },
-  {
-    id: generateUniqueId(),
-    name: 'Ramy',
-    price_in_USD: 12,
-    description: 'Lorems mustaford',
-    images: ['https://picsum.photos/id/21/200/200']
-  },
-  {
-    id: generateUniqueId(),
-    name: 'Lua',
-    price_in_USD: 12,
     description: 'Lorems mustaford',
     images: [
-      'https://picsum.photos/id/23/200/200',
-      'https://picsum.photos/id/24/200/200'
+      'https://picsum.photos/id/33/200/200',
+      'https://picsum.photos/200'
+    ],
+    base_price_in_USD: 50,
+    variations: [
+      {
+        variation_key: 'Size',
+        variation_price_list: [
+          {
+            value: 'S',
+            price_in_USD: 0
+          },
+          {
+            value: 'M',
+            price_in_USD: 0
+          },
+          {
+            value: 'L',
+            price_in_USD: 0
+          }
+        ]
+      }
     ]
   },
   {
     id: generateUniqueId(),
-    name: 'Gope',
-    price_in_USD: 12,
+    name: 'Ramy',
     description: 'Lorems mustaford',
-    images: ['https://picsum.photos/id/25/200/200']
+    images: ['https://picsum.photos/id/21/200/200'],
+    base_price_in_USD: 0,
+    variations: [
+      {
+        variation_key: 'Color',
+        variation_price_list: [
+          {
+            value: 'Blue',
+            price_in_USD: 0
+          },
+          {
+            value: 'Black',
+            price_in_USD: 0
+          }
+        ]
+      },
+      {
+        variation_key: 'Size',
+        variation_price_list: [
+          {
+            value: 'Micro USB',
+            price_in_USD: 30
+          },
+          {
+            value: 'Type-c',
+            price_in_USD: 50
+          },
+          {
+            value: 'Type-b',
+            price_in_USD: 70
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: generateUniqueId(),
+    name: 'Lua',
+    description: 'Lorems mustaford',
+    images: [
+      'https://picsum.photos/id/23/200/200',
+      'https://picsum.photos/id/24/200/200'
+    ],
+    base_price_in_USD: 100,
+    variations: []
+  },
+  {
+    id: generateUniqueId(),
+    name: 'Gope',
+    description: 'Lorems mustaford',
+    images: ['https://picsum.photos/id/25/200/200'],
+    base_price_in_USD: 12,
+    variations: []
   }
 ]
 
 function generateUniqueId() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
+    let r = (Math.random() * 16) | 0,
       v = c === 'x' ? r : (r & 0x3) | 0x8
     return v.toString(16)
   })
