@@ -5,6 +5,7 @@ import { products } from 'data'
 const ProductList = () => {
   const [productList, setProductList] = useState(products)
   const [searchTextInput, setSearchTextInput] = useState('')
+  const [selectedSortBy, setSelectedSortBy] = useState('most-popular')
 
   const handleProductSearch = e => {
     e.preventDefault()
@@ -13,6 +14,46 @@ const ProductList = () => {
       product.name.toLowerCase().includes(searchTextInput.toLowerCase())
     )
     setProductList(searchedProducts)
+    setSelectedSortBy('most-popular')
+  }
+
+  const handleSortByOnChange = e => {
+    const sortByValue = e.target.value
+    setSelectedSortBy(sortByValue)
+
+    // Most Popular - Sort product by number of reviews
+    if (sortByValue === 'most-popular') {
+      const sortedProductList = []
+      return setProductList(sortedProductList)
+    }
+
+    // Most Recent - Sort product by upload time
+    if (sortByValue === 'most-recent') {
+      const sortedProductList = [...productList].sort(
+        (p1, p2) =>
+          new Date(p2.upload_time).getTime() -
+          new Date(p1.upload_time).getTime()
+      )
+      return setProductList(sortedProductList)
+    }
+
+    // Best selling - Sort product by number of sells (based on fullfilled orders)
+    if (sortByValue === 'best-selling') {
+      const sortedProductList = []
+      return setProductList(sortedProductList)
+    }
+
+    // Price Low to High
+    if (sortByValue === 'price-low-to-high') {
+      const sortedProductList = []
+      return setProductList(sortedProductList)
+    }
+
+    // Price High to Low
+    if (sortByValue === 'price-high-to-low') {
+      const sortedProductList = []
+      return setProductList(sortedProductList)
+    }
   }
 
   const displayedProducts = productList.map(product => {
@@ -70,6 +111,13 @@ const ProductList = () => {
           <button onSubmit={handleProductSearch}>Search</button>
         </p>
       </form>
+      <select onChange={handleSortByOnChange} value={selectedSortBy}>
+        <option value="most-popular">Most popular</option>
+        <option value="most-recent">Most recent</option>
+        <option value="best-selling">Best selling</option>
+        <option value="price-low-to-high">Price Low to High</option>
+        <option value="price-high-to-low">Price High to Low</option>
+      </select>
       {displayedProducts}
     </>
   )
