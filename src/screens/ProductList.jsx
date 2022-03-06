@@ -1,34 +1,42 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ProductCard from 'components/ProductCard'
-import { products } from 'data'
+import { products, reviews } from 'data'
+
+const SORT_BY_VALUES = {
+  mostPopular: 'most-popular',
+  newest: 'most-recent',
+  bestSelling: 'best-selling',
+  priceLowToHigh: 'price-low-to-high',
+  priceHighToLow: 'price-high-to-low'
+}
 
 const ProductList = () => {
-  const [productList, setProductList] = useState(products)
+  const [productList, setProductList] = useState([])
   const [searchTextInput, setSearchTextInput] = useState('')
-  const [selectedSortBy, setSelectedSortBy] = useState('most-popular')
+  const [selectedSortBy, setSelectedSortBy] = useState('')
 
-  const handleProductSearch = e => {
-    e.preventDefault()
-    // Search product by name (Keep it simple for now - later will potentially search based on categories as well)
-    const searchedProducts = [...products].filter(product =>
-      product.name.toLowerCase().includes(searchTextInput.toLowerCase())
-    )
-    setProductList(searchedProducts)
-    setSelectedSortBy('most-popular')
-  }
+  useEffect(() => {
+    sortProductsBy(products, SORT_BY_VALUES.mostPopular)
+  }, [])
 
-  const handleSortByOnChange = e => {
-    const sortByValue = e.target.value
+  const sortProductsBy = (productList, sortByValue) => {
     setSelectedSortBy(sortByValue)
-
     // Most Popular - Sort product by number of reviews
     if (sortByValue === 'most-popular') {
-      const sortedProductList = []
+      const sortedProductList = [...productList].sort((p1, p2) => {
+        const p1NumberOfReviews = [...reviews].filter(
+          review => review.product_id === p1.id
+        ).length
+        const p2NumberOfReviews = [...reviews].filter(
+          review => review.product_id === p2.id
+        ).length
+
+        return p2NumberOfReviews - p1NumberOfReviews
+      })
       return setProductList(sortedProductList)
     }
-
     // Most Recent - Sort product by upload time
-    if (sortByValue === 'most-recent') {
+    if (sortByValue === SORT_BY_VALUES.newest) {
       const sortedProductList = [...productList].sort(
         (p1, p2) =>
           new Date(p2.upload_time).getTime() -
@@ -36,24 +44,34 @@ const ProductList = () => {
       )
       return setProductList(sortedProductList)
     }
-
     // Best selling - Sort product by number of sells (based on fullfilled orders)
-    if (sortByValue === 'best-selling') {
+    if (sortByValue === SORT_BY_VALUES.bestSelling) {
       const sortedProductList = []
       return setProductList(sortedProductList)
     }
-
     // Price Low to High
-    if (sortByValue === 'price-low-to-high') {
+    if (sortByValue === SORT_BY_VALUES.priceLowToHigh) {
       const sortedProductList = []
       return setProductList(sortedProductList)
     }
-
     // Price High to Low
-    if (sortByValue === 'price-high-to-low') {
+    if (sortByValue === SORT_BY_VALUES.priceHighToLow) {
       const sortedProductList = []
       return setProductList(sortedProductList)
     }
+  }
+
+  const handleProductSearch = e => {
+    e.preventDefault()
+    const searchedProducts = [...products].filter(product =>
+      product.name.toLowerCase().includes(searchTextInput.toLowerCase())
+    )
+    const defaultSortByValue = SORT_BY_VALUES.mostPopular
+    sortProductsBy(searchedProducts, defaultSortByValue)
+  }
+
+  const handleSortByOnChange = e => {
+    sortProductsBy(productList, e.target.value)
   }
 
   const displayedProducts = productList.map(product => {
