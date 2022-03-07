@@ -50,6 +50,7 @@ const ProductList = () => {
         let soldP1 = 0
         let soldP2 = 0
         orders.forEach(order => {
+          if (order.status !== 'fulfilled') return
           const p1Found = order.order.find(
             product => product.product_id === p1.id
           )
