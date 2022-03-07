@@ -23,11 +23,21 @@ const ProductList = () => {
   const [selectedSortBy, setSelectedSortBy] = useState('')
 
   useEffect(() => {
-    sortProductsBy(products, SORT_BY_VALUES.mostPopular)
+    const currentSortBy = new URLSearchParams(window.location.search).get(
+      'sort'
+    )
+    sortProductsBy(
+      products,
+      (Object.values(SORT_BY_VALUES).includes(currentSortBy) &&
+        currentSortBy) ||
+        SORT_BY_VALUES.mostPopular
+    )
   }, [])
 
   const sortProductsBy = (productList, sortByValue) => {
+    window.history.replaceState(null, null, `?sort=${sortByValue}`)
     setSelectedSortBy(sortByValue)
+
     if (sortByValue === SORT_BY_VALUES.mostPopular) {
       return setProductList(getSortedProductsByNumReviews(productList, reviews))
     }
