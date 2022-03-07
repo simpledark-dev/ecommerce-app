@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import ProductCard from 'components/ProductCard'
-import { products, reviews } from 'data'
+import { products, reviews, orders } from 'data'
 
 const SORT_BY_VALUES = {
   mostPopular: 'most-popular',
@@ -46,7 +46,22 @@ const ProductList = () => {
     }
     // Best selling - Sort product by number of sells (based on fullfilled orders)
     if (sortByValue === SORT_BY_VALUES.bestSelling) {
-      const sortedProductList = []
+      const sortedProductList = [...productList].sort((p1, p2) => {
+        let soldP1 = 0
+        let soldP2 = 0
+        orders.forEach(order => {
+          const p1Found = order.order.find(
+            product => product.product_id === p1.id
+          )
+          const p2Found = order.order.find(
+            product => product.product_id === p2.id
+          )
+          if (p1Found) soldP1 += p1Found.quantity
+          if (p2Found) soldP2 += p2Found.quantity
+        })
+
+        return soldP2 - soldP1
+      })
       return setProductList(sortedProductList)
     }
     // Price Low to High
@@ -79,21 +94,15 @@ const ProductList = () => {
     const variations = product.variations || []
     const discount = product.discount || 0
 
-    // Get min price
+    // Get min and max price
     let minPrice = basePrice
+    let maxPrice = basePrice
+
     variations.forEach(variation => {
       const prices = variation.variation_price_list.map(
         variationPrice => variationPrice.price_in_USD
       )
       minPrice += Math.min(...prices)
-    })
-
-    // Get max price
-    let maxPrice = basePrice
-    variations.forEach(variation => {
-      const prices = variation.variation_price_list.map(
-        variationPrice => variationPrice.price_in_USD
-      )
       maxPrice += Math.max(...prices)
     })
 
