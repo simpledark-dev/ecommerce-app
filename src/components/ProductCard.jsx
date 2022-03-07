@@ -12,8 +12,8 @@ const ProductCard = ({ image, name, description, price }) => {
 
   const displayedDiscountedPrice =
     discountedMinPrice < discountedMaxPrice
-      ? `$${discountedMinPrice} - $${discountedMaxPrice}`
-      : `$${discountedMinPrice}`
+      ? `$${discountedMinPrice.toFixed(2)} - $${discountedMaxPrice.toFixed(2)}`
+      : `$${discountedMinPrice.toFixed(2)}`
 
   return (
     <div>

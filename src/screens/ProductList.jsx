@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react'
+import { products, reviews, orders } from 'data/data'
 import ProductCard from 'components/ProductCard'
-import { products, reviews, orders } from 'data'
+import {
+  getSortedProductsByBestSelling,
+  getSortedProductsByNumReviews,
+  getSortedProductsByPrice,
+  getSortedProductsByUploadTime
+} from 'services/productSortHelpers'
+import { calculateProductPrices } from 'services/productPriceHelpers'
 
 const SORT_BY_VALUES = {
   mostPopular: 'most-popular',
@@ -21,58 +28,22 @@ const ProductList = () => {
 
   const sortProductsBy = (productList, sortByValue) => {
     setSelectedSortBy(sortByValue)
-    // Most Popular - Sort product by number of reviews
-    if (sortByValue === 'most-popular') {
-      const sortedProductList = [...productList].sort((p1, p2) => {
-        const p1NumberOfReviews = [...reviews].filter(
-          review => review.product_id === p1.id
-        ).length
-        const p2NumberOfReviews = [...reviews].filter(
-          review => review.product_id === p2.id
-        ).length
-
-        return p2NumberOfReviews - p1NumberOfReviews
-      })
-      return setProductList(sortedProductList)
+    if (sortByValue === SORT_BY_VALUES.mostPopular) {
+      return setProductList(getSortedProductsByNumReviews(productList, reviews))
     }
-    // Most Recent - Sort product by upload time
     if (sortByValue === SORT_BY_VALUES.newest) {
-      const sortedProductList = [...productList].sort(
-        (p1, p2) =>
-          new Date(p2.upload_time).getTime() -
-          new Date(p1.upload_time).getTime()
-      )
-      return setProductList(sortedProductList)
+      return setProductList(getSortedProductsByUploadTime(productList))
     }
-    // Best selling - Sort product by number of sells (based on fullfilled orders)
     if (sortByValue === SORT_BY_VALUES.bestSelling) {
-      const sortedProductList = [...productList].sort((p1, p2) => {
-        let soldP1 = 0
-        let soldP2 = 0
-        orders.forEach(order => {
-          const p1Found = order.order.find(
-            product => product.product_id === p1.id
-          )
-          const p2Found = order.order.find(
-            product => product.product_id === p2.id
-          )
-          if (p1Found) soldP1 += p1Found.quantity
-          if (p2Found) soldP2 += p2Found.quantity
-        })
-
-        return soldP2 - soldP1
-      })
-      return setProductList(sortedProductList)
+      return setProductList(getSortedProductsByBestSelling(productList, orders))
     }
-    // Price Low to High
     if (sortByValue === SORT_BY_VALUES.priceLowToHigh) {
-      const sortedProductList = []
-      return setProductList(sortedProductList)
+      return setProductList(getSortedProductsByPrice(productList))
     }
-    // Price High to Low
     if (sortByValue === SORT_BY_VALUES.priceHighToLow) {
-      const sortedProductList = []
-      return setProductList(sortedProductList)
+      return setProductList(
+        getSortedProductsByPrice(productList, { lowToHigh: false })
+      )
     }
   }
 
@@ -90,24 +61,13 @@ const ProductList = () => {
   }
 
   const displayedProducts = productList.map(product => {
-    const basePrice = product.base_price_in_USD
-    const variations = product.variations || []
-    const discount = product.discount || 0
-
-    // Get min and max price
-    let minPrice = basePrice
-    let maxPrice = basePrice
-
-    variations.forEach(variation => {
-      const prices = variation.variation_price_list.map(
-        variationPrice => variationPrice.price_in_USD
-      )
-      minPrice += Math.min(...prices)
-      maxPrice += Math.max(...prices)
-    })
-
-    const discountedMinPrice = (minPrice * (1 - discount)).toFixed(2)
-    const discountedMaxPrice = (maxPrice * (1 - discount)).toFixed(2)
+    const {
+      minPrice,
+      maxPrice,
+      discount,
+      discountedMinPrice,
+      discountedMaxPrice
+    } = calculateProductPrices(product)
 
     return (
       <ProductCard
@@ -117,9 +77,9 @@ const ProductList = () => {
         price={{
           minPrice,
           maxPrice,
-          discount,
           discountedMinPrice,
-          discountedMaxPrice
+          discountedMaxPrice,
+          discount
         }}
       />
     )
