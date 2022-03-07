@@ -10,6 +10,35 @@ const SORT_BY_VALUES = {
   priceHighToLow: 'price-high-to-low'
 }
 
+const calculateProductPrices = product => {
+  const basePrice = product.base_price_in_USD
+  const variations = product.variations || []
+  const discount = product.discount || 0
+
+  // Get min and max price
+  let minPrice = basePrice
+  let maxPrice = basePrice
+
+  variations.forEach(variation => {
+    const prices = variation.variation_price_list.map(
+      variationPrice => variationPrice.price_in_USD
+    )
+    minPrice += Math.min(...prices)
+    maxPrice += Math.max(...prices)
+  })
+
+  const discountedMinPrice = minPrice * (1 - discount)
+  const discountedMaxPrice = maxPrice * (1 - discount)
+
+  return {
+    minPrice,
+    maxPrice,
+    discount,
+    discountedMinPrice,
+    discountedMaxPrice
+  }
+}
+
 const ProductList = () => {
   const [productList, setProductList] = useState([])
   const [searchTextInput, setSearchTextInput] = useState('')
@@ -66,12 +95,26 @@ const ProductList = () => {
     }
     // Price Low to High
     if (sortByValue === SORT_BY_VALUES.priceLowToHigh) {
-      const sortedProductList = []
+      const sortedProductList = [...productList].sort((p1, p2) => {
+        const p1Prices = calculateProductPrices(p1)
+        const p2Prices = calculateProductPrices(p2)
+        return (
+          Math.min(p1Prices.minPrice, p1Prices.discountedMinPrice) -
+          Math.min(p2Prices.minPrice, p2Prices.discountedMinPrice)
+        )
+      })
       return setProductList(sortedProductList)
     }
     // Price High to Low
     if (sortByValue === SORT_BY_VALUES.priceHighToLow) {
-      const sortedProductList = []
+      const sortedProductList = [...productList].sort((p1, p2) => {
+        const p1Prices = calculateProductPrices(p1)
+        const p2Prices = calculateProductPrices(p2)
+        return (
+          Math.max(p2Prices.maxPrice, p2Prices.discountedMaxPrice) -
+          Math.max(p2Prices.maxPrice, p1Prices.discountedMaxPrice)
+        )
+      })
       return setProductList(sortedProductList)
     }
   }
@@ -90,24 +133,13 @@ const ProductList = () => {
   }
 
   const displayedProducts = productList.map(product => {
-    const basePrice = product.base_price_in_USD
-    const variations = product.variations || []
-    const discount = product.discount || 0
-
-    // Get min and max price
-    let minPrice = basePrice
-    let maxPrice = basePrice
-
-    variations.forEach(variation => {
-      const prices = variation.variation_price_list.map(
-        variationPrice => variationPrice.price_in_USD
-      )
-      minPrice += Math.min(...prices)
-      maxPrice += Math.max(...prices)
-    })
-
-    const discountedMinPrice = (minPrice * (1 - discount)).toFixed(2)
-    const discountedMaxPrice = (maxPrice * (1 - discount)).toFixed(2)
+    const {
+      minPrice,
+      maxPrice,
+      discount,
+      discountedMinPrice,
+      discountedMaxPrice
+    } = calculateProductPrices(product)
 
     return (
       <ProductCard
@@ -117,9 +149,9 @@ const ProductList = () => {
         price={{
           minPrice,
           maxPrice,
-          discount,
           discountedMinPrice,
-          discountedMaxPrice
+          discountedMaxPrice,
+          discount
         }}
       />
     )
