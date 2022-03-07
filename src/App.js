@@ -1,8 +1,21 @@
-import logo from "./logo.svg";
-import "./App.css";
+import './App.css'
+import { Routes, Route, Link } from 'react-router-dom'
+import { ProductList, ProductDetails } from 'screens'
 
-function App() {
-  return <div className="App">Hi</div>;
+const App = () => {
+  return (
+    <div className="App">
+      <p>
+        <Link to="/">ProductList </Link>
+        <Link to="/details-test">ProductDetails</Link>
+      </p>
+
+      <Routes>
+        <Route path="/" element={<ProductList />} />
+        <Route path="/details-test" element={<ProductDetails />} />
+      </Routes>
+    </div>
+  )
 }
 
-export default App;
+export default App

@@ -1,3 +1,9 @@
+### TODOs: Refine README
+
+### Trello board:
+
+https://trello.com/b/z3DvzSpT/ecommerce-template
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
