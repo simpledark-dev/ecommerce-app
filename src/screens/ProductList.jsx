@@ -51,7 +51,7 @@ const ProductList = () => {
   const sortProductsBy = (productList, sortByValue) => {
     setSelectedSortBy(sortByValue)
     // Most Popular - Sort product by number of reviews
-    if (sortByValue === 'most-popular') {
+    if (sortByValue === SORT_BY_VALUES.mostPopular) {
       const sortedProductList = [...productList].sort((p1, p2) => {
         const p1NumberOfReviews = [...reviews].filter(
           review => review.product_id === p1.id
