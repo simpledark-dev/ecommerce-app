@@ -10,6 +10,12 @@ const getSortedProductsByNumReviews = (productList, reviews) => {
       review => review.product_id === p2.id
     ).length
 
+    // If both products have the same number of reviews, the older product will be more popular
+    if (p2NumberOfReviews === p1NumberOfReviews)
+      return (
+        new Date(p1.upload_time).getTime() - new Date(p2.upload_time).getTime()
+      )
+
     return p2NumberOfReviews - p1NumberOfReviews
   })
 }
