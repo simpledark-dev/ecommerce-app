@@ -6,6 +6,8 @@ import { getSortedProducts } from 'services/productSortHelpers'
 const ProductFilters = ({
   categoryFilterList,
   setCategoryFilterList,
+  priceRange,
+  setPriceRange,
   productSearchList,
   setProductDisplayList,
   sortValue,
@@ -32,10 +34,15 @@ const ProductFilters = ({
     } else categoryFilter.selectedValues.push(value)
     setCategoryFilterList(currentCategoryFilterList)
 
+    filterProducts(productSearchList, currentCategoryFilterList, priceRange)
+  }
+
+  const filterProducts = (productList, categoryFilterList, priceRange) => {
     // Filter products and update product display list
     const filteredProducts = getFilteredProducts(
-      productSearchList,
-      currentCategoryFilterList
+      productList,
+      categoryFilterList,
+      priceRange
     )
     const productsToDisplay = getSortedProducts(filteredProducts, sortValue)
     setProductDisplayList(productsToDisplay)
@@ -73,6 +80,34 @@ const ProductFilters = ({
     <fieldset>
       <button onClick={handleClearFilter}>Clear all</button>
       {currentCategoryFilterList}
+      <h3>Price Range</h3>
+      <label>
+        Min: $
+        <input
+          type="number"
+          name="min"
+          style={{ width: 80 }}
+          value={priceRange.min.toString()}
+          onChange={e => setPriceRange({ ...priceRange, min: +e.target.value })}
+        />
+      </label>{' '}
+      <label>
+        Max: $
+        <input
+          type="number"
+          name="max"
+          style={{ width: 80 }}
+          value={priceRange.max.toString()}
+          onChange={e => setPriceRange({ ...priceRange, max: +e.target.value })}
+        />
+      </label>{' '}
+      <button
+        onClick={() =>
+          filterProducts(productSearchList, categoryFilterList, priceRange)
+        }
+      >
+        Apply
+      </button>
     </fieldset>
   )
 }
