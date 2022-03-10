@@ -17,7 +17,8 @@ const ProductFilters = ({
       selectedValues: []
     }))
     setCategoryFilterList(selectedList)
-  }, [])
+  }, [setCategoryFilterList])
+
   const handleFilterOnChange = (categoryId, value) => {
     // Update category filter list
     const currentCategoryFilterList = [...categoryFilterList]

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { getSortedProducts } from 'services/productSortHelpers'
 
 const SortDropdown = ({

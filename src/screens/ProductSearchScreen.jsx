@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react'
 import { products } from 'data/data'
-import ProductCard from 'components/ProductCard'
 import { SORT_BY_VALUES, getSortedProducts } from 'services/productSortHelpers'
-import { calculateProductPrices } from 'services/productPriceHelpers'
 import SearchBar from 'components/SearchBar'
 import SortDropdown from 'components/SortDropdown'
 import ProductFilters from 'components/ProductFilters'
+import ProductList from 'components/ProductList'
 
-const ProductList = () => {
+const ProductSearchScreen = () => {
   const [productSearchList, setProductSearchList] = useState([])
   const [productDisplayList, setProductDisplayList] = useState([])
   const [sortValue, setSortValue] = useState('')
@@ -37,31 +36,6 @@ const ProductList = () => {
     setCategoryFilterList(currentCategoryFilterList)
   }
 
-  const currentProductDisplayList = productDisplayList.map(product => {
-    const {
-      minPrice,
-      maxPrice,
-      discount,
-      discountedMinPrice,
-      discountedMaxPrice
-    } = calculateProductPrices(product)
-
-    return (
-      <ProductCard
-        key={product.id}
-        image={product.images[0]}
-        name={product.name}
-        price={{
-          minPrice,
-          maxPrice,
-          discountedMinPrice,
-          discountedMaxPrice,
-          discount
-        }}
-      />
-    )
-  })
-
   return (
     <>
       <ProductFilters
@@ -84,9 +58,9 @@ const ProductList = () => {
         sortValue={sortValue}
         setSortValue={setSortValue}
       />
-      {currentProductDisplayList}
+      <ProductList productDisplayList={productDisplayList} />
     </>
   )
 }
 
-export default ProductList
+export default ProductSearchScreen
