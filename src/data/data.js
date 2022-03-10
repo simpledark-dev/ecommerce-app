@@ -1,7 +1,7 @@
 const categories = [
   {
     id: 'ca-1',
-    name: 'Brands',
+    name: 'Brand',
     values: ['Nike', 'Adidas', 'Puma', 'Uniqlo']
   },
   {
