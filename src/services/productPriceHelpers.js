@@ -27,4 +27,23 @@ const calculateProductPrices = product => {
   }
 }
 
-export { calculateProductPrices }
+const getLowestPricedProduct = products => {
+  return Math.min(
+    ...products.map(
+      product => calculateProductPrices(product).discountedMinPrice
+    )
+  )
+}
+const getHighestPricedProduct = products => {
+  return Math.max(
+    ...products.map(
+      product => calculateProductPrices(product).discountedMaxPrice
+    )
+  )
+}
+
+export {
+  calculateProductPrices,
+  getLowestPricedProduct,
+  getHighestPricedProduct
+}

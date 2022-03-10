@@ -5,7 +5,10 @@ import SearchBar from 'components/SearchBar'
 import SortDropdown from 'components/SortDropdown'
 import ProductFilters from 'components/ProductFilters'
 import ProductList from 'components/ProductList'
-import { calculateProductPrices } from 'services/productPriceHelpers'
+import {
+  getHighestPricedProduct,
+  getLowestPricedProduct
+} from 'services/productPriceHelpers'
 
 const ProductSearchScreen = () => {
   const [productSearchList, setProductSearchList] = useState([])
@@ -19,16 +22,8 @@ const ProductSearchScreen = () => {
 
   useEffect(() => {
     if (products.length === 0) return
-    const lowestPrice = Math.min(
-      ...products.map(
-        product => calculateProductPrices(product).discountedMinPrice
-      )
-    )
-    const highestPrice = Math.max(
-      ...products.map(
-        product => calculateProductPrices(product).discountedMaxPrice
-      )
-    )
+    const lowestPrice = getLowestPricedProduct(products)
+    const highestPrice = getHighestPricedProduct(products)
     setPriceRange({
       min: Math.floor(lowestPrice),
       max: Math.ceil(highestPrice)
