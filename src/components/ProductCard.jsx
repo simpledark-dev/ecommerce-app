@@ -17,7 +17,7 @@ const ProductCard = ({ image, name, description, price }) => {
 
   return (
     <div>
-      <img src={image} alt="product" />
+      <img style={{ width: 200, height: 200 }} src={image} alt="product" />
       <p>{name}</p>
       <p>{description}</p>
       {discount > 0 ? (

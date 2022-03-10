@@ -1,4 +1,4 @@
-import ProductList from './ProductList'
-import ProductDetails from './ProductDetails'
+import ProductSearchScreen from './ProductSearchScreen'
+import ProductScreen from './ProductScreen'
 
-export { ProductList, ProductDetails }
+export { ProductSearchScreen, ProductScreen }
