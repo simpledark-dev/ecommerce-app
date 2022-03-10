@@ -5,12 +5,35 @@ import SearchBar from 'components/SearchBar'
 import SortDropdown from 'components/SortDropdown'
 import ProductFilters from 'components/ProductFilters'
 import ProductList from 'components/ProductList'
+import { calculateProductPrices } from 'services/productPriceHelpers'
 
 const ProductSearchScreen = () => {
   const [productSearchList, setProductSearchList] = useState([])
   const [productDisplayList, setProductDisplayList] = useState([])
   const [sortValue, setSortValue] = useState('')
   const [categoryFilterList, setCategoryFilterList] = useState([])
+  const [priceRange, setPriceRange] = useState({
+    min: 0,
+    max: 0
+  })
+
+  useEffect(() => {
+    if (products.length === 0) return
+    const lowestPrice = Math.min(
+      ...products.map(
+        product => calculateProductPrices(product).discountedMinPrice
+      )
+    )
+    const highestPrice = Math.max(
+      ...products.map(
+        product => calculateProductPrices(product).discountedMaxPrice
+      )
+    )
+    setPriceRange({
+      min: Math.floor(lowestPrice),
+      max: Math.ceil(highestPrice)
+    })
+  }, [])
 
   useEffect(() => {
     setProductSearchList(products)
@@ -41,6 +64,8 @@ const ProductSearchScreen = () => {
       <ProductFilters
         categoryFilterList={categoryFilterList}
         setCategoryFilterList={setCategoryFilterList}
+        priceRange={priceRange}
+        setPriceRange={setPriceRange}
         productSearchList={productSearchList}
         setProductDisplayList={setProductDisplayList}
         sortValue={sortValue}
