@@ -1,4 +1,13 @@
+import { reviews, orders } from 'data/data'
 import { calculateProductPrices } from './productPriceHelpers'
+
+const SORT_BY_VALUES = {
+  mostPopular: 'most-popular',
+  newest: 'most-recent',
+  bestSelling: 'best-selling',
+  priceLowToHigh: 'price-low-to-high',
+  priceHighToLow: 'price-high-to-low'
+}
 
 // Most Popular - Sort product by number of reviews
 const getSortedProductsByNumReviews = (productList, reviews) => {
@@ -63,9 +72,22 @@ const getSortedProductsByPrice = (productList, { lowToHigh = true } = {}) => {
   })
 }
 
-export {
-  getSortedProductsByNumReviews,
-  getSortedProductsByUploadTime,
-  getSortedProductsByBestSelling,
-  getSortedProductsByPrice
+const getSortedProducts = (productList, sortByValue) => {
+  if (sortByValue === SORT_BY_VALUES.mostPopular) {
+    return getSortedProductsByNumReviews(productList, reviews)
+  }
+  if (sortByValue === SORT_BY_VALUES.newest) {
+    return getSortedProductsByUploadTime(productList)
+  }
+  if (sortByValue === SORT_BY_VALUES.bestSelling) {
+    return getSortedProductsByBestSelling(productList, orders)
+  }
+  if (sortByValue === SORT_BY_VALUES.priceLowToHigh) {
+    return getSortedProductsByPrice(productList)
+  }
+  if (sortByValue === SORT_BY_VALUES.priceHighToLow) {
+    return getSortedProductsByPrice(productList, { lowToHigh: false })
+  }
 }
+
+export { SORT_BY_VALUES, getSortedProducts }

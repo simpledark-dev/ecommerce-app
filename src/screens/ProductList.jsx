@@ -1,76 +1,102 @@
 import { useState, useEffect } from 'react'
-import { products, reviews, orders } from 'data/data'
+import { products, categories } from 'data/data'
 import ProductCard from 'components/ProductCard'
-import {
-  getSortedProductsByBestSelling,
-  getSortedProductsByNumReviews,
-  getSortedProductsByPrice,
-  getSortedProductsByUploadTime
-} from 'services/productSortHelpers'
+import { SORT_BY_VALUES, getSortedProducts } from 'services/productSortHelpers'
+import { getFilteredProducts } from 'services/productFilterHelpers'
 import { calculateProductPrices } from 'services/productPriceHelpers'
 
-const SORT_BY_VALUES = {
-  mostPopular: 'most-popular',
-  newest: 'most-recent',
-  bestSelling: 'best-selling',
-  priceLowToHigh: 'price-low-to-high',
-  priceHighToLow: 'price-high-to-low'
-}
-
 const ProductList = () => {
-  const [productList, setProductList] = useState([])
+  const [productSearchList, setProductSearchList] = useState([])
+  const [productDisplayList, setProductDisplayList] = useState([])
   const [searchTextInput, setSearchTextInput] = useState('')
   const [selectedSortBy, setSelectedSortBy] = useState('')
+  const [categorySelectedList, setCategorySelectedList] = useState([])
 
   useEffect(() => {
-    const currentSortBy = new URLSearchParams(window.location.search).get(
+    setProductSearchList(products)
+    const sortValueFromUrl = new URLSearchParams(window.location.search).get(
       'sort'
     )
-    sortProductsBy(
-      products,
-      (Object.values(SORT_BY_VALUES).includes(currentSortBy) &&
-        currentSortBy) ||
-        SORT_BY_VALUES.mostPopular
-    )
+    const isValidSortValue =
+      Object.values(SORT_BY_VALUES).includes(sortValueFromUrl)
+
+    const currentSortBy =
+      (isValidSortValue && sortValueFromUrl) || SORT_BY_VALUES.mostPopular
+
+    const productsToDisplay = getSortedProducts(products, currentSortBy)
+    setSelectedSortBy(currentSortBy)
+    setProductDisplayList(productsToDisplay)
   }, [])
 
-  const sortProductsBy = (productList, sortByValue) => {
-    window.history.replaceState(null, null, `?sort=${sortByValue}`)
-    setSelectedSortBy(sortByValue)
+  useEffect(() => {
+    window.history.replaceState(null, null, `?sort=${selectedSortBy}`)
+  }, [selectedSortBy])
 
-    if (sortByValue === SORT_BY_VALUES.mostPopular) {
-      return setProductList(getSortedProductsByNumReviews(productList, reviews))
-    }
-    if (sortByValue === SORT_BY_VALUES.newest) {
-      return setProductList(getSortedProductsByUploadTime(productList))
-    }
-    if (sortByValue === SORT_BY_VALUES.bestSelling) {
-      return setProductList(getSortedProductsByBestSelling(productList, orders))
-    }
-    if (sortByValue === SORT_BY_VALUES.priceLowToHigh) {
-      return setProductList(getSortedProductsByPrice(productList))
-    }
-    if (sortByValue === SORT_BY_VALUES.priceHighToLow) {
-      return setProductList(
-        getSortedProductsByPrice(productList, { lowToHigh: false })
-      )
-    }
-  }
+  useEffect(() => {
+    const selectedList = categories.map(category => ({
+      ...category,
+      selectedValues: []
+    }))
+    setCategorySelectedList(selectedList)
+  }, [])
 
   const handleProductSearch = e => {
     e.preventDefault()
     const searchedProducts = [...products].filter(product =>
       product.name.toLowerCase().includes(searchTextInput.toLowerCase())
     )
+    setProductSearchList(searchedProducts)
     const defaultSortByValue = SORT_BY_VALUES.mostPopular
-    sortProductsBy(searchedProducts, defaultSortByValue)
+    const productsToDisplay = getSortedProducts(
+      searchedProducts,
+      defaultSortByValue
+    )
+    setSelectedSortBy(defaultSortByValue)
+    setProductDisplayList(productsToDisplay)
+    clearFilter()
   }
 
   const handleSortByOnChange = e => {
-    sortProductsBy(productList, e.target.value)
+    const productsToDisplay = getSortedProducts(
+      productDisplayList,
+      e.target.value
+    )
+    setSelectedSortBy(e.target.value)
+    setProductDisplayList(productsToDisplay)
   }
 
-  const displayedProducts = productList.map(product => {
+  const handleFilterOnChange = (categoryId, value) => {
+    const updatedCategorySelectedList = [...categorySelectedList]
+    const currentCategory = updatedCategorySelectedList.find(
+      category => category.id === categoryId
+    )
+    if (currentCategory.selectedValues.includes(value)) {
+      currentCategory.selectedValues = currentCategory.selectedValues.filter(
+        v => v !== value
+      )
+    } else currentCategory.selectedValues.push(value)
+    setCategorySelectedList(updatedCategorySelectedList)
+
+    const filteredProducts = getFilteredProducts(
+      productSearchList,
+      updatedCategorySelectedList
+    )
+    const productsToDisplay = getSortedProducts(
+      filteredProducts,
+      selectedSortBy
+    )
+    setProductDisplayList(productsToDisplay)
+  }
+
+  const clearFilter = () => {
+    const updatedCategorySelectedList = [...categorySelectedList]
+    updatedCategorySelectedList.forEach(
+      category => (category.selectedValues.length = 0)
+    )
+    setCategorySelectedList(updatedCategorySelectedList)
+  }
+
+  const displayedProducts = productDisplayList.map(product => {
     const {
       minPrice,
       maxPrice,
@@ -95,8 +121,46 @@ const ProductList = () => {
     )
   })
 
+  const categoryFilterList = categorySelectedList.map(categoryValues => {
+    return (
+      <div key={categoryValues.id}>
+        <h3>{categoryValues.name}</h3>
+        {categoryValues.values.map(value => {
+          return (
+            <label key={value}>
+              <input
+                type="checkbox"
+                name={value}
+                value={value}
+                checked={categoryValues.selectedValues.includes(value)}
+                onChange={() => handleFilterOnChange(categoryValues.id, value)}
+              />
+              {value}
+            </label>
+          )
+        })}
+      </div>
+    )
+  })
+
   return (
     <>
+      <fieldset>
+        <button
+          onClick={() => {
+            clearFilter()
+            const productsToDisplay = getSortedProducts(
+              productSearchList,
+              selectedSortBy
+            )
+            setProductDisplayList(productsToDisplay)
+            setSelectedSortBy(selectedSortBy)
+          }}
+        >
+          Clear all
+        </button>
+        {categoryFilterList}
+      </fieldset>
       <form onSubmit={handleProductSearch}>
         <p>
           <input
