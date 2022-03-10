@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { products, categories } from 'data/data'
 import ProductCard from 'components/ProductCard'
+import { getSearchedProducts } from 'services/productSearchHelpers'
 import { SORT_BY_VALUES, getSortedProducts } from 'services/productSortHelpers'
 import { getFilteredProducts } from 'services/productFilterHelpers'
 import { calculateProductPrices } from 'services/productPriceHelpers'
@@ -42,10 +43,10 @@ const ProductList = () => {
 
   const handleProductSearch = e => {
     e.preventDefault()
-    const searchedProducts = [...products].filter(product =>
-      product.name.toLowerCase().includes(searchText.toLowerCase())
-    )
+
+    const searchedProducts = getSearchedProducts(products, searchText)
     setProductSearchList(searchedProducts)
+
     const defaultSortValue = SORT_BY_VALUES.mostPopular
     const productsToDisplay = getSortedProducts(
       searchedProducts,
