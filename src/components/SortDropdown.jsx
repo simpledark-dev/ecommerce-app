@@ -1,12 +1,14 @@
 import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setProductDisplayList } from 'redux/slices/productSlice'
+import { setSortValue } from 'redux/slices/productSortSlice'
 import { getSortedProducts } from 'services/productSortHelpers'
 
-const SortDropdown = ({
-  productDisplayList,
-  setProductDisplayList,
-  sortValue,
-  setSortValue
-}) => {
+const SortDropdown = () => {
+  const { productDisplayList } = useSelector(state => state.product)
+  const { sortValue } = useSelector(state => state.productSort)
+  const dispatch = useDispatch()
+
   useEffect(() => {
     window.history.replaceState(null, null, `?sort=${sortValue}`)
   }, [sortValue])
@@ -17,8 +19,8 @@ const SortDropdown = ({
       productDisplayList,
       currentSortValue
     )
-    setProductDisplayList(productsToDisplay)
-    setSortValue(currentSortValue)
+    dispatch(setProductDisplayList(productsToDisplay))
+    dispatch(setSortValue(currentSortValue))
   }
 
   return (
