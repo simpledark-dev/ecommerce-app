@@ -1,13 +1,6 @@
 import { reviews, orders } from 'data/data'
-import { calculateProductPrices } from './productPriceHelpers'
-
-const SORT_BY_VALUES = {
-  mostPopular: 'most-popular',
-  newest: 'most-recent',
-  bestSelling: 'best-selling',
-  priceLowToHigh: 'price-low-to-high',
-  priceHighToLow: 'price-high-to-low'
-}
+import { SORT_BY_VALUES } from 'constants'
+import { calculateProductPrices } from './productPriceUtils'
 
 // Most Popular - Sort product by number of reviews
 const getSortedProductsByNumReviews = (productList, reviews) => {

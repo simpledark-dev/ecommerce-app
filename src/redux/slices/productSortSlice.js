@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getSortValueFromUrl } from 'services/productSortHelpers'
+import { getSortValueFromUrl } from 'utils/productSortUtils'
 
 const initialState = {
   sortValue: getSortValueFromUrl()

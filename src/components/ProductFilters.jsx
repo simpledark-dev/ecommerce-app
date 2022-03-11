@@ -6,12 +6,12 @@ import {
   clearAllFilter,
   setPriceRange
 } from 'redux/slices/productFilterSlice'
-import { getFilteredProducts } from 'services/productFilterHelpers'
-import { getSortedProducts } from 'services/productSortHelpers'
+import { getFilteredProducts } from 'utils/productFilterUtils'
+import { getSortedProducts } from 'utils/productSortUtils'
 import {
   getHighestPricedProduct,
   getLowestPricedProduct
-} from 'services/productPriceHelpers'
+} from 'utils/productPriceUtils'
 
 const ProductFilters = () => {
   const { products, productSearchList } = useSelector(state => state.product)

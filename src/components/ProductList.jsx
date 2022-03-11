@@ -5,8 +5,8 @@ import {
   setProductDisplayList,
   setProductSearchList
 } from 'redux/slices/productSlice'
-import { calculateProductPrices } from 'services/productPriceHelpers'
-import { getSortedProducts } from 'services/productSortHelpers'
+import { calculateProductPrices } from 'utils/productPriceUtils'
+import { getSortedProducts } from 'utils/productSortUtils'
 
 const ProductList = () => {
   const { products, productDisplayList } = useSelector(state => state.product)

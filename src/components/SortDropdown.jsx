@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setProductDisplayList } from 'redux/slices/productSlice'
 import { setSortValue } from 'redux/slices/productSortSlice'
-import { getSortedProducts } from 'services/productSortHelpers'
+import { getSortedProducts } from 'utils/productSortUtils'
 
 const SortDropdown = () => {
   const { productDisplayList } = useSelector(state => state.product)
