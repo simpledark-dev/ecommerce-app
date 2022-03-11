@@ -1,57 +1,62 @@
-import { categories } from 'data/data'
 import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setProductDisplayList } from 'redux/slices/productSlice'
+import {
+  updateCategoryFilterList,
+  clearAllFilter,
+  setPriceRange
+} from 'redux/slices/productFilterSlice'
 import { getFilteredProducts } from 'services/productFilterHelpers'
 import { getSortedProducts } from 'services/productSortHelpers'
+import {
+  getHighestPricedProduct,
+  getLowestPricedProduct
+} from 'services/productPriceHelpers'
 
-const ProductFilters = ({
-  categoryFilterList,
-  setCategoryFilterList,
-  priceRange,
-  setPriceRange,
-  productSearchList,
-  setProductDisplayList,
-  sortValue,
-  resetCategoryFilterList
-}) => {
+const ProductFilters = () => {
+  const { products, productSearchList } = useSelector(state => state.product)
+  const { sortValue } = useSelector(state => state.productSort)
+  const { categoryFilterList, priceRange } = useSelector(
+    state => state.productFilters
+  )
+
+  const dispatch = useDispatch()
+
   useEffect(() => {
-    const selectedList = categories.map(category => ({
-      ...category,
-      selectedValues: []
-    }))
-    setCategoryFilterList(selectedList)
-  }, [setCategoryFilterList])
-
-  const handleFilterOnChange = (categoryId, value) => {
-    // Update category filter list
-    const currentCategoryFilterList = [...categoryFilterList]
-    const categoryFilter = currentCategoryFilterList.find(
-      category => category.id === categoryId
+    if (products.length === 0) return
+    const lowestPrice = getLowestPricedProduct(products)
+    const highestPrice = getHighestPricedProduct(products)
+    dispatch(
+      setPriceRange({
+        min: Math.floor(lowestPrice),
+        max: Math.ceil(highestPrice)
+      })
     )
-    if (categoryFilter.selectedValues.includes(value)) {
-      categoryFilter.selectedValues = categoryFilter.selectedValues.filter(
-        v => v !== value
-      )
-    } else categoryFilter.selectedValues.push(value)
-    setCategoryFilterList(currentCategoryFilterList)
+  }, [dispatch, products])
 
-    filterProducts(productSearchList, currentCategoryFilterList, priceRange)
-  }
+  useEffect(() => {
+    filterProducts(productSearchList, categoryFilterList, priceRange)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryFilterList])
 
   const filterProducts = (productList, categoryFilterList, priceRange) => {
-    // Filter products and update product display list
     const filteredProducts = getFilteredProducts(
       productList,
       categoryFilterList,
       priceRange
     )
     const productsToDisplay = getSortedProducts(filteredProducts, sortValue)
-    setProductDisplayList(productsToDisplay)
+    dispatch(setProductDisplayList(productsToDisplay))
+  }
+
+  const handleFilterOnChange = (categoryId, value) => {
+    dispatch(updateCategoryFilterList({ categoryId, categoryValue: value }))
   }
 
   const handleClearFilter = () => {
-    resetCategoryFilterList()
+    dispatch(clearAllFilter())
     const productsToDisplay = getSortedProducts(productSearchList, sortValue)
-    setProductDisplayList(productsToDisplay)
+    dispatch(setProductDisplayList(productsToDisplay))
   }
 
   const currentCategoryFilterList = categoryFilterList.map(categoryValues => {
@@ -86,9 +91,12 @@ const ProductFilters = ({
         <input
           type="number"
           name="min"
+          min="0"
           style={{ width: 80 }}
           value={priceRange.min.toString()}
-          onChange={e => setPriceRange({ ...priceRange, min: +e.target.value })}
+          onChange={e =>
+            dispatch(setPriceRange({ ...priceRange, min: +e.target.value }))
+          }
         />
       </label>{' '}
       <label>
@@ -97,8 +105,10 @@ const ProductFilters = ({
           type="number"
           name="max"
           style={{ width: 80 }}
-          value={priceRange.max.toString()}
-          onChange={e => setPriceRange({ ...priceRange, max: +e.target.value })}
+          value={priceRange.max === +Infinity ? '' : priceRange.max.toString()}
+          onChange={e =>
+            dispatch(setPriceRange({ ...priceRange, max: +e.target.value }))
+          }
         />
       </label>{' '}
       <button

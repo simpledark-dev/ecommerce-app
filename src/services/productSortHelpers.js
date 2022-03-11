@@ -90,4 +90,14 @@ const getSortedProducts = (productList, sortByValue) => {
   }
 }
 
-export { SORT_BY_VALUES, getSortedProducts }
+const getSortValueFromUrl = () => {
+  const sortValueFromUrl = new URLSearchParams(window.location.search).get(
+    'sort'
+  )
+  const isValidSortValue =
+    Object.values(SORT_BY_VALUES).includes(sortValueFromUrl)
+
+  return (isValidSortValue && sortValueFromUrl) || SORT_BY_VALUES.mostPopular
+}
+
+export { SORT_BY_VALUES, getSortedProducts, getSortValueFromUrl }
