@@ -1,19 +1,18 @@
 import './App.css'
-import { Routes, Route, Link } from 'react-router-dom'
-import { ProductSearchScreen, ProductScreen } from 'screens'
+import { Routes, Route } from 'react-router-dom'
+import routes from 'routes'
+import { Layout } from 'layouts'
 
 const App = () => {
   return (
     <div className="App">
-      <p>
-        <Link to="/">ProductSearch </Link>
-        <Link to="/details-test">Product</Link>
-      </p>
-
-      <Routes>
-        <Route path="/" element={<ProductSearchScreen />} />
-        <Route path="/details-test" element={<ProductScreen />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          {routes.map((route, idx) => (
+            <Route key={idx} path={route.path} element={route.element} />
+          ))}
+        </Routes>
+      </Layout>
     </div>
   )
 }

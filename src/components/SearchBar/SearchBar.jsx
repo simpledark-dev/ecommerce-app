@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getSearchedProducts } from 'services/productSearchHelpers'
-import { getSortedProducts, SORT_BY_VALUES } from 'services/productSortHelpers'
+import { getSearchedProducts } from 'utils/productSearchUtils'
+import { getSortedProducts, SORT_BY_VALUES } from 'utils/productSortUtils'
 import {
   setProductSearchList,
   setProductDisplayList

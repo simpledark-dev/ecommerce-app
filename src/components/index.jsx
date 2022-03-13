@@ -1,7 +1,5 @@
-import ProductCard from './ProductCard'
-import ProductList from './ProductList'
-import SearchBar from './SearchBar'
-import SortDropdown from './SortDropdown'
-import ProductFilters from './ProductFilters'
-
-export { ProductCard, ProductList, SearchBar, SortDropdown, ProductFilters }
+export { default as ProductCard } from './ProductCard/ProductCard'
+export { default as ProductList } from './ProductList/ProductList'
+export { default as SearchBar } from './SearchBar/SearchBar'
+export { default as SortDropdown } from './SortDropdown/SortDropdown'
+export { default as ProductFilters } from './ProductFilters/ProductFilters'
