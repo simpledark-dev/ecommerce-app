@@ -5,7 +5,7 @@ import {
   ProductFilters
 } from 'components'
 
-const ProductSearchScreen = () => {
+const ProductSearchPage = () => {
   return (
     <>
       <ProductFilters />
@@ -16,4 +16,4 @@ const ProductSearchScreen = () => {
   )
 }
 
-export default ProductSearchScreen
+export default ProductSearchPage

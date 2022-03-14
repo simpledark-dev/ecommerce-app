@@ -1,4 +1,4 @@
-import { calculateProductPrices } from './productPriceHelpers'
+import { calculateProductPrices } from './productPriceUtils'
 
 const getFilteredProducts = (productList, categorySelectedList, priceRange) => {
   return [...productList].filter(product => {

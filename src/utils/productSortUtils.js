@@ -1,13 +1,6 @@
-import { reviews, orders } from 'data/data'
-import { calculateProductPrices } from './productPriceHelpers'
-
-const SORT_BY_VALUES = {
-  mostPopular: 'most-popular',
-  newest: 'most-recent',
-  bestSelling: 'best-selling',
-  priceLowToHigh: 'price-low-to-high',
-  priceHighToLow: 'price-high-to-low'
-}
+import { reviews, orders } from 'pseudoDB'
+import { SORT_BY_VALUES } from 'constants'
+import { calculateProductPrices } from './productPriceUtils'
 
 // Most Popular - Sort product by number of reviews
 const getSortedProductsByNumReviews = (productList, reviews) => {
@@ -90,14 +83,4 @@ const getSortedProducts = (productList, sortByValue) => {
   }
 }
 
-const getSortValueFromUrl = () => {
-  const sortValueFromUrl = new URLSearchParams(window.location.search).get(
-    'sort'
-  )
-  const isValidSortValue =
-    Object.values(SORT_BY_VALUES).includes(sortValueFromUrl)
-
-  return (isValidSortValue && sortValueFromUrl) || SORT_BY_VALUES.mostPopular
-}
-
-export { SORT_BY_VALUES, getSortedProducts, getSortValueFromUrl }
+export { getSortedProducts }
