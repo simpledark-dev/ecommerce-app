@@ -1,48 +1,59 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { categories } from 'data/data'
+import { categories } from 'pseudoDB'
+import { SORT_BY_VALUES } from 'constants'
 
-const initialState = {
+const getSortValueFromUrl = () => {
+  const sortValueFromUrl = new URLSearchParams(window.location.search).get(
+    'sort'
+  )
+  const isValidSortValue =
+    Object.values(SORT_BY_VALUES).includes(sortValueFromUrl)
+
+  return (isValidSortValue && sortValueFromUrl) || SORT_BY_VALUES.mostPopular
+}
+
+export const filtersInitialState = {
+  searchKeyword: '',
+  sortValue: getSortValueFromUrl(),
   categoryFilterList: categories.map(category => ({
     ...category,
     selectedValues: []
   })),
   priceRange: {
-    min: 0,
+    min: '',
     max: +Infinity
   }
 }
 
 export const productFilterSlice = createSlice({
   name: 'productFilters',
-  initialState,
+  initialState: filtersInitialState,
   reducers: {
-    updateCategoryFilterList: (state, action) => {
-      const { categoryId, categoryValue } = action.payload
-      const categoryFilter = state.categoryFilterList.find(
-        category => category.id === categoryId
-      )
-      if (categoryFilter.selectedValues.includes(categoryValue)) {
-        categoryFilter.selectedValues = categoryFilter.selectedValues.filter(
-          v => v !== categoryValue
-        )
-      } else categoryFilter.selectedValues.push(categoryValue)
+    setSearchKeyword: (state, action) => {
+      state.searchKeyword = action.payload
     },
-    clearAllFilter: (state, action) => {
-      state.categoryFilterList.forEach(
-        categoryFilter => (categoryFilter.selectedValues.length = 0)
-      )
-      state.priceRange = {
-        min: 0,
-        max: +Infinity
-      }
+    setSortValue: (state, action) => {
+      state.sortValue = action.payload
+    },
+    setCategoryFilterList: (state, action) => {
+      state.categoryFilterList = action.payload
     },
     setPriceRange: (state, action) => {
       state.priceRange = action.payload
+    },
+    clearAllFilter: (state, action) => {
+      state.categoryFilterList = filtersInitialState.categoryFilterList
+      state.priceRange = filtersInitialState.priceRange
     }
   }
 })
 
-export const { updateCategoryFilterList, clearAllFilter, setPriceRange } =
-  productFilterSlice.actions
+export const {
+  setSearchKeyword,
+  setSortValue,
+  setCategoryFilterList,
+  clearAllFilter,
+  setPriceRange
+} = productFilterSlice.actions
 
 export default productFilterSlice.reducer

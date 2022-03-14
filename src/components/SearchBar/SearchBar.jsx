@@ -1,34 +1,35 @@
 import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { getSearchedProducts } from 'utils/productSearchUtils'
-import { getSortedProducts, SORT_BY_VALUES } from 'utils/productSortUtils'
+import { useDispatch } from 'react-redux'
+import { fetchProducts } from 'api/services'
+import { SORT_BY_VALUES } from 'constants'
+import { setProducts } from 'redux/slices/productSlice'
 import {
-  setProductSearchList,
-  setProductDisplayList
-} from 'redux/slices/productSlice'
-import { clearAllFilter } from 'redux/slices/productFilterSlice'
-import { setSortValue } from 'redux/slices/productSortSlice'
+  setSearchKeyword,
+  setSortValue,
+  filtersInitialState,
+  clearAllFilter
+} from 'redux/slices/productFilterSlice'
 
 const SearchBar = () => {
-  const [searchText, setSearchText] = useState('')
-  const { products } = useSelector(state => state.product)
+  const [inputSearchText, setSearchText] = useState('')
 
   const dispatch = useDispatch()
 
-  const handleProductSearch = e => {
+  const handleProductSearch = async e => {
     e.preventDefault()
 
-    const searchedProducts = getSearchedProducts(products, searchText)
-    dispatch(setProductSearchList(searchedProducts))
-
-    const defaultSortValue = SORT_BY_VALUES.mostPopular
-    const productsToDisplay = getSortedProducts(
-      searchedProducts,
-      defaultSortValue
-    )
-    dispatch(setProductDisplayList(productsToDisplay))
-    dispatch(setSortValue(defaultSortValue))
+    dispatch(setSearchKeyword(inputSearchText))
+    dispatch(setSortValue(SORT_BY_VALUES.mostPopular))
     dispatch(clearAllFilter())
+
+    const productList = await fetchProducts(
+      inputSearchText,
+      SORT_BY_VALUES.mostPopular,
+      filtersInitialState.categoryFilterList,
+      filtersInitialState.priceRange
+    )
+
+    dispatch(setProducts(productList))
   }
 
   return (
@@ -37,7 +38,7 @@ const SearchBar = () => {
         <input
           type="search"
           placeholder="Search your product here"
-          value={searchText}
+          value={inputSearchText}
           onChange={e => setSearchText(e.target.value)}
         />
         <button onSubmit={handleProductSearch}>Search</button>

@@ -1,62 +1,72 @@
-import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setProductDisplayList } from 'redux/slices/productSlice'
+import { setProducts } from 'redux/slices/productSlice'
 import {
-  updateCategoryFilterList,
+  filtersInitialState,
+  setCategoryFilterList,
   clearAllFilter,
   setPriceRange
 } from 'redux/slices/productFilterSlice'
-import { getFilteredProducts } from 'utils/productFilterUtils'
-import { getSortedProducts } from 'utils/productSortUtils'
-import {
-  getHighestPricedProduct,
-  getLowestPricedProduct
-} from 'utils/productPriceUtils'
+import { fetchProducts } from 'api/services'
 
 const ProductFilters = () => {
-  const { products, productSearchList } = useSelector(state => state.product)
-  const { sortValue } = useSelector(state => state.productSort)
-  const { categoryFilterList, priceRange } = useSelector(
-    state => state.productFilters
-  )
+  const { searchKeyword, sortValue, categoryFilterList, priceRange } =
+    useSelector(state => state.productFilters)
 
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    if (products.length === 0) return
-    const lowestPrice = getLowestPricedProduct(products)
-    const highestPrice = getHighestPricedProduct(products)
-    dispatch(
-      setPriceRange({
-        min: Math.floor(lowestPrice),
-        max: Math.ceil(highestPrice)
-      })
+  const getUpdatedCategoryFilterList = (categoryId, categoryValue) => {
+    // JSON.stringify and JSON.parse to Deep Copy
+    // Shallow Copy [...categoryFilterList] would not work since the array is nested/multi-dimensional
+    const clonedCategoryFilterList = JSON.parse(
+      JSON.stringify(categoryFilterList)
     )
-  }, [dispatch, products])
+    const categoryFilter = clonedCategoryFilterList.find(
+      category => category.id === categoryId
+    )
+    if (categoryFilter.selectedValues.includes(categoryValue)) {
+      categoryFilter.selectedValues = categoryFilter.selectedValues.filter(
+        v => v !== categoryValue
+      )
+    } else categoryFilter.selectedValues.push(categoryValue)
+    return clonedCategoryFilterList
+  }
 
-  useEffect(() => {
-    filterProducts(productSearchList, categoryFilterList, priceRange)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryFilterList])
+  const handleCategoriesOnChange = async (categoryId, categoryValue) => {
+    const updatedCategoryFilterList = getUpdatedCategoryFilterList(
+      categoryId,
+      categoryValue
+    )
 
-  const filterProducts = (productList, categoryFilterList, priceRange) => {
-    const filteredProducts = getFilteredProducts(
-      productList,
+    dispatch(setCategoryFilterList(updatedCategoryFilterList))
+    const productList = await fetchProducts(
+      searchKeyword,
+      sortValue,
+      updatedCategoryFilterList,
+      priceRange
+    )
+    dispatch(setProducts(productList))
+  }
+
+  const handleApplyPriceRange = async () => {
+    const productList = await fetchProducts(
+      searchKeyword,
+      sortValue,
       categoryFilterList,
       priceRange
     )
-    const productsToDisplay = getSortedProducts(filteredProducts, sortValue)
-    dispatch(setProductDisplayList(productsToDisplay))
+    dispatch(setProducts(productList))
   }
 
-  const handleFilterOnChange = (categoryId, value) => {
-    dispatch(updateCategoryFilterList({ categoryId, categoryValue: value }))
-  }
+  const handleClearFilter = async () => {
+    const productList = await fetchProducts(
+      searchKeyword,
+      sortValue,
+      filtersInitialState.categoryFilterList,
+      filtersInitialState.priceRange
+    )
 
-  const handleClearFilter = () => {
+    dispatch(setProducts(productList))
     dispatch(clearAllFilter())
-    const productsToDisplay = getSortedProducts(productSearchList, sortValue)
-    dispatch(setProductDisplayList(productsToDisplay))
   }
 
   const currentCategoryFilterList = categoryFilterList.map(categoryValues => {
@@ -71,7 +81,9 @@ const ProductFilters = () => {
                 name={value}
                 value={value}
                 checked={categoryValues.selectedValues.includes(value)}
-                onChange={() => handleFilterOnChange(categoryValues.id, value)}
+                onChange={() =>
+                  handleCategoriesOnChange(categoryValues.id, value)
+                }
               />
               {value}
             </label>
@@ -90,7 +102,7 @@ const ProductFilters = () => {
         Min: $
         <input
           type="number"
-          name="min"
+          name="minPrice"
           min="0"
           style={{ width: 80 }}
           value={priceRange.min.toString()}
@@ -103,7 +115,8 @@ const ProductFilters = () => {
         Max: $
         <input
           type="number"
-          name="max"
+          name="maxPrice"
+          min="0"
           style={{ width: 80 }}
           value={priceRange.max === +Infinity ? '' : priceRange.max.toString()}
           onChange={e =>
@@ -111,13 +124,7 @@ const ProductFilters = () => {
           }
         />
       </label>{' '}
-      <button
-        onClick={() =>
-          filterProducts(productSearchList, categoryFilterList, priceRange)
-        }
-      >
-        Apply
-      </button>
+      <button onClick={handleApplyPriceRange}>Apply</button>
     </fieldset>
   )
 }

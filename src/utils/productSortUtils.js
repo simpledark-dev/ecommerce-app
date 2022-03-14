@@ -1,4 +1,4 @@
-import { reviews, orders } from 'data/data'
+import { reviews, orders } from 'pseudoDB'
 import { SORT_BY_VALUES } from 'constants'
 import { calculateProductPrices } from './productPriceUtils'
 
@@ -83,14 +83,4 @@ const getSortedProducts = (productList, sortByValue) => {
   }
 }
 
-const getSortValueFromUrl = () => {
-  const sortValueFromUrl = new URLSearchParams(window.location.search).get(
-    'sort'
-  )
-  const isValidSortValue =
-    Object.values(SORT_BY_VALUES).includes(sortValueFromUrl)
-
-  return (isValidSortValue && sortValueFromUrl) || SORT_BY_VALUES.mostPopular
-}
-
-export { SORT_BY_VALUES, getSortedProducts, getSortValueFromUrl }
+export { getSortedProducts }

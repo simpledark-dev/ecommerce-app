@@ -1,11 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { products } from 'data/data'
+import { products } from 'pseudoDB'
 
-const initialState = {
-  products: products,
-  productSearchList: [],
-  productDisplayList: []
-}
+const initialState = { products }
 
 export const productSlice = createSlice({
   name: 'product',
@@ -13,17 +9,10 @@ export const productSlice = createSlice({
   reducers: {
     setProducts: (state, action) => {
       state.products = action.payload
-    },
-    setProductSearchList: (state, action) => {
-      state.productSearchList = action.payload
-    },
-    setProductDisplayList: (state, action) => {
-      state.productDisplayList = action.payload
     }
   }
 })
 
-export const { setProducts, setProductSearchList, setProductDisplayList } =
-  productSlice.actions
+export const { setProducts } = productSlice.actions
 
 export default productSlice.reducer

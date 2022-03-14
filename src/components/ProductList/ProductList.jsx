@@ -1,26 +1,32 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchProducts } from 'api/services'
 import { ProductCard } from 'components'
-import {
-  setProductDisplayList,
-  setProductSearchList
-} from 'redux/slices/productSlice'
+import { setProducts } from 'redux/slices/productSlice'
 import { calculateProductPrices } from 'utils/productPriceUtils'
-import { getSortedProducts } from 'utils/productSortUtils'
 
 const ProductList = () => {
-  const { products, productDisplayList } = useSelector(state => state.product)
-  const { sortValue } = useSelector(state => state.productSort)
+  const { products } = useSelector(state => state.product)
+  const { searchKeyword, sortValue, categoryFilterList, priceRange } =
+    useSelector(state => state.productFilters)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const productsToDisplay = getSortedProducts(products, sortValue)
-    dispatch(setProductSearchList(products))
-    dispatch(setProductDisplayList(productsToDisplay))
-  }, [dispatch, products, sortValue])
+    async function loadProducts() {
+      const productList = await fetchProducts(
+        searchKeyword,
+        sortValue,
+        categoryFilterList,
+        priceRange
+      )
+      dispatch(setProducts(productList))
+    }
+    loadProducts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  const currentProductDisplayList = productDisplayList.map(product => {
+  const productList = products.map(product => {
     const {
       minPrice,
       maxPrice,
@@ -44,7 +50,7 @@ const ProductList = () => {
       />
     )
   })
-  return <div>{currentProductDisplayList}</div>
+  return <div>{productList}</div>
 }
 
 export default ProductList
