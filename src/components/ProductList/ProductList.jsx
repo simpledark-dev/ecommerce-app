@@ -8,7 +8,7 @@ import { calculateProductPrices } from 'utils/productPriceUtils'
 const ProductList = () => {
   const { products } = useSelector(state => state.product)
   const { searchKeyword, sortValue, categoryFilterList, priceRange } =
-    useSelector(state => state.productFilters)
+    useSelector(state => state.searchSortFilterSlice)
 
   const dispatch = useDispatch()
 

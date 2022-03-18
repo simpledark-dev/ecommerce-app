@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { products } from 'pseudoDB'
 
-const initialState = { products }
+const initialState = { products: [] }
 
 export const productSlice = createSlice({
   name: 'product',

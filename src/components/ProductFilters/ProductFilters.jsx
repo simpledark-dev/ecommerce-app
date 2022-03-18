@@ -1,16 +1,19 @@
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setProducts } from 'redux/slices/productSlice'
 import {
   filtersInitialState,
   setCategoryFilterList,
-  clearAllFilter,
+  clearFilters,
   setPriceRange
-} from 'redux/slices/productFilterSlice'
+} from 'redux/slices/searchSortFilterSlice'
 import { fetchProducts } from 'api/services'
 
 const ProductFilters = () => {
   const { searchKeyword, sortValue, categoryFilterList, priceRange } =
-    useSelector(state => state.productFilters)
+    useSelector(state => state.searchSortFilterSlice)
+
+  const [priceRangeInput, setPriceRangeInput] = useState(priceRange)
 
   const dispatch = useDispatch()
 
@@ -48,16 +51,20 @@ const ProductFilters = () => {
   }
 
   const handleApplyPriceRange = async () => {
+    dispatch(setPriceRange(priceRangeInput))
+
     const productList = await fetchProducts(
       searchKeyword,
       sortValue,
       categoryFilterList,
-      priceRange
+      priceRangeInput
     )
     dispatch(setProducts(productList))
   }
 
   const handleClearFilter = async () => {
+    setPriceRangeInput({ min: '', max: +Infinity })
+
     const productList = await fetchProducts(
       searchKeyword,
       sortValue,
@@ -66,7 +73,7 @@ const ProductFilters = () => {
     )
 
     dispatch(setProducts(productList))
-    dispatch(clearAllFilter())
+    dispatch(clearFilters())
   }
 
   const currentCategoryFilterList = categoryFilterList.map(categoryValues => {
@@ -105,9 +112,9 @@ const ProductFilters = () => {
           name="minPrice"
           min="0"
           style={{ width: 80 }}
-          value={priceRange.min.toString()}
+          value={priceRangeInput.min.toString()}
           onChange={e =>
-            dispatch(setPriceRange({ ...priceRange, min: +e.target.value }))
+            setPriceRangeInput({ ...priceRangeInput, min: +e.target.value })
           }
         />
       </label>{' '}
@@ -118,9 +125,13 @@ const ProductFilters = () => {
           name="maxPrice"
           min="0"
           style={{ width: 80 }}
-          value={priceRange.max === +Infinity ? '' : priceRange.max.toString()}
+          value={
+            priceRangeInput.max === +Infinity
+              ? ''
+              : priceRangeInput.max.toString()
+          }
           onChange={e =>
-            dispatch(setPriceRange({ ...priceRange, max: +e.target.value }))
+            setPriceRangeInput({ ...priceRangeInput, max: +e.target.value })
           }
         />
       </label>{' '}

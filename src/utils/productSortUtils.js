@@ -66,21 +66,25 @@ const getSortedProductsByPrice = (productList, { lowToHigh = true } = {}) => {
 }
 
 const getSortedProducts = (productList, sortByValue) => {
-  if (sortByValue === SORT_BY_VALUES.mostPopular) {
+  if (sortByValue === SORT_BY_VALUES.MOST_POPUPLAR) {
     return getSortedProductsByNumReviews(productList, reviews)
   }
-  if (sortByValue === SORT_BY_VALUES.newest) {
+  if (sortByValue === SORT_BY_VALUES.MOST_RECENT) {
     return getSortedProductsByUploadTime(productList)
   }
-  if (sortByValue === SORT_BY_VALUES.bestSelling) {
+  if (sortByValue === SORT_BY_VALUES.BEST_SELLING) {
     return getSortedProductsByBestSelling(productList, orders)
   }
-  if (sortByValue === SORT_BY_VALUES.priceLowToHigh) {
+  if (sortByValue === SORT_BY_VALUES.PRICE_LOW_TO_HIGH) {
     return getSortedProductsByPrice(productList)
   }
-  if (sortByValue === SORT_BY_VALUES.priceHighToLow) {
+  if (sortByValue === SORT_BY_VALUES.PRICE_HIGH_TO_LOW) {
     return getSortedProductsByPrice(productList, { lowToHigh: false })
   }
 }
 
-export { getSortedProducts }
+const checkIfValidSortValue = sortValue => {
+  return Object.values(SORT_BY_VALUES).includes(sortValue)
+}
+
+export { getSortedProducts, checkIfValidSortValue }
