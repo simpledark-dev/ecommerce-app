@@ -8,8 +8,8 @@ const App = () => {
     <div className="App">
       <Layout>
         <Routes>
-          {routes.map((route, idx) => (
-            <Route key={idx} path={route.path} element={route.element} />
+          {routes.map(route => (
+            <Route key={route.path} path={route.path} element={route.element} />
           ))}
         </Routes>
       </Layout>
