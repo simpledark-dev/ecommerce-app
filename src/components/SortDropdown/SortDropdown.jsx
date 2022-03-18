@@ -1,17 +1,12 @@
 import { fetchProducts } from 'api/services'
-import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setProducts } from 'redux/slices/productSlice'
-import { setSortValue } from 'redux/slices/productFilterSlice'
+import { setSortValue } from 'redux/slices/searchSortFilterSlice'
 
 const SortDropdown = () => {
   const { searchKeyword, sortValue, categoryFilterList, priceRange } =
-    useSelector(state => state.productFilters)
+    useSelector(state => state.searchSortFilterSlice)
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    window.history.replaceState(null, null, `?sort=${sortValue}`)
-  }, [sortValue])
 
   const handleSortOnChange = async e => {
     const currentSortValue = e.target.value
