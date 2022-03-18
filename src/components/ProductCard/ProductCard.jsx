@@ -1,4 +1,7 @@
-const ProductCard = ({ image, name, description, price }) => {
+import { useNavigate } from 'react-router-dom'
+
+const ProductCard = ({ id, image, name, description, price }) => {
+  let navigate = useNavigate()
   const {
     minPrice,
     maxPrice,
@@ -6,6 +9,10 @@ const ProductCard = ({ image, name, description, price }) => {
     discountedMinPrice,
     discountedMaxPrice
   } = price
+
+  const visitProduct = () => {
+    navigate(`/product/${id}`)
+  }
 
   const displayedPrice =
     minPrice < maxPrice ? `$${minPrice} - $${maxPrice}` : `$${minPrice}`
@@ -16,7 +23,7 @@ const ProductCard = ({ image, name, description, price }) => {
       : `$${discountedMinPrice.toFixed(2)}`
 
   return (
-    <div>
+    <div onClick={visitProduct}>
       <img style={{ width: 200, height: 200 }} src={image} alt="product" />
       <p>{name}</p>
       <p>{description}</p>
