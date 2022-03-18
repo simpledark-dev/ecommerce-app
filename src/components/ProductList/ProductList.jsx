@@ -51,7 +51,7 @@ const ProductList = () => {
       />
     )
   })
-  return <div>{productList}</div>
+  return <div style={{ width: 200, margin: '0 auto' }}>{productList}</div>
 }
 
 export default ProductList
