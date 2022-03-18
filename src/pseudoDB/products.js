@@ -51,12 +51,13 @@ const products = [
         values: ['USA', 'Canada', 'UK']
       }
     ],
+    inStock: 1240,
     upload_time: '2021-01-25 14:00:01'
   },
   {
     id: 'P2',
     name: 'Puma Athletic Shorts',
-    description: 'Lorems mustaford',
+    description: 'Lorems mustaford \n Test test \n Test Test',
     images: [
       'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333442741_04_a-PUMA-Mens-Cloudspun-Train-Shorts-521037-03?wid=800&hei=800&bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1'
     ],
@@ -73,6 +74,7 @@ const products = [
         values: ['Shorts']
       }
     ],
+    inStock: 650,
     upload_time: '2021-11-15 09:00:01'
   },
   {
@@ -123,6 +125,7 @@ const products = [
         values: ['Shirts']
       }
     ],
+    inStock: 789,
     upload_time: '2021-12-04 19:30:01'
   },
   {
@@ -169,6 +172,7 @@ const products = [
         values: ['Canada', 'South Africa', 'France']
       }
     ],
+    inStock: 123,
     upload_time: '2021-12-15 11:30:01'
   },
   {
@@ -226,6 +230,7 @@ const products = [
         values: ['Canada', 'USA', 'France']
       }
     ],
+    inStock: 489,
     upload_time: '2021-12-05 19:00:01'
   },
   {
@@ -253,6 +258,7 @@ const products = [
         values: ['Canada', 'USA', 'New Zealand']
       }
     ],
+    inStock: 2234,
     upload_time: '2021-11-07 07:30:01'
   },
   {
@@ -279,6 +285,7 @@ const products = [
         values: ['Singapore', 'Australia']
       }
     ],
+    inStock: 985,
     upload_time: '2021-10-05 19:30:01'
   },
   {
@@ -305,6 +312,7 @@ const products = [
         values: ['South Africa', 'Australia']
       }
     ],
+    inStock: 245,
     upload_time: '2021-10-06 19:10:01'
   },
   {
@@ -325,6 +333,7 @@ const products = [
         values: ['USA', 'Singapore']
       }
     ],
+    inStock: 1567,
     upload_time: '2021-09-15 18:40:01'
   },
   {
@@ -347,6 +356,7 @@ const products = [
         values: ['USA', 'UK', 'South Africa', 'Japan']
       }
     ],
+    inStock: 4590,
     upload_time: '2021-09-15 18:40:01'
   }
 ]
