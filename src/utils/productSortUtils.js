@@ -66,7 +66,7 @@ const getSortedProductsByPrice = (productList, { lowToHigh = true } = {}) => {
 }
 
 const getSortedProducts = (productList, sortByValue) => {
-  if (sortByValue === SORT_BY_VALUES.MOST_POPUPLAR) {
+  if (sortByValue === SORT_BY_VALUES.MOST_POPULAR) {
     return getSortedProductsByNumReviews(productList, reviews)
   }
   if (sortByValue === SORT_BY_VALUES.MOST_RECENT) {

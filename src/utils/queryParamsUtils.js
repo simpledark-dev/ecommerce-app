@@ -34,7 +34,7 @@ export const handleUserInputQueryParams = (
 ) => {
   // Correct sort query param if input wrong sort values
   if (!checkIfValidSortValue(sortValue))
-    insertUrlParam('sort', SORT_BY_VALUES.MOST_POPUPLAR)
+    insertUrlParam('sort', SORT_BY_VALUES.MOST_POPULAR)
 
   // Remove keyword query param if it's empty
   if (!keyword) removeUrlParameter('keyword')

@@ -30,7 +30,7 @@ export const filtersInitialState = {
   searchKeyword: searchKeywordValueFromUrl || '',
   sortValue: checkIfValidSortValue(sortValueFromUrl)
     ? sortValueFromUrl
-    : SORT_BY_VALUES.MOST_POPUPLAR,
+    : SORT_BY_VALUES.MOST_POPULAR,
   categoryFilterList: categories.map(category => ({
     ...category,
     selectedValues: []

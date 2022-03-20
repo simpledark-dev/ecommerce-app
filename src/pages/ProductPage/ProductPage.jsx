@@ -17,7 +17,7 @@ const {
 const ProductPage = () => {
   const [product, setProduct] = useState(null)
   const [reviews, setReviews] = useState([])
-  const [sortFilterValue, setSortFilterValue] = useState('most-upvoted')
+  const [sortFilterValue, setSortFilterValue] = useState(MOST_UPVOTED)
   const navigate = useNavigate()
   const { id } = useParams()
 
