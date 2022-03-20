@@ -2,6 +2,17 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fetchOneProduct, fetchProductReviews } from 'api/services'
 import { getDisplayJoinedTime } from 'utils/dateUtils'
+import { REVIEW_SORT_FILTER_VALUES } from 'constants'
+
+const {
+  MOST_RECENT,
+  MOST_UPVOTED,
+  FIVE_STARS,
+  FOUR_STARS,
+  THREE_STARS,
+  TWO_STARS,
+  ONE_STAR
+} = REVIEW_SORT_FILTER_VALUES
 
 const ProductPage = () => {
   const [product, setProduct] = useState(null)
@@ -93,47 +104,49 @@ const ProductPage = () => {
         Sort/filter reviews by:{' '}
         <button
           style={
-            sortFilterValue === 'most-recent' ? { background: 'yellow' } : {}
+            sortFilterValue === MOST_RECENT ? { background: 'yellow' } : {}
           }
-          onClick={() => setSortFilterValue('most-recent')}
+          onClick={() => setSortFilterValue(MOST_RECENT)}
         >
           Most recent
         </button>
         <button
           style={
-            sortFilterValue === 'most-upvoted' ? { background: 'yellow' } : {}
+            sortFilterValue === MOST_UPVOTED ? { background: 'yellow' } : {}
           }
-          onClick={() => setSortFilterValue('most-upvoted')}
+          onClick={() => setSortFilterValue(MOST_UPVOTED)}
         >
           Most upvoted
         </button>
         <button
-          style={sortFilterValue === '5-stars' ? { background: 'yellow' } : {}}
-          onClick={() => setSortFilterValue('5-stars')}
+          style={sortFilterValue === FIVE_STARS ? { background: 'yellow' } : {}}
+          onClick={() => setSortFilterValue(FIVE_STARS)}
         >
           5 stars
         </button>
         <button
-          style={sortFilterValue === '4-stars' ? { background: 'yellow' } : {}}
-          onClick={() => setSortFilterValue('4-stars')}
+          style={sortFilterValue === FOUR_STARS ? { background: 'yellow' } : {}}
+          onClick={() => setSortFilterValue(FOUR_STARS)}
         >
           4 stars
         </button>
         <button
-          style={sortFilterValue === '3-stars' ? { background: 'yellow' } : {}}
-          onClick={() => setSortFilterValue('3-stars')}
+          style={
+            sortFilterValue === THREE_STARS ? { background: 'yellow' } : {}
+          }
+          onClick={() => setSortFilterValue(THREE_STARS)}
         >
           3 stars
         </button>
         <button
-          style={sortFilterValue === '2-stars' ? { background: 'yellow' } : {}}
-          onClick={() => setSortFilterValue('2-stars')}
+          style={sortFilterValue === TWO_STARS ? { background: 'yellow' } : {}}
+          onClick={() => setSortFilterValue(TWO_STARS)}
         >
           2 stars
         </button>
         <button
-          style={sortFilterValue === '1-star' ? { background: 'yellow' } : {}}
-          onClick={() => setSortFilterValue('1-star')}
+          style={sortFilterValue === ONE_STAR ? { background: 'yellow' } : {}}
+          onClick={() => setSortFilterValue(ONE_STAR)}
         >
           1 star
         </button>
@@ -157,7 +170,7 @@ const ProductPage = () => {
               <i>{review.review || '(No comment)'}</i>{' '}
               <button>👍 Helpful</button>
             </p>
-            <p> Received {review.numUpvotes} likes</p>
+            <p> Received {review.numUpvotes} upvotes</p>
           </div>
         ))}
       </div>

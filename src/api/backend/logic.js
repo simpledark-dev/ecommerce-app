@@ -1,3 +1,4 @@
+import { REVIEW_SORT_FILTER_VALUES } from 'constants'
 import { orders, products, reviews, users, reviewUpvotes } from 'pseudoDB'
 import { getFilteredProducts } from 'utils/productFilterUtils'
 import { getSearchedProducts } from 'utils/productSearchUtils'
@@ -63,40 +64,50 @@ export const getReviews = (productId, sortFilterValue) => {
     }
   })
 
-  if (sortFilterValue === 'most-recent') {
+  const {
+    MOST_RECENT,
+    MOST_UPVOTED,
+    FIVE_STARS,
+    FOUR_STARS,
+    THREE_STARS,
+    TWO_STARS,
+    ONE_STAR
+  } = REVIEW_SORT_FILTER_VALUES
+
+  if (sortFilterValue === MOST_RECENT) {
     return [...detailedProductReviews].sort(
       (r1, r2) =>
         new Date(r2.date_time).getTime() - new Date(r1.date_time).getTime()
     )
   }
 
-  if (sortFilterValue === 'most-upvoted') {
+  if (sortFilterValue === MOST_UPVOTED) {
     return [...detailedProductReviews].sort(
       (r1, r2) => r2.numUpvotes - r1.numUpvotes
     )
   }
 
-  if (sortFilterValue === '5-stars') {
+  if (sortFilterValue === FIVE_STARS) {
     return detailedProductReviews.filter(
       review => Math.round(review.rating) === 5
     )
   }
-  if (sortFilterValue === '4-stars') {
+  if (sortFilterValue === FOUR_STARS) {
     return detailedProductReviews.filter(
       review => Math.round(review.rating) === 4
     )
   }
-  if (sortFilterValue === '3-stars') {
+  if (sortFilterValue === THREE_STARS) {
     return detailedProductReviews.filter(
       review => Math.round(review.rating) === 3
     )
   }
-  if (sortFilterValue === '2-stars') {
+  if (sortFilterValue === TWO_STARS) {
     return detailedProductReviews.filter(
       review => Math.round(review.rating) === 2
     )
   }
-  if (sortFilterValue === '1-star') {
+  if (sortFilterValue === ONE_STAR) {
     return detailedProductReviews.filter(
       review => Math.round(review.rating) === 1
     )
