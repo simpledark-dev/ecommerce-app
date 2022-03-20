@@ -1,4 +1,23 @@
 import { orders, products, reviews, users, reviewUpvotes } from 'pseudoDB'
+import { getFilteredProducts } from 'utils/productFilterUtils'
+import { getSearchedProducts } from 'utils/productSearchUtils'
+import { getSortedProducts } from 'utils/productSortUtils'
+
+export const getProductList = (
+  searchKeyword,
+  sortValue,
+  categoryFilterList,
+  priceRange
+) => {
+  const searchedProducts = getSearchedProducts(products, searchKeyword)
+  const filteredProducts = getFilteredProducts(
+    searchedProducts,
+    categoryFilterList,
+    priceRange
+  )
+  const sortedProductes = getSortedProducts(filteredProducts, sortValue)
+  return sortedProductes
+}
 
 export const getProduct = productId => {
   const foundProduct = products.find(product => product.id === productId)

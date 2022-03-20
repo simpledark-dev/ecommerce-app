@@ -1,8 +1,5 @@
-import { products, categories, reviews, orders } from 'pseudoDB'
-import { getFilteredProducts } from 'utils/productFilterUtils'
-import { getSearchedProducts } from 'utils/productSearchUtils'
-import { getSortedProducts } from 'utils/productSortUtils'
-import { getProduct, getReviews } from './backend/logic'
+import { categories, reviews, orders } from 'pseudoDB'
+import { getProduct, getProductList, getReviews } from './backend/logic'
 
 const FAKE_DELAY_IN_MS = 250
 
@@ -13,21 +10,20 @@ export const fetchProducts = (
   priceRange
 ) => {
   return new Promise((resolve, reject) => {
-    if (!products) {
+    const productList = getProductList(
+      searchKeyword,
+      sortValue,
+      categoryFilterList,
+      priceRange
+    )
+    if (!productList) {
       setTimeout(
         () => reject(new Error('Error fetching products')),
         FAKE_DELAY_IN_MS
       )
     }
     setTimeout(() => {
-      const searchedProducts = getSearchedProducts(products, searchKeyword)
-      const filteredProducts = getFilteredProducts(
-        searchedProducts,
-        categoryFilterList,
-        priceRange
-      )
-      const sortedProductes = getSortedProducts(filteredProducts, sortValue)
-      resolve(sortedProductes)
+      resolve(productList)
     }, FAKE_DELAY_IN_MS)
   })
 }
