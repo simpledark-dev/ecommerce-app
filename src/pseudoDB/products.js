@@ -13,43 +13,43 @@ const products = [
     variations: {
       variation_key_values_list: [
         {
-          key: 'RAM',
-          values: ['16GB', '32GB']
+          key: 'Fabric',
+          values: ['Cotton', 'Wool']
         },
         {
-          key: 'Screen Size',
-          values: ['13 inch', '15 inch']
+          key: 'Style',
+          values: ['With pockets', 'Without pockets']
         }
       ],
       variations_selection_info: [
         {
           selections: [
-            { key: 'RAM', value: '16GB' },
-            { key: 'Screen Size', value: '13 inch' }
+            { key: 'Fabric', value: 'Cotton' },
+            { key: 'Style', value: 'With pockets' }
           ],
           price_in_USD: 20,
           in_stock: 38
         },
         {
           selections: [
-            { key: 'RAM', value: '16GB' },
-            { key: 'Screen Size', value: '15 inch' }
+            { key: 'Fabric', value: 'Cotton' },
+            { key: 'Style', value: 'Without pockets' }
           ],
           price_in_USD: 30,
           in_stock: 88
         },
         {
           selections: [
-            { key: 'RAM', value: '32GB' },
-            { key: 'Screen Size', value: '13 inch' }
+            { key: 'Fabric', value: 'Wool' },
+            { key: 'Style', value: 'With pockets' }
           ],
           price_in_USD: 55,
           in_stock: 154
         },
         {
           selections: [
-            { key: 'RAM', value: '32GB' },
-            { key: 'Screen Size', value: '15 inch' }
+            { key: 'Fabric', value: 'Wool' },
+            { key: 'Style', value: 'Without pockets' }
           ],
           price_in_USD: 65,
           in_stock: 111
@@ -110,43 +110,43 @@ const products = [
     variations: {
       variation_key_values_list: [
         {
-          key: 'Addons',
-          values: ['Charger', 'Headsets']
+          key: 'Material',
+          values: ['Guanaco', 'Vicuna Wool']
         },
         {
-          key: 'Screen Size',
-          values: ['13 inch', '15 inch']
+          key: 'Addons',
+          values: ['+ Orange Jacket', '+ Dark Jacket']
         }
       ],
       variations_selection_info: [
         {
           selections: [
-            { key: 'Addons', value: 'Charger' },
-            { key: 'Screen Size', value: '13 inch' }
+            { key: 'Material', value: 'Guanaco' },
+            { key: 'Addons', value: '+ Orange Jacket' }
           ],
           price_in_USD: 130,
           in_stock: 111
         },
         {
           selections: [
-            { key: 'Addons', value: 'Charger' },
-            { key: 'Screen Size', value: '15 inch' }
+            { key: 'Material', value: 'Guanaco' },
+            { key: 'Addons', value: '+ Dark Jacket' }
           ],
           price_in_USD: 140,
           in_stock: 32
         },
         {
           selections: [
-            { key: 'Addons', value: 'Headsets' },
-            { key: 'Screen Size', value: '13 inch' }
+            { key: 'Material', value: 'Vicuna Wool' },
+            { key: 'Addons', value: '+ Orange Jacket' }
           ],
           price_in_USD: 460,
           in_stock: 2
         },
         {
           selections: [
-            { key: 'Addons', value: 'Headsets' },
-            { key: 'Screen Size', value: '15 inch' }
+            { key: 'Material', value: 'Vicuna Wool' },
+            { key: 'Addons', value: '+ Dark Jacket' }
           ],
           price_in_USD: 470,
           in_stock: 75
@@ -181,7 +181,7 @@ const products = [
       variation_key_values_list: [
         {
           key: 'Size',
-          values: ['S', 'M', 'L']
+          values: ['S', 'M', 'L', 'XL']
         }
       ],
       variations_selection_info: [
@@ -199,6 +199,11 @@ const products = [
           selections: [{ key: 'Size', value: 'L' }],
           price_in_USD: 50,
           in_stock: 14
+        },
+        {
+          selections: [{ key: 'Size', value: 'XL' }],
+          price_in_USD: 55,
+          in_stock: 2
         }
       ]
     },
@@ -236,14 +241,14 @@ const products = [
         },
         {
           key: 'Size',
-          values: ['Micro USB', 'Type-c', 'Type-b']
+          values: ['8', '10', '14']
         }
       ],
       variations_selection_info: [
         {
           selections: [
             { key: 'Color', value: 'Blue' },
-            { key: 'Size', value: 'Micro USB' }
+            { key: 'Size', value: '8' }
           ],
           price_in_USD: 30,
           in_stock: 123
@@ -251,7 +256,7 @@ const products = [
         {
           selections: [
             { key: 'Color', value: 'Blue' },
-            { key: 'Size', value: 'Type-c' }
+            { key: 'Size', value: '10' }
           ],
           price_in_USD: 50,
           in_stock: 24
@@ -259,7 +264,7 @@ const products = [
         {
           selections: [
             { key: 'Color', value: 'Blue' },
-            { key: 'Size', value: 'Type-b' }
+            { key: 'Size', value: '14' }
           ],
           price_in_USD: 70,
           in_stock: 55
@@ -267,7 +272,7 @@ const products = [
         {
           selections: [
             { key: 'Color', value: 'Black' },
-            { key: 'Size', value: 'Micro USB' }
+            { key: 'Size', value: '8' }
           ],
           price_in_USD: 30,
           in_stock: 123
@@ -275,7 +280,7 @@ const products = [
         {
           selections: [
             { key: 'Color', value: 'Black' },
-            { key: 'Size', value: 'Type-c' }
+            { key: 'Size', value: '10' }
           ],
           price_in_USD: 50,
           in_stock: 244
@@ -283,7 +288,7 @@ const products = [
         {
           selections: [
             { key: 'Color', value: 'Black' },
-            { key: 'Size', value: 'Type-b' }
+            { key: 'Size', value: '14' }
           ],
           price_in_USD: 70,
           in_stock: 0
