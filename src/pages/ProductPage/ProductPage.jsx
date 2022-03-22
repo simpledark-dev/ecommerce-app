@@ -5,6 +5,7 @@ import { getDisplayJoinedTime } from 'utils/dateUtils'
 import { REVIEW_SORT_FILTER_VALUES } from 'constants'
 import { calculateProductPrices } from 'utils/productPriceUtils'
 import { areArraysOfObjectsEqual } from 'utils/generalUtils'
+import { ProductRelatedList } from 'components'
 
 const {
   MOST_RECENT,
@@ -171,7 +172,7 @@ const ProductPage = () => {
           alt="product"
         />
       ))}
-      <p>{product.name}</p>
+      <h3>{product.name}</h3>
       <p>
         {overallRating} stars ({product.reviews.length} reviews) (
         {product.numFulfilledOrders} sold)
@@ -184,19 +185,16 @@ const ProductPage = () => {
 
       <div>{displayedVariationSelections}</div>
       <div>
-        Quantity: <button>-</button> 5<button>+</button>
+        Quantity: <button>-</button> 5 <button>+</button>
       </div>
       <p>
-        <button>Add to Cart</button> (
+        <button>Add to Cart</button> <button>Buy Now </button> (
         {product.variations
           ? currentProductSelectedVariations &&
             currentProductSelectedVariations.in_stock
           : product.in_stock}{' '}
         available)
       </p>
-      <div>
-        <button>Buy Now </button>
-      </div>
       <p>
         Categories:{' '}
         {product.categories.map(category =>
@@ -204,13 +202,13 @@ const ProductPage = () => {
         )}
       </p>
       <h1> Related items </h1>
-      <p> (todo) </p>
+      <p> (todo: need to search by categories (except self)) </p>
+      <ProductRelatedList />
       <hr />
-      <h1>Details</h1>
+      <h1>Product Details</h1>
       <p>{product.description}</p>
       <hr />
       <h1> Reviews </h1>
-      <p> Review summary: </p>
       <p> Overall: {overallRating} out of 5</p>
       <p>{product.reviews.length} ratings in total</p>
       <ul style={{ padding: 0 }}>
