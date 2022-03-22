@@ -7,36 +7,55 @@ const products = [
       'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/mwesgzfrm6papmdobyro/face-off-womens-lacrosse-shorts-stock-2rOEOP.png',
       'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/e8330cee-523f-451a-b7a1-671259d3cec5/sportswear-french-terry-shorts-QtrWBF.png'
     ],
-    base_price_in_USD: 0,
     discount: 0,
-    variations: [
-      {
-        variation_key: 'RAM',
-        variation_price_list: [
-          {
-            value: '16GB',
-            price_in_USD: 10
-          },
-          {
-            value: '32GB',
-            price_in_USD: 45
-          }
-        ]
-      },
-      {
-        variation_key: 'Screen Size',
-        variation_price_list: [
-          {
-            value: '13 inch',
-            price_in_USD: 10
-          },
-          {
-            value: '15 inch',
-            price_in_USD: 20
-          }
-        ]
-      }
-    ],
+    price_in_usd: null,
+    in_stock: null,
+    variations: {
+      variation_key_values_list: [
+        {
+          key: 'RAM',
+          values: ['16GB', '32GB']
+        },
+        {
+          key: 'Screen Size',
+          values: ['13 inch', '15 inch']
+        }
+      ],
+      variations_selection_info: [
+        {
+          selections: [
+            { key: 'RAM', value: '16GB' },
+            { key: 'Screen Size', value: '13 inch' }
+          ],
+          price_in_USD: 20,
+          in_stock: 111
+        },
+        {
+          selections: [
+            { key: 'RAM', value: '16GB' },
+            { key: 'Screen Size', value: '15 inch' }
+          ],
+          price_in_USD: 30,
+          in_stock: 111
+        },
+        {
+          selections: [
+            { key: 'RAM', value: '32GB' },
+            { key: 'Screen Size', value: '13 inch' }
+          ],
+          price_in_USD: 55,
+          in_stock: 111
+        },
+        {
+          selections: [
+            { key: 'RAM', value: '32GB' },
+            { key: 'Screen Size', value: '15 inch' }
+          ],
+          price_in_USD: 65,
+          in_stock: 111
+        }
+      ]
+    },
     categories: [
       {
         category_id: 'ca-1',
@@ -51,7 +70,6 @@ const products = [
         values: ['USA', 'Canada', 'UK']
       }
     ],
-    inStock: 1240,
     upload_time: '2021-01-25 14:00:01'
   },
   {
@@ -62,9 +80,10 @@ const products = [
       'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333442741_04_a-PUMA-Mens-Cloudspun-Train-Shorts-521037-03?wid=800&hei=800&bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1',
       'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333381833_10_a-PUMA-Mens-Evostripe-8-Inch-Knit-Shorts-58581502?wid=800&hei=800&bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1'
     ],
-    base_price_in_USD: 17,
     discount: 0.1,
-    variations: [],
+    price_in_USD: 17,
+    in_stock: 39,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -75,7 +94,6 @@ const products = [
         values: ['Shorts']
       }
     ],
-    inStock: 650,
     upload_time: '2021-11-15 09:00:01'
   },
   {
@@ -86,36 +104,55 @@ const products = [
       'https://i.ebayimg.com/00/s/NDgwWDQ4MA==/z/asQAAOSwq1JZJXhf/$_57.JPG',
       'https://assets.adidas.com/images/w_383,h_383,f_auto,q_auto,fl_lossy,c_fill,g_auto/0df648add2144e04befdae16016aad28_9366/houston-dynamo-creator-tee.jpg'
     ],
-    base_price_in_USD: 0,
     discount: 0.05,
-    variations: [
-      {
-        variation_key: 'Addons',
-        variation_price_list: [
-          {
-            value: 'Charger',
-            price_in_USD: 120
-          },
-          {
-            value: 'Headsets',
-            price_in_USD: 450
-          }
-        ]
-      },
-      {
-        variation_key: 'Screen Size',
-        variation_price_list: [
-          {
-            value: '13 inch',
-            price_in_USD: 10
-          },
-          {
-            value: '15 inch',
-            price_in_USD: 20
-          }
-        ]
-      }
-    ],
+    price_in_usd: null,
+    in_stock: null,
+    variations: {
+      variation_key_values_list: [
+        {
+          key: 'Addons',
+          values: ['Charger', 'Headsets']
+        },
+        {
+          key: 'Screen Size',
+          values: ['13 inch', '15 inch']
+        }
+      ],
+      variations_selection_info: [
+        {
+          selections: [
+            { key: 'Addons', value: 'Charger' },
+            { key: 'Screen Size', value: '13 inch' }
+          ],
+          price_in_USD: 130,
+          in_stock: 111
+        },
+        {
+          selections: [
+            { key: 'Addons', value: 'Charger' },
+            { key: 'Screen Size', value: '15 inch' }
+          ],
+          price_in_USD: 140,
+          in_stock: 111
+        },
+        {
+          selections: [
+            { key: 'Addons', value: 'Headsets' },
+            { key: 'Screen Size', value: '13 inch' }
+          ],
+          price_in_USD: 460,
+          in_stock: 111
+        },
+        {
+          selections: [
+            { key: 'Addons', value: 'Headsets' },
+            { key: 'Screen Size', value: '15 inch' }
+          ],
+          price_in_USD: 470,
+          in_stock: 111
+        }
+      ]
+    },
     categories: [
       {
         category_id: 'ca-1',
@@ -126,7 +163,6 @@ const products = [
         values: ['Shirts']
       }
     ],
-    inStock: 789,
     upload_time: '2021-12-04 19:30:01'
   },
   {
@@ -138,27 +174,34 @@ const products = [
       'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333311910_10_a-adidas-Mens-Response-SR-Running-Shoes-FX3626?bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1&hei=520',
       'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333453272_10_a-adidas-Mens-Ultra-Boost-21-Running-Shoes-GV7709?bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1&hei=520'
     ],
-    base_price_in_USD: 50,
     discount: 0,
-    variations: [
-      {
-        variation_key: 'Size',
-        variation_price_list: [
-          {
-            value: 'S',
-            price_in_USD: 0
-          },
-          {
-            value: 'M',
-            price_in_USD: 0
-          },
-          {
-            value: 'L',
-            price_in_USD: 0
-          }
-        ]
-      }
-    ],
+    price_in_usd: null,
+    in_stock: null,
+    variations: {
+      variation_key_values_list: [
+        {
+          key: 'Size',
+          values: ['S', 'M', 'L']
+        }
+      ],
+      variations_selection_info: [
+        {
+          selections: [{ key: 'Size', value: 'S' }],
+          price_in_USD: 50,
+          in_stock: 111
+        },
+        {
+          selections: [{ key: 'Size', value: 'M' }],
+          price_in_USD: 50,
+          in_stock: 111
+        },
+        {
+          selections: [{ key: 'Size', value: 'L' }],
+          price_in_USD: 50,
+          in_stock: 111
+        }
+      ]
+    },
     categories: [
       {
         category_id: 'ca-1',
@@ -173,7 +216,6 @@ const products = [
         values: ['Canada', 'South Africa', 'France']
       }
     ],
-    inStock: 123,
     upload_time: '2021-12-15 11:30:01'
   },
   {
@@ -183,40 +225,71 @@ const products = [
     images: [
       'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333066000_01_a-PUMA-Mens-Enzo-2-Shoes-193249-01?wid=800&hei=800&bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1'
     ],
-    base_price_in_USD: 0,
     discount: 0.15,
-    variations: [
-      {
-        variation_key: 'Color',
-        variation_price_list: [
-          {
-            value: 'Blue',
-            price_in_USD: 0
-          },
-          {
-            value: 'Black',
-            price_in_USD: 0
-          }
-        ]
-      },
-      {
-        variation_key: 'Size',
-        variation_price_list: [
-          {
-            value: 'Micro USB',
-            price_in_USD: 30
-          },
-          {
-            value: 'Type-c',
-            price_in_USD: 50
-          },
-          {
-            value: 'Type-b',
-            price_in_USD: 70
-          }
-        ]
-      }
-    ],
+    price_in_usd: null,
+    in_stock: null,
+    variations: {
+      variation_key_values_list: [
+        {
+          key: 'Color',
+          values: ['Blue', 'Black']
+        },
+        {
+          key: 'Size',
+          values: ['Micro USB', 'Type-c', 'Type-b']
+        }
+      ],
+      variations_selection_info: [
+        {
+          selections: [
+            { key: 'Color', value: 'Blue' },
+            { key: 'Size', value: 'Micro USB' }
+          ],
+          price_in_USD: 30,
+          in_stock: 123
+        },
+        {
+          selections: [
+            { key: 'Color', value: 'Blue' },
+            { key: 'Size', value: 'Type-c' }
+          ],
+          price_in_USD: 50,
+          in_stock: 24
+        },
+        {
+          selections: [
+            { key: 'Color', value: 'Blue' },
+            { key: 'Size', value: 'Type-b' }
+          ],
+          price_in_USD: 70,
+          in_stock: 55
+        },
+        {
+          selections: [
+            { key: 'Color', value: 'Black' },
+            { key: 'Size', value: 'Micro USB' }
+          ],
+          price_in_USD: 30,
+          in_stock: 123
+        },
+        {
+          selections: [
+            { key: 'Color', value: 'Black' },
+            { key: 'Size', value: 'Type-c' }
+          ],
+          price_in_USD: 50,
+          in_stock: 244
+        },
+        {
+          selections: [
+            { key: 'Color', value: 'Black' },
+            { key: 'Size', value: 'Type-b' }
+          ],
+          price_in_USD: 70,
+          in_stock: 0
+        }
+      ]
+    },
     categories: [
       {
         category_id: 'ca-1',
@@ -231,7 +304,6 @@ const products = [
         values: ['Canada', 'USA', 'France']
       }
     ],
-    inStock: 489,
     upload_time: '2021-12-05 19:00:01'
   },
   {
@@ -243,9 +315,10 @@ const products = [
       'https://4.imimg.com/data4/VW/FM/MY-13802834/nike-air-zoom-pegasus-33-red-running-sport-shoes-500x500.jpg',
       'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0f955459-6d7f-4c87-8e17-cf0b7ec4f006/air-presto-id-shoe.png'
     ],
-    base_price_in_USD: 100,
     discount: 0,
-    variations: [],
+    price_in_USD: 100,
+    in_stock: 329,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -260,7 +333,6 @@ const products = [
         values: ['Canada', 'USA', 'New Zealand']
       }
     ],
-    inStock: 2234,
     upload_time: '2021-11-07 07:30:01'
   },
   {
@@ -270,9 +342,10 @@ const products = [
     images: [
       'https://2x1dks3q6aoj44bz1r1tr92f-wpengine.netdna-ssl.com/wp-content/uploads/2017/05/Red-Shoes-White-Jeans-Blue-Shirt.jpg'
     ],
-    base_price_in_USD: 12,
     discount: 0.3,
-    variations: [],
+    price_in_USD: 12,
+    in_stock: 1329,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -287,7 +360,6 @@ const products = [
         values: ['Singapore', 'Australia']
       }
     ],
-    inStock: 985,
     upload_time: '2021-10-05 19:30:01'
   },
   {
@@ -298,9 +370,10 @@ const products = [
       'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333171648_01_a-Nike-Mens-Miler-T-Shirt-CU5992-010?bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1&hei=520',
       'https://cdn.shopify.com/s/files/1/1210/9358/products/AR5004_010_SPORTSWEAR_BLACK_WHITE_20-12-15-0294_d606f077-1160-4b98-a6cb-cdbb52e49198_1800x1800.jpg?v=1614719653'
     ],
-    base_price_in_USD: 45,
     discount: 0.14,
-    variations: [],
+    price_in_USD: 45,
+    in_stock: 29,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -315,7 +388,6 @@ const products = [
         values: ['South Africa', 'Australia']
       }
     ],
-    inStock: 245,
     upload_time: '2021-10-06 19:10:01'
   },
   {
@@ -328,9 +400,10 @@ const products = [
       'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/a58f1652-c9ee-4ef8-b7cd-7b320d9c78ad/kyrie-skills-basketball-wvw9sq.png',
       'https://www.rebelsport.com.au/dw/image/v2/BBRV_PRD/on/demandware.static/-/Sites-srg-internal-master-catalog/default/dw2e7f736f/images/49700301/Rebel_49700301_hi-res.jpg?sw=1000&sh=1000&sm=fit'
     ],
-    base_price_in_USD: 30,
     discount: 0.11,
-    variations: [],
+    price_in_USD: 30,
+    in_stock: 229,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -341,7 +414,6 @@ const products = [
         values: ['USA', 'Singapore']
       }
     ],
-    inStock: 1567,
     upload_time: '2021-09-15 18:40:01'
   },
   {
@@ -351,9 +423,10 @@ const products = [
     images: [
       'https://image.uniqlo.com/UQ/ST3/WesternCommon/imagesgoods/431599/item/goods_69_431599.jpg?width=450&impolicy=quality_70'
     ],
-    base_price_in_USD: 30,
     discount: 0.11,
-    variations: [],
+    price_in_USD: 30,
+    in_stock: 12,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -364,7 +437,6 @@ const products = [
         values: ['USA', 'UK', 'South Africa', 'Japan']
       }
     ],
-    inStock: 4590,
     upload_time: '2021-09-15 18:40:01'
   }
 ]
