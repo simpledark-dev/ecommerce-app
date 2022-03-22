@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { fetchOneProduct, fetchProductReviews } from 'api/services'
 import { getDisplayJoinedTime } from 'utils/dateUtils'
 import { REVIEW_SORT_FILTER_VALUES } from 'constants'
+import { calculateProductPrices } from 'utils/productPriceUtils'
+import { areArraysOfObjectsEqual } from 'utils/generalUtils'
 
 const {
   MOST_RECENT,
@@ -16,6 +18,7 @@ const {
 
 const ProductPage = () => {
   const [product, setProduct] = useState(null)
+  const [variationSelection, setVariationSelection] = useState([])
   const [reviews, setReviews] = useState([])
   const [sortFilterValue, setSortFilterValue] = useState(MOST_UPVOTED)
   const navigate = useNavigate()
@@ -26,9 +29,31 @@ const ProductPage = () => {
       const fetchedProduct = await fetchOneProduct(id)
       setProduct(fetchedProduct)
     }
-
     fetchProduct(id)
+  }, [id])
 
+  useEffect(() => {
+    if (
+      variationSelection.length >=
+      product?.variations?.variation_key_values_list.length
+    )
+      return
+
+    product?.variations?.variation_key_values_list.forEach(
+      variationKeyValues => {
+        setVariationSelection(variationSelection => [
+          ...variationSelection,
+          {
+            key: variationKeyValues.key,
+            value: variationKeyValues.values[0]
+          }
+        ])
+      }
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product])
+
+  useEffect(() => {
     const fetchReviews = async id => {
       const fetchedReviews = await fetchProductReviews(id, sortFilterValue)
       setReviews(fetchedReviews)
@@ -37,6 +62,25 @@ const ProductPage = () => {
   }, [id, sortFilterValue])
 
   if (!product) return 'Loading...'
+
+  const isVariationValueSelected = (key, value) => {
+    return variationSelection.find(
+      variation => variation.key === key && variation.value === value
+    )
+  }
+
+  const selectVariationValue = (key, value) => {
+    const newVariationSelection = variationSelection.map(variation => {
+      if (variation.key === key) {
+        return {
+          ...variation,
+          value
+        }
+      }
+      return variation
+    })
+    setVariationSelection(newVariationSelection)
+  }
 
   const overallRating = (
     product.reviews.reduce((accRating, curr) => accRating + curr.rating, 0) /
@@ -47,6 +91,65 @@ const ProductPage = () => {
   product.reviews.forEach(review => {
     ratingStats[Math.round(review.rating)] += 1
   })
+
+  const { discount, discountedMinPrice } = calculateProductPrices(product)
+
+  const displayedNoVariationPrice = (() => {
+    if (product.variations) return ''
+    return discount ? (
+      <p>
+        {`$${discountedMinPrice.toFixed(2)}`} (
+        {Math.round((discount * 100).toFixed(2))}% off) (Old: $
+        {product.price_in_USD.toFixed(2)})
+      </p>
+    ) : (
+      <p>${product?.price_in_USD?.toFixed(2)}</p>
+    )
+  })()
+
+  const variationPrice = product?.variations?.variations_selection_info.find(
+    currentVariationSelection =>
+      areArraysOfObjectsEqual(
+        currentVariationSelection.selections,
+        variationSelection
+      )
+  )?.price_in_USD
+
+  const displayedWithVariationPrice = (() => {
+    if (!product.variations) return ''
+    if (!variationPrice) return ''
+    return discount
+      ? `$${(variationPrice * (1 - discount)).toFixed(2)} (${Math.round(
+          (discount * 100).toFixed(2)
+        )}% off) (Old price: $${variationPrice})`
+      : `$${variationPrice.toFixed(2)}`
+  })()
+
+  const displayedVariationSelections = (() => {
+    if (!product.variations) return ''
+    return product?.variations?.variation_key_values_list.map(
+      (variationKeyValues, idx) => (
+        <p key={idx}>
+          <span> {variationKeyValues.key}: </span>
+          {variationKeyValues.values.map((value, idx) => (
+            <button
+              key={idx}
+              style={
+                isVariationValueSelected(variationKeyValues.key, value)
+                  ? { background: 'greenyellow' }
+                  : {}
+              }
+              onClick={() =>
+                selectVariationValue(variationKeyValues.key, value)
+              }
+            >
+              {value}
+            </button>
+          ))}
+        </p>
+      )
+    )
+  })()
 
   return (
     <div>
@@ -68,10 +171,17 @@ const ProductPage = () => {
         {product.numFulfilledOrders} sold)
       </p>
       <div>
+        {product.price_in_USD
+          ? displayedNoVariationPrice
+          : displayedWithVariationPrice}
+      </div>
+
+      <div>{displayedVariationSelections}</div>
+      <div>
         Quantity: <button>-</button> 5<button>+</button>
       </div>
       <p>
-        <button>Add to Cart</button> ({product.inStock} available)
+        <button>Add to Cart</button> ((todo) available)
       </p>
       <div>
         <button>Buy Now </button>
@@ -104,7 +214,7 @@ const ProductPage = () => {
         Sort/filter reviews by:{' '}
         <button
           style={
-            sortFilterValue === MOST_RECENT ? { background: 'yellow' } : {}
+            sortFilterValue === MOST_RECENT ? { background: 'orange' } : {}
           }
           onClick={() => setSortFilterValue(MOST_RECENT)}
         >
@@ -112,40 +222,40 @@ const ProductPage = () => {
         </button>
         <button
           style={
-            sortFilterValue === MOST_UPVOTED ? { background: 'yellow' } : {}
+            sortFilterValue === MOST_UPVOTED ? { background: 'orange' } : {}
           }
           onClick={() => setSortFilterValue(MOST_UPVOTED)}
         >
           Most upvoted
         </button>
         <button
-          style={sortFilterValue === FIVE_STARS ? { background: 'yellow' } : {}}
+          style={sortFilterValue === FIVE_STARS ? { background: 'orange' } : {}}
           onClick={() => setSortFilterValue(FIVE_STARS)}
         >
           5 stars
         </button>
         <button
-          style={sortFilterValue === FOUR_STARS ? { background: 'yellow' } : {}}
+          style={sortFilterValue === FOUR_STARS ? { background: 'orange' } : {}}
           onClick={() => setSortFilterValue(FOUR_STARS)}
         >
           4 stars
         </button>
         <button
           style={
-            sortFilterValue === THREE_STARS ? { background: 'yellow' } : {}
+            sortFilterValue === THREE_STARS ? { background: 'orange' } : {}
           }
           onClick={() => setSortFilterValue(THREE_STARS)}
         >
           3 stars
         </button>
         <button
-          style={sortFilterValue === TWO_STARS ? { background: 'yellow' } : {}}
+          style={sortFilterValue === TWO_STARS ? { background: 'orange' } : {}}
           onClick={() => setSortFilterValue(TWO_STARS)}
         >
           2 stars
         </button>
         <button
-          style={sortFilterValue === ONE_STAR ? { background: 'yellow' } : {}}
+          style={sortFilterValue === ONE_STAR ? { background: 'orange' } : {}}
           onClick={() => setSortFilterValue(ONE_STAR)}
         >
           1 star
