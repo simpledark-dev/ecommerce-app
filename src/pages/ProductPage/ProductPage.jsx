@@ -82,6 +82,17 @@ const ProductPage = () => {
     setVariationSelection(newVariationSelection)
   }
 
+  const currentProductSelectedVariations = (() => {
+    if (!product.variations) return null
+    return product?.variations?.variations_selection_info.find(
+      currentVariationSelection =>
+        areArraysOfObjectsEqual(
+          currentVariationSelection.selections,
+          variationSelection
+        )
+    )
+  })()
+
   const overallRating = (
     product.reviews.reduce((accRating, curr) => accRating + curr.rating, 0) /
     (product.reviews.length || 1)
@@ -107,17 +118,12 @@ const ProductPage = () => {
     )
   })()
 
-  const variationPrice = product?.variations?.variations_selection_info.find(
-    currentVariationSelection =>
-      areArraysOfObjectsEqual(
-        currentVariationSelection.selections,
-        variationSelection
-      )
-  )?.price_in_USD
-
   const displayedWithVariationPrice = (() => {
     if (!product.variations) return ''
+
+    const variationPrice = currentProductSelectedVariations?.price_in_USD
     if (!variationPrice) return ''
+
     return discount
       ? `$${(variationPrice * (1 - discount)).toFixed(2)} (${Math.round(
           (discount * 100).toFixed(2)
@@ -181,7 +187,12 @@ const ProductPage = () => {
         Quantity: <button>-</button> 5<button>+</button>
       </div>
       <p>
-        <button>Add to Cart</button> ((todo) available)
+        <button>Add to Cart</button> (
+        {product.variations
+          ? currentProductSelectedVariations &&
+            currentProductSelectedVariations.in_stock
+          : product.in_stock}{' '}
+        available)
       </p>
       <div>
         <button>Buy Now </button>

@@ -28,7 +28,7 @@ const products = [
             { key: 'Screen Size', value: '13 inch' }
           ],
           price_in_USD: 20,
-          in_stock: 111
+          in_stock: 38
         },
         {
           selections: [
@@ -36,7 +36,7 @@ const products = [
             { key: 'Screen Size', value: '15 inch' }
           ],
           price_in_USD: 30,
-          in_stock: 111
+          in_stock: 88
         },
         {
           selections: [
@@ -44,7 +44,7 @@ const products = [
             { key: 'Screen Size', value: '13 inch' }
           ],
           price_in_USD: 55,
-          in_stock: 111
+          in_stock: 154
         },
         {
           selections: [
@@ -133,7 +133,7 @@ const products = [
             { key: 'Screen Size', value: '15 inch' }
           ],
           price_in_USD: 140,
-          in_stock: 111
+          in_stock: 32
         },
         {
           selections: [
@@ -141,7 +141,7 @@ const products = [
             { key: 'Screen Size', value: '13 inch' }
           ],
           price_in_USD: 460,
-          in_stock: 111
+          in_stock: 2
         },
         {
           selections: [
@@ -149,7 +149,7 @@ const products = [
             { key: 'Screen Size', value: '15 inch' }
           ],
           price_in_USD: 470,
-          in_stock: 111
+          in_stock: 75
         }
       ]
     },
@@ -188,7 +188,7 @@ const products = [
         {
           selections: [{ key: 'Size', value: 'S' }],
           price_in_USD: 50,
-          in_stock: 111
+          in_stock: 35
         },
         {
           selections: [{ key: 'Size', value: 'M' }],
@@ -198,7 +198,7 @@ const products = [
         {
           selections: [{ key: 'Size', value: 'L' }],
           price_in_USD: 50,
-          in_stock: 111
+          in_stock: 14
         }
       ]
     },
