@@ -21,12 +21,12 @@ const SearchBar = () => {
     e.preventDefault()
 
     dispatch(setSearchKeyword(inputSearchText))
-    dispatch(setSortValue(SORT_BY_VALUES.MOST_POPUPLAR))
+    dispatch(setSortValue(SORT_BY_VALUES.MOST_POPULAR))
     dispatch(clearFilters())
 
     const productList = await fetchProducts(
       inputSearchText,
-      SORT_BY_VALUES.MOST_POPUPLAR,
+      SORT_BY_VALUES.MOST_POPULAR,
       filtersInitialState.categoryFilterList,
       filtersInitialState.priceRange
     )

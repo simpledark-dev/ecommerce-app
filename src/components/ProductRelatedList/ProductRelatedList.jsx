@@ -1,32 +1,27 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 import { fetchProducts } from 'api/services'
 import { ProductCard } from 'components'
-import { setProducts } from 'redux/slices/productSlice'
 import { calculateProductPrices } from 'utils/productPriceUtils'
+import { SORT_BY_VALUES } from 'constants'
 
-const ProductList = () => {
-  const { products } = useSelector(state => state.product)
-  const { searchKeyword, sortValue, categoryFilterList, priceRange } =
-    useSelector(state => state.searchSortFilterSlice)
-
-  const dispatch = useDispatch()
+const ProductRelatedList = ({ searchKeyword, categoryFilterList }) => {
+  const [relatedProducts, setRelatedProducts] = useState([])
 
   useEffect(() => {
     async function loadProducts() {
       const productList = await fetchProducts(
-        searchKeyword,
-        sortValue,
-        categoryFilterList,
-        priceRange
+        '',
+        SORT_BY_VALUES.MOST_POPULAR,
+        [],
+        { min: 0, max: +Infinity }
       )
-      dispatch(setProducts(productList))
+      setRelatedProducts(productList)
     }
     loadProducts()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const productList = products.map(product => {
+  const productList = relatedProducts.map(product => {
     const {
       minPrice,
       maxPrice,
@@ -51,7 +46,7 @@ const ProductList = () => {
       />
     )
   })
-  return <div style={{ width: 200, margin: '0 auto' }}>{productList}</div>
+  return <div style={{ width: 200, display: 'flex' }}>{productList}</div>
 }
 
-export default ProductList
+export default ProductRelatedList

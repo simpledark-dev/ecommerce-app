@@ -5,42 +5,61 @@ const products = [
     description: 'Lorems mustaford',
     images: [
       'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/mwesgzfrm6papmdobyro/face-off-womens-lacrosse-shorts-stock-2rOEOP.png',
-      'https://picsum.photos/id/2/200/200'
+      'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/e8330cee-523f-451a-b7a1-671259d3cec5/sportswear-french-terry-shorts-QtrWBF.png'
     ],
-    base_price_in_USD: 0,
     discount: 0,
-    variations: [
-      {
-        variation_key: 'RAM',
-        variation_price_list: [
-          {
-            value: '16GB',
-            price_in_USD: 10
-          },
-          {
-            value: '32GB',
-            price_in_USD: 45
-          }
-        ]
-      },
-      {
-        variation_key: 'Screen Size',
-        variation_price_list: [
-          {
-            value: '13 inch',
-            price_in_USD: 10
-          },
-          {
-            value: '15 inch',
-            price_in_USD: 20
-          }
-        ]
-      }
-    ],
+    price_in_usd: null,
+    in_stock: null,
+    variations: {
+      variation_key_values_list: [
+        {
+          key: 'Fabric',
+          values: ['Cotton', 'Wool']
+        },
+        {
+          key: 'Style',
+          values: ['With pockets', 'Without pockets']
+        }
+      ],
+      variations_selection_info: [
+        {
+          selections: [
+            { key: 'Fabric', value: 'Cotton' },
+            { key: 'Style', value: 'With pockets' }
+          ],
+          price_in_USD: 20,
+          in_stock: 38
+        },
+        {
+          selections: [
+            { key: 'Fabric', value: 'Cotton' },
+            { key: 'Style', value: 'Without pockets' }
+          ],
+          price_in_USD: 30,
+          in_stock: 88
+        },
+        {
+          selections: [
+            { key: 'Fabric', value: 'Wool' },
+            { key: 'Style', value: 'With pockets' }
+          ],
+          price_in_USD: 55,
+          in_stock: 154
+        },
+        {
+          selections: [
+            { key: 'Fabric', value: 'Wool' },
+            { key: 'Style', value: 'Without pockets' }
+          ],
+          price_in_USD: 65,
+          in_stock: 111
+        }
+      ]
+    },
     categories: [
       {
         category_id: 'ca-1',
-        values: ['Nike', 'Test']
+        values: ['Nike']
       },
       {
         category_id: 'ca-2',
@@ -56,13 +75,15 @@ const products = [
   {
     id: 'P2',
     name: 'Puma Athletic Shorts',
-    description: 'Lorems mustaford',
+    description: 'Lorems mustaford \n Test test \n Test Test',
     images: [
-      'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333442741_04_a-PUMA-Mens-Cloudspun-Train-Shorts-521037-03?wid=800&hei=800&bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1'
+      'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333442741_04_a-PUMA-Mens-Cloudspun-Train-Shorts-521037-03?wid=800&hei=800&bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1',
+      'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333381833_10_a-PUMA-Mens-Evostripe-8-Inch-Knit-Shorts-58581502?wid=800&hei=800&bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1'
     ],
-    base_price_in_USD: 17,
     discount: 0.1,
-    variations: [],
+    price_in_USD: 17,
+    in_stock: 39,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -81,38 +102,57 @@ const products = [
     description: 'Lorems mustaford',
     images: [
       'https://i.ebayimg.com/00/s/NDgwWDQ4MA==/z/asQAAOSwq1JZJXhf/$_57.JPG',
-      'https://picsum.photos/id/2/200/200'
+      'https://assets.adidas.com/images/w_383,h_383,f_auto,q_auto,fl_lossy,c_fill,g_auto/0df648add2144e04befdae16016aad28_9366/houston-dynamo-creator-tee.jpg'
     ],
-    base_price_in_USD: 0,
     discount: 0.05,
-    variations: [
-      {
-        variation_key: 'Addons',
-        variation_price_list: [
-          {
-            value: 'Charger',
-            price_in_USD: 120
-          },
-          {
-            value: 'Headsets',
-            price_in_USD: 450
-          }
-        ]
-      },
-      {
-        variation_key: 'Screen Size',
-        variation_price_list: [
-          {
-            value: '13 inch',
-            price_in_USD: 10
-          },
-          {
-            value: '15 inch',
-            price_in_USD: 20
-          }
-        ]
-      }
-    ],
+    price_in_usd: null,
+    in_stock: null,
+    variations: {
+      variation_key_values_list: [
+        {
+          key: 'Material',
+          values: ['Guanaco', 'Vicuna Wool']
+        },
+        {
+          key: 'Addons',
+          values: ['+ Orange Jacket', '+ Dark Jacket']
+        }
+      ],
+      variations_selection_info: [
+        {
+          selections: [
+            { key: 'Material', value: 'Guanaco' },
+            { key: 'Addons', value: '+ Orange Jacket' }
+          ],
+          price_in_USD: 130,
+          in_stock: 111
+        },
+        {
+          selections: [
+            { key: 'Material', value: 'Guanaco' },
+            { key: 'Addons', value: '+ Dark Jacket' }
+          ],
+          price_in_USD: 140,
+          in_stock: 32
+        },
+        {
+          selections: [
+            { key: 'Material', value: 'Vicuna Wool' },
+            { key: 'Addons', value: '+ Orange Jacket' }
+          ],
+          price_in_USD: 460,
+          in_stock: 2
+        },
+        {
+          selections: [
+            { key: 'Material', value: 'Vicuna Wool' },
+            { key: 'Addons', value: '+ Dark Jacket' }
+          ],
+          price_in_USD: 470,
+          in_stock: 75
+        }
+      ]
+    },
     categories: [
       {
         category_id: 'ca-1',
@@ -131,30 +171,42 @@ const products = [
     description: 'Lorems mustaford',
     images: [
       'https://assets.adidas.com/images/w_600,f_auto,q_auto/4e894c2b76dd4c8e9013aafc016047af_9366/Superstar_Shoes_White_FV3284_01_standard.jpg',
-      'https://picsum.photos/id/33/200/200',
-      'https://picsum.photos/200'
+      'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333311910_10_a-adidas-Mens-Response-SR-Running-Shoes-FX3626?bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1&hei=520',
+      'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333453272_10_a-adidas-Mens-Ultra-Boost-21-Running-Shoes-GV7709?bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1&hei=520'
     ],
-    base_price_in_USD: 50,
     discount: 0,
-    variations: [
-      {
-        variation_key: 'Size',
-        variation_price_list: [
-          {
-            value: 'S',
-            price_in_USD: 0
-          },
-          {
-            value: 'M',
-            price_in_USD: 0
-          },
-          {
-            value: 'L',
-            price_in_USD: 0
-          }
-        ]
-      }
-    ],
+    price_in_usd: null,
+    in_stock: null,
+    variations: {
+      variation_key_values_list: [
+        {
+          key: 'Size',
+          values: ['S', 'M', 'L', 'XL']
+        }
+      ],
+      variations_selection_info: [
+        {
+          selections: [{ key: 'Size', value: 'S' }],
+          price_in_USD: 50,
+          in_stock: 35
+        },
+        {
+          selections: [{ key: 'Size', value: 'M' }],
+          price_in_USD: 50,
+          in_stock: 111
+        },
+        {
+          selections: [{ key: 'Size', value: 'L' }],
+          price_in_USD: 50,
+          in_stock: 14
+        },
+        {
+          selections: [{ key: 'Size', value: 'XL' }],
+          price_in_USD: 55,
+          in_stock: 2
+        }
+      ]
+    },
     categories: [
       {
         category_id: 'ca-1',
@@ -178,40 +230,71 @@ const products = [
     images: [
       'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333066000_01_a-PUMA-Mens-Enzo-2-Shoes-193249-01?wid=800&hei=800&bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1'
     ],
-    base_price_in_USD: 0,
     discount: 0.15,
-    variations: [
-      {
-        variation_key: 'Color',
-        variation_price_list: [
-          {
-            value: 'Blue',
-            price_in_USD: 0
-          },
-          {
-            value: 'Black',
-            price_in_USD: 0
-          }
-        ]
-      },
-      {
-        variation_key: 'Size',
-        variation_price_list: [
-          {
-            value: 'Micro USB',
-            price_in_USD: 30
-          },
-          {
-            value: 'Type-c',
-            price_in_USD: 50
-          },
-          {
-            value: 'Type-b',
-            price_in_USD: 70
-          }
-        ]
-      }
-    ],
+    price_in_usd: null,
+    in_stock: null,
+    variations: {
+      variation_key_values_list: [
+        {
+          key: 'Color',
+          values: ['Blue', 'Black']
+        },
+        {
+          key: 'Size',
+          values: ['8', '10', '14']
+        }
+      ],
+      variations_selection_info: [
+        {
+          selections: [
+            { key: 'Color', value: 'Blue' },
+            { key: 'Size', value: '8' }
+          ],
+          price_in_USD: 30,
+          in_stock: 123
+        },
+        {
+          selections: [
+            { key: 'Color', value: 'Blue' },
+            { key: 'Size', value: '10' }
+          ],
+          price_in_USD: 50,
+          in_stock: 24
+        },
+        {
+          selections: [
+            { key: 'Color', value: 'Blue' },
+            { key: 'Size', value: '14' }
+          ],
+          price_in_USD: 70,
+          in_stock: 55
+        },
+        {
+          selections: [
+            { key: 'Color', value: 'Black' },
+            { key: 'Size', value: '8' }
+          ],
+          price_in_USD: 30,
+          in_stock: 123
+        },
+        {
+          selections: [
+            { key: 'Color', value: 'Black' },
+            { key: 'Size', value: '10' }
+          ],
+          price_in_USD: 50,
+          in_stock: 244
+        },
+        {
+          selections: [
+            { key: 'Color', value: 'Black' },
+            { key: 'Size', value: '14' }
+          ],
+          price_in_USD: 70,
+          in_stock: 0
+        }
+      ]
+    },
     categories: [
       {
         category_id: 'ca-1',
@@ -234,11 +317,13 @@ const products = [
     description: 'Lorems mustaford',
     images: [
       'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/fcedb052-0deb-4f3b-9e16-f34717d3fa42/lebron-witness-5-basketball-shoes-XJrPgC.png',
-      'https://picsum.photos/id/24/200/200'
+      'https://4.imimg.com/data4/VW/FM/MY-13802834/nike-air-zoom-pegasus-33-red-running-sport-shoes-500x500.jpg',
+      'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0f955459-6d7f-4c87-8e17-cf0b7ec4f006/air-presto-id-shoe.png'
     ],
-    base_price_in_USD: 100,
     discount: 0,
-    variations: [],
+    price_in_USD: 100,
+    in_stock: 329,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -262,9 +347,10 @@ const products = [
     images: [
       'https://2x1dks3q6aoj44bz1r1tr92f-wpengine.netdna-ssl.com/wp-content/uploads/2017/05/Red-Shoes-White-Jeans-Blue-Shirt.jpg'
     ],
-    base_price_in_USD: 12,
     discount: 0.3,
-    variations: [],
+    price_in_USD: 12,
+    in_stock: 1329,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -286,11 +372,13 @@ const products = [
     name: 'Dark Nike Shirt',
     description: 'Lorems mustaford',
     images: [
-      'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333171648_01_a-Nike-Mens-Miler-T-Shirt-CU5992-010?bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1&hei=520'
+      'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_333171648_01_a-Nike-Mens-Miler-T-Shirt-CU5992-010?bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1&hei=520',
+      'https://cdn.shopify.com/s/files/1/1210/9358/products/AR5004_010_SPORTSWEAR_BLACK_WHITE_20-12-15-0294_d606f077-1160-4b98-a6cb-cdbb52e49198_1800x1800.jpg?v=1614719653'
     ],
-    base_price_in_USD: 45,
     discount: 0.14,
-    variations: [],
+    price_in_USD: 45,
+    in_stock: 29,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -311,10 +399,16 @@ const products = [
     id: 'P10',
     name: 'Nike Basketball',
     description: 'Lorems mustaford',
-    images: ['https://m.media-amazon.com/images/I/51Ik6vGrICL._AC_.jpg'],
-    base_price_in_USD: 30,
+    images: [
+      'https://m.media-amazon.com/images/I/51Ik6vGrICL._AC_.jpg',
+      'https://fgl.scene7.com/is/image/FGLSportsLtd/FGL_332710487_99_a?bgColor=0,0,0,0&resMode=sharp2&op_sharpen=1&hei=520',
+      'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/a58f1652-c9ee-4ef8-b7cd-7b320d9c78ad/kyrie-skills-basketball-wvw9sq.png',
+      'https://www.rebelsport.com.au/dw/image/v2/BBRV_PRD/on/demandware.static/-/Sites-srg-internal-master-catalog/default/dw2e7f736f/images/49700301/Rebel_49700301_hi-res.jpg?sw=1000&sh=1000&sm=fit'
+    ],
     discount: 0.11,
-    variations: [],
+    price_in_USD: 30,
+    in_stock: 229,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',
@@ -334,9 +428,10 @@ const products = [
     images: [
       'https://image.uniqlo.com/UQ/ST3/WesternCommon/imagesgoods/431599/item/goods_69_431599.jpg?width=450&impolicy=quality_70'
     ],
-    base_price_in_USD: 30,
     discount: 0.11,
-    variations: [],
+    price_in_USD: 30,
+    in_stock: 12,
+    variations: null,
     categories: [
       {
         category_id: 'ca-1',

@@ -1,7 +1,5 @@
-import { products, categories, reviews, orders } from 'pseudoDB'
-import { getFilteredProducts } from 'utils/productFilterUtils'
-import { getSearchedProducts } from 'utils/productSearchUtils'
-import { getSortedProducts } from 'utils/productSortUtils'
+import { categories, reviews, orders } from 'pseudoDB'
+import { getProduct, getProductList, getReviews } from './backend/logic'
 
 const FAKE_DELAY_IN_MS = 250
 
@@ -12,26 +10,48 @@ export const fetchProducts = (
   priceRange
 ) => {
   return new Promise((resolve, reject) => {
-    if (!products) {
+    const productList = getProductList(
+      searchKeyword,
+      sortValue,
+      categoryFilterList,
+      priceRange
+    )
+    if (!productList) {
       setTimeout(
         () => reject(new Error('Error fetching products')),
         FAKE_DELAY_IN_MS
       )
     }
     setTimeout(() => {
-      const searchedProducts = getSearchedProducts(products, searchKeyword)
-      const filteredProducts = getFilteredProducts(
-        searchedProducts,
-        categoryFilterList,
-        priceRange
-      )
-      const sortedProductes = getSortedProducts(filteredProducts, sortValue)
-      resolve(sortedProductes)
+      resolve(productList)
     }, FAKE_DELAY_IN_MS)
   })
 }
 
-export const fetchReviews = () => {
+export const fetchOneProduct = productId => {
+  return new Promise((resolve, reject) => {
+    const foundProduct = getProduct(productId)
+    if (!foundProduct) {
+      setTimeout(
+        () => reject(new Error('Error fetching product!')),
+        FAKE_DELAY_IN_MS
+      )
+    }
+    setTimeout(() => resolve(foundProduct), FAKE_DELAY_IN_MS)
+  })
+}
+
+export const fetchProductReviews = (productId, sortFilterValue) => {
+  return new Promise((resolve, reject) => {
+    const productReviews = getReviews(productId, sortFilterValue)
+    if (!productReviews) {
+      setTimeout(() => reject(new Error('Error fetching reviews!')))
+    }
+    setTimeout(() => resolve(productReviews), FAKE_DELAY_IN_MS)
+  })
+}
+
+export const fetchAllReviews = () => {
   return new Promise((resolve, reject) => {
     if (!reviews) {
       setTimeout(

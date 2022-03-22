@@ -1,7 +1,16 @@
 import { fetchProducts } from 'api/services'
+import { SORT_BY_VALUES } from 'constants'
 import { useSelector, useDispatch } from 'react-redux'
 import { setProducts } from 'redux/slices/productSlice'
 import { setSortValue } from 'redux/slices/searchSortFilterSlice'
+
+const {
+  MOST_POPULAR,
+  MOST_RECENT,
+  BEST_SELLING,
+  PRICE_LOW_TO_HIGH,
+  PRICE_HIGH_TO_LOW
+} = SORT_BY_VALUES
 
 const SortDropdown = () => {
   const { searchKeyword, sortValue, categoryFilterList, priceRange } =
@@ -23,11 +32,11 @@ const SortDropdown = () => {
 
   return (
     <select onChange={handleSortOnChange} value={sortValue}>
-      <option value="most-popular">Most popular</option>
-      <option value="most-recent">Most recent</option>
-      <option value="best-selling">Best selling</option>
-      <option value="price-low-to-high">Price Low to High</option>
-      <option value="price-high-to-low">Price High to Low</option>
+      <option value={MOST_POPULAR}>Most popular</option>
+      <option value={MOST_RECENT}>Most recent</option>
+      <option value={BEST_SELLING}>Best selling</option>
+      <option value={PRICE_LOW_TO_HIGH}>Price Low to High</option>
+      <option value={PRICE_HIGH_TO_LOW}>Price High to Low</option>
     </select>
   )
 }

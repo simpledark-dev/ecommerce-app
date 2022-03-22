@@ -37,7 +37,7 @@ const reviews = [
     product_id: 'P5',
     rating: 4.2,
     review: 'Good stuff',
-    date_time: '2022-03-01 19:20:12'
+    date_time: '2022-03-03 19:20:12'
   },
   {
     id: 'R19',
@@ -54,6 +54,31 @@ const reviews = [
     rating: 5,
     review: '',
     date_time: '2022-03-02 15:00:52'
+  },
+  {
+    id: 'R21',
+    user_id: 'U2',
+    product_id: 'P7',
+    rating: 3.6,
+    review: 'Decent combo. Would buy this as a gift.',
+    date_time: '2022-03-01 16:00:12'
+  },
+  {
+    id: 'R20',
+    user_id: 'U3',
+    product_id: 'P6',
+    rating: 4.8,
+    review:
+      'Awesome, but my wife find them too flashy, but who cares what she thinks :)',
+    date_time: '2022-03-02 20:00:00'
+  },
+  {
+    id: 'R22',
+    user_id: 'U3',
+    product_id: 'P2',
+    rating: 4.1,
+    review: 'These are my favorite shorts',
+    date_time: '2022-03-02 21:00:00'
   }
 ]
 
