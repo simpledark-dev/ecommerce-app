@@ -1,5 +1,5 @@
-const UserOrders = () => {
-  return <div>UserOrders</div>
+const UserInfo = () => {
+  return <div>UserInfo</div>
 }
 
-export default UserOrders
+export default UserInfo

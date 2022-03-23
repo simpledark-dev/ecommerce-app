@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { fetchOneProduct, fetchProductReviews } from 'api/services'
 import { getDisplayJoinedTime } from 'utils/dateUtils'
 import { REVIEW_SORT_FILTER_VALUES } from 'constants'
@@ -19,6 +19,8 @@ const {
 } = REVIEW_SORT_FILTER_VALUES
 
 const ProductPage = () => {
+  const { pathname } = useLocation()
+
   const [product, setProduct] = useState(null)
   const [variationSelection, setVariationSelection] = useState([])
   const [reviews, setReviews] = useState([])
@@ -67,7 +69,8 @@ const ProductPage = () => {
   if (!product) return 'Loading...'
 
   const handleAddToCart = () => {
-    if (!currentUser) return navigate('/login')
+    if (!currentUser)
+      return navigate('/login', { state: { previousPath: pathname } })
   }
 
   const isVariationValueSelected = (key, value) => {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import bcryptjs from 'bcryptjs'
+import CryptoJS from 'crypto-js'
 import { setCurrentUser } from 'redux/slices/userSlice'
 
 const Login = () => {
@@ -30,7 +30,10 @@ const Login = () => {
 
     if (!foundUser) return setError(wrongCredentialsMessage)
 
-    const passwordMatched = await bcryptjs.compare(password, foundUser.password)
+    const passwordMatched =
+      CryptoJS.AES.decrypt(foundUser.password, 'dummy secret key').toString(
+        CryptoJS.enc.Utf8
+      ) === password
 
     if (!passwordMatched) return setError(wrongCredentialsMessage)
 

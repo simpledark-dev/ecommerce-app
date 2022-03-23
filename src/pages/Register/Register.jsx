@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import bcryptjs from 'bcryptjs'
+import CryptoJS from 'crypto-js'
 import { Link, useNavigate } from 'react-router-dom'
 import { generateUniqueId } from 'utils/commonUtils'
 
@@ -30,15 +30,16 @@ const Register = () => {
     if (existingUsers.find(user => user.email === email))
       return setError('User already exists')
 
-    const saltRounds = 10
-    const salt = await bcryptjs.genSaltSync(saltRounds)
-    const hash = await bcryptjs.hashSync(password, salt)
+    const dummyHash = CryptoJS.AES.encrypt(
+      password,
+      'dummy secret key'
+    ).toString()
 
     existingUsers.push({
       id: `u-${generateUniqueId()}`,
       name,
       email,
-      password: hash,
+      password: dummyHash,
       is_admin: false,
       delivery_address: '',
       phone_number: '',
