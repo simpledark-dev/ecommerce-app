@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { fetchOneProduct, fetchProductReviews } from 'api/services'
 import { getDisplayJoinedTime } from 'utils/dateUtils'
 import { REVIEW_SORT_FILTER_VALUES } from 'constants'
 import { calculateProductPrices } from 'utils/productPriceUtils'
-import { areArraysOfObjectsEqual } from 'utils/generalUtils'
+import { areArraysOfObjectsEqual } from 'utils/commonUtils'
 import { ProductRelatedList } from 'components'
 
 const {
@@ -22,6 +23,7 @@ const ProductPage = () => {
   const [variationSelection, setVariationSelection] = useState([])
   const [reviews, setReviews] = useState([])
   const [sortFilterValue, setSortFilterValue] = useState(MOST_UPVOTED)
+  const { currentUser } = useSelector(state => state.currentUser)
   const navigate = useNavigate()
   const { id } = useParams()
 
@@ -63,6 +65,10 @@ const ProductPage = () => {
   }, [id, sortFilterValue])
 
   if (!product) return 'Loading...'
+
+  const handleAddToCart = () => {
+    if (!currentUser) return navigate('/login')
+  }
 
   const isVariationValueSelected = (key, value) => {
     return variationSelection.find(
@@ -188,7 +194,8 @@ const ProductPage = () => {
         Quantity: <button>-</button> 5 <button>+</button>
       </div>
       <p>
-        <button>Add to Cart</button> <button>Buy Now </button> (
+        <button onClick={handleAddToCart}>Add to Cart</button>{' '}
+        <button>Buy Now </button> (
         {product.variations
           ? currentProductSelectedVariations &&
             currentProductSelectedVariations.in_stock

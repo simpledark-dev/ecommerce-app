@@ -3,8 +3,8 @@ import {
   ProductPage,
   Register,
   Login,
-  Cart,
   Checkout,
+  Payment,
   UserInfo,
   UserOrders,
   NotFound
@@ -15,8 +15,8 @@ const routes = [
   { path: '/login', element: <Login /> },
   { path: '/', element: <ProductSearchPage /> },
   { path: '/product/:id', element: <ProductPage /> },
-  { path: '/cart', element: <Cart /> },
   { path: '/checkout', element: <Checkout /> },
+  { path: '/checkout/payment', element: <Payment /> },
   { path: '/orders', element: <UserOrders /> },
   { path: '/info', element: <UserInfo /> },
   { path: '*', element: <NotFound /> }
