@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import CryptoJS from 'crypto-js'
 import { Link, useNavigate } from 'react-router-dom'
 import { generateUniqueId } from 'utils/commonUtils'
+import { DUMMY_HASH_SECRET_KEY } from 'constants'
+import { PATH } from 'constants'
 
 const Register = () => {
   const [name, setName] = useState('')
@@ -15,7 +17,7 @@ const Register = () => {
   const { currentUser } = useSelector(state => state.currentUser)
 
   useEffect(() => {
-    if (currentUser) navigate('/')
+    if (currentUser) navigate(PATH.HOME)
   }, [currentUser, navigate])
 
   const registerUser = async e => {
@@ -32,7 +34,7 @@ const Register = () => {
 
     const dummyHash = CryptoJS.AES.encrypt(
       password,
-      'dummy secret key'
+      DUMMY_HASH_SECRET_KEY
     ).toString()
 
     existingUsers.push({
@@ -49,7 +51,7 @@ const Register = () => {
 
     localStorage.setItem('users', JSON.stringify(existingUsers))
 
-    navigate('/login')
+    navigate(PATH.LOGIN)
   }
 
   if (currentUser) return ''
@@ -114,7 +116,7 @@ const Register = () => {
         <p style={{ color: 'red' }}>{error}</p>
         <button onSubmit={registerUser}>Sign up</button>
       </form>
-      <Link to="/login"> Login </Link>
+      <Link to={PATH.LOGIN}> Login </Link>
     </>
   )
 }

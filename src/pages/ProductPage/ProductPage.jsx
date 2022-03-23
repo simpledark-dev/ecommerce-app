@@ -7,6 +7,7 @@ import { REVIEW_SORT_FILTER_VALUES } from 'constants'
 import { calculateProductPrices } from 'utils/productPriceUtils'
 import { areArraysOfObjectsEqual } from 'utils/commonUtils'
 import { ProductRelatedList } from 'components'
+import { PATH } from 'constants'
 
 const {
   MOST_RECENT,
@@ -70,7 +71,7 @@ const ProductPage = () => {
 
   const handleAddToCart = () => {
     if (!currentUser)
-      return navigate('/login', { state: { previousPath: pathname } })
+      return navigate(PATH.LOGIN, { state: { previousPath: pathname } })
   }
 
   const isVariationValueSelected = (key, value) => {

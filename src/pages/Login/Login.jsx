@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import CryptoJS from 'crypto-js'
 import { setCurrentUser } from 'redux/slices/userSlice'
+import { DUMMY_HASH_SECRET_KEY } from 'constants'
+import { PATH } from 'constants'
 
 const Login = () => {
   const { state } = useLocation()
@@ -15,7 +17,7 @@ const Login = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (currentUser) navigate('/')
+    if (currentUser) navigate(PATH.HOME)
   }, [currentUser, navigate])
 
   const handleLogin = async e => {
@@ -31,7 +33,7 @@ const Login = () => {
     if (!foundUser) return setError(wrongCredentialsMessage)
 
     const passwordMatched =
-      CryptoJS.AES.decrypt(foundUser.password, 'dummy secret key').toString(
+      CryptoJS.AES.decrypt(foundUser.password, DUMMY_HASH_SECRET_KEY).toString(
         CryptoJS.enc.Utf8
       ) === password
 
@@ -42,7 +44,7 @@ const Login = () => {
 
     dispatch(setCurrentUser(storedFoundUser))
 
-    navigate(state?.previousPath ? -1 : '/')
+    navigate(state?.previousPath ? -1 : PATH.HOME)
   }
 
   if (currentUser) return ''
@@ -79,7 +81,7 @@ const Login = () => {
         <p style={{ color: 'red' }}>{error}</p>
         <button onSubmit={handleLogin}>Login</button>
       </form>
-      <Link to="/signup"> Register </Link>
+      <Link to={PATH.SIGN_UP}> Register </Link>
     </>
   )
 }

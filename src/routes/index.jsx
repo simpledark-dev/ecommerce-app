@@ -1,3 +1,4 @@
+import { PATH } from 'constants'
 import {
   ProductSearchPage,
   ProductPage,
@@ -11,15 +12,15 @@ import {
 } from 'pages'
 
 const routes = [
-  { path: '/signup', element: <Register /> },
-  { path: '/login', element: <Login /> },
-  { path: '/', element: <ProductSearchPage /> },
-  { path: '/product/:id', element: <ProductPage /> },
-  { path: '/checkout', element: <Checkout /> },
-  { path: '/checkout/payment', element: <Payment /> },
-  { path: '/orders', element: <UserOrders /> },
-  { path: '/info', element: <UserInfo /> },
-  { path: '*', element: <NotFound /> }
+  { path: PATH.SIGN_UP, element: <Register /> },
+  { path: PATH.LOGIN, element: <Login /> },
+  { path: PATH.HOME, element: <ProductSearchPage /> },
+  { path: PATH.PRODUCT, element: <ProductPage /> },
+  { path: PATH.CHECKOUT, element: <Checkout /> },
+  { path: PATH.PAYMENT, element: <Payment /> },
+  { path: PATH.ORDERS, element: <UserOrders /> },
+  { path: PATH.USER_INFO, element: <UserInfo /> },
+  { path: PATH.INVALID, element: <NotFound /> }
 ]
 
 export default routes
