@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import bcryptjs from 'bcryptjs'
 import { setCurrentUser } from 'redux/slices/userSlice'
@@ -12,6 +12,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   const { currentUser } = useSelector(state => state.currentUser)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (currentUser) navigate('/')
@@ -36,7 +37,7 @@ const Login = () => {
     const storedFoundUser = { ...foundUser }
     delete storedFoundUser.password
 
-    setCurrentUser(storedFoundUser)
+    dispatch(setCurrentUser(storedFoundUser))
 
     navigate(state?.previousPath ? -1 : '/')
   }
