@@ -1,3 +1,16 @@
+export const PATH = {
+  SIGN_UP: '/signup',
+  LOGIN: '/login',
+  HOME: '/',
+  PRODUCT: '/product/:id',
+  CHECKOUT: '/checkout',
+  PAYMENT: '/checkout/payment',
+  ORDERS: '/orders',
+  USER_INFO: '/info',
+  NOT_FOUND: '404',
+  INVALID: '*'
+}
+
 export const SORT_BY_VALUES = {
   MOST_POPULAR: 'most-popular',
   MOST_RECENT: 'most-recent',
@@ -15,3 +28,5 @@ export const REVIEW_SORT_FILTER_VALUES = {
   TWO_STARS: '2-stars',
   ONE_STAR: '1-star'
 }
+
+export const DUMMY_HASH_SECRET_KEY = 'dummy secret key'
