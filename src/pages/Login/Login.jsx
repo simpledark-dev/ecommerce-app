@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import CryptoJS from 'crypto-js'
-import { setCurrentUser } from 'redux/slices/userSlice'
-import { DUMMY_HASH_SECRET_KEY } from 'constants'
+import { getUser } from 'redux/slices/userSlice'
 import { PATH } from 'constants'
 
 const Login = () => {
   const { state } = useLocation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
   const navigate = useNavigate()
 
-  const { currentUser } = useSelector(state => state.currentUser)
+  const { currentUser, loading, error } = useSelector(
+    state => state.currentUser
+  )
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -22,32 +21,11 @@ const Login = () => {
 
   const handleLogin = async e => {
     e.preventDefault()
-    setError('')
-
-    const existingUsers = JSON.parse(localStorage.getItem('users')) || []
-
-    const foundUser = existingUsers.find(user => user.email === email)
-
-    const wrongCredentialsMessage = 'Wrong email or password.'
-
-    if (!foundUser) return setError(wrongCredentialsMessage)
-
-    const passwordMatched =
-      CryptoJS.AES.decrypt(foundUser.password, DUMMY_HASH_SECRET_KEY).toString(
-        CryptoJS.enc.Utf8
-      ) === password
-
-    if (!passwordMatched) return setError(wrongCredentialsMessage)
-
-    const storedFoundUser = { ...foundUser }
-    delete storedFoundUser.password
-
-    dispatch(setCurrentUser(storedFoundUser))
-
-    navigate(state?.previousPath ? -1 : PATH.HOME)
+    dispatch(getUser({ email, password }))
+    if (currentUser) navigate(state?.previousPath ? -1 : PATH.HOME)
   }
 
-  if (currentUser) return ''
+  if (loading) return 'Signing in...'
 
   return (
     <>
@@ -78,7 +56,7 @@ const Login = () => {
           </label>
         </div>
         <br />
-        <p style={{ color: 'red' }}>{error}</p>
+        {error && <p style={{ color: 'red' }}>{error.message}</p>}
         <button onSubmit={handleLogin}>Login</button>
       </form>
       <Link to={PATH.SIGN_UP}> Register </Link>

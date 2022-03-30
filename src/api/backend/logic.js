@@ -1,8 +1,32 @@
+import CryptoJS from 'crypto-js'
 import { REVIEW_SORT_FILTER_VALUES } from 'constants'
 import { orders, products, reviews, users, reviewUpvotes } from 'pseudoDB'
 import { getFilteredProducts } from 'utils/productFilterUtils'
 import { getSearchedProducts } from 'utils/productSearchUtils'
 import { getSortedProducts } from 'utils/productSortUtils'
+import { DUMMY_HASH_SECRET_KEY } from 'constants'
+
+export const processLogin = (email, password) => {
+  const existingUsers = JSON.parse(localStorage.getItem('users')) || []
+
+  const foundUser = existingUsers.find(user => user.email === email)
+
+  const wrongCredentialsMessage = 'Wrong email or password.'
+
+  if (!foundUser) throw new Error(wrongCredentialsMessage)
+
+  const passwordMatched =
+    CryptoJS.AES.decrypt(foundUser.password, DUMMY_HASH_SECRET_KEY).toString(
+      CryptoJS.enc.Utf8
+    ) === password
+
+  if (!passwordMatched) throw new Error(wrongCredentialsMessage)
+
+  const toSendUser = { ...foundUser }
+  delete toSendUser.password
+
+  return toSendUser
+}
 
 export const getProductList = (
   searchKeyword,

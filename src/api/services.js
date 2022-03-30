@@ -1,7 +1,23 @@
 import { categories, reviews, orders } from 'pseudoDB'
-import { getProduct, getProductList, getReviews } from './backend/logic'
+import {
+  getProduct,
+  getProductList,
+  getReviews,
+  processLogin
+} from './backend/logic'
 
 const FAKE_DELAY_IN_MS = 250
+
+export const login = (email, password) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const foundUser = processLogin(email, password)
+      setTimeout(() => resolve(foundUser), FAKE_DELAY_IN_MS)
+    } catch (error) {
+      setTimeout(() => reject(error), FAKE_DELAY_IN_MS)
+    }
+  })
+}
 
 export const fetchProducts = (
   searchKeyword,
