@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProducts } from 'api/services'
 import { SORT_BY_VALUES } from 'constants'
-import { setProducts } from 'redux/slices/productSlice'
+import { getProducts } from 'redux/slices/productSlice'
 import {
   setSearchKeyword,
   setSortValue,
@@ -21,17 +20,18 @@ const SearchBar = () => {
     e.preventDefault()
 
     dispatch(setSearchKeyword(inputSearchText))
+
     dispatch(setSortValue(SORT_BY_VALUES.MOST_POPULAR))
     dispatch(clearFilters())
 
-    const productList = await fetchProducts(
-      inputSearchText,
-      SORT_BY_VALUES.MOST_POPULAR,
-      filtersInitialState.categoryFilterList,
-      filtersInitialState.priceRange
+    dispatch(
+      getProducts({
+        searchKeyword: inputSearchText,
+        sortValue: SORT_BY_VALUES.MOST_POPULAR,
+        categoryFilterList: filtersInitialState.categoryFilterList,
+        priceRange: filtersInitialState.priceRange
+      })
     )
-
-    dispatch(setProducts(productList))
   }
 
   return (
