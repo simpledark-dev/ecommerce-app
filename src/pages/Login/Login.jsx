@@ -16,9 +16,9 @@ const Login = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (currentUser) return navigate(PATH.HOME)
+    if (currentUser) return navigate(state?.previousPath ? -1 : PATH.HOME)
     dispatch(removeCurrentUser())
-  }, [dispatch, currentUser, navigate])
+  }, [dispatch, currentUser, navigate, state])
 
   const handleLogin = async e => {
     e.preventDefault()
