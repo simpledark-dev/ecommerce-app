@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { getUser } from 'redux/slices/userSlice'
+import { getUser, removeCurrentUser } from 'redux/slices/userSlice'
 import { PATH } from 'constants'
 
 const Login = () => {
@@ -16,8 +16,9 @@ const Login = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (currentUser) navigate(PATH.HOME)
-  }, [currentUser, navigate])
+    if (currentUser) return navigate(PATH.HOME)
+    dispatch(removeCurrentUser())
+  }, [dispatch, currentUser, navigate])
 
   const handleLogin = async e => {
     e.preventDefault()

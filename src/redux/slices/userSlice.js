@@ -5,7 +5,7 @@ export const getUser = createAsyncThunk(
   'currentUser/getUser',
   async ({ email, password }, thunkAPI) => {
     try {
-      const data = await login(email, password)
+      const data = await login({ email, password })
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)
@@ -25,6 +25,7 @@ export const userSlice = createSlice({
   reducers: {
     removeCurrentUser: (state, action) => {
       state.currentUser = null
+      state.error = null
       localStorage.removeItem('currentUser')
     }
   },
