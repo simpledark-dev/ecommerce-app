@@ -3,12 +3,40 @@ import {
   getProduct,
   getProductList,
   getReviews,
-  processLogin
+  processLogin,
+  processSignUp
 } from './backend/logic'
 
 const FAKE_DELAY_IN_MS = 250
 
-export const login = (email, password) => {
+export const signUp = ({
+  name,
+  email,
+  password,
+  confirmedPassword,
+  is_admin,
+  delivery_address,
+  phone_number
+}) => {
+  return new Promise((resolve, reject) => {
+    try {
+      processSignUp(
+        name,
+        email,
+        password,
+        confirmedPassword,
+        is_admin,
+        delivery_address,
+        phone_number
+      )
+      setTimeout(() => resolve(true), FAKE_DELAY_IN_MS)
+    } catch (error) {
+      setTimeout(() => reject(error), FAKE_DELAY_IN_MS)
+    }
+  })
+}
+
+export const login = ({ email, password }) => {
   return new Promise((resolve, reject) => {
     try {
       const foundUser = processLogin(email, password)

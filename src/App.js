@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import './App.css'
 import { Routes, Route } from 'react-router-dom'
 import routes from 'routes'
 import { Layout } from 'layouts'
 import { users } from 'pseudoDB'
+import './App.css'
 
 const storePreGeneratedData = () => {
   const existingUsers = localStorage.getItem('users')
