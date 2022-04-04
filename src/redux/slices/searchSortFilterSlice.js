@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { categories } from 'pseudoDB'
+import { categories } from 'api/mockDB'
 import { SORT_BY_VALUES } from 'constants'
 import {
   getParamValueFromUrl,

@@ -1,4 +1,4 @@
-import { reviews, orders } from 'pseudoDB'
+import { reviews, orders } from 'api/mockDB'
 import { SORT_BY_VALUES } from 'constants'
 import { calculateProductPrices } from './productPriceUtils'
 

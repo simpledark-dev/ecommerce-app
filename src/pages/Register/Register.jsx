@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { PATH } from 'constants'
-import { signUp } from 'api/services'
+import { signUp } from 'api/mockAPIs'
 
 const Register = () => {
   const [name, setName] = useState('')

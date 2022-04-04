@@ -1,6 +1,6 @@
 import CryptoJS from 'crypto-js'
 import { REVIEW_SORT_FILTER_VALUES } from 'constants'
-import { orders, products, reviews, users, reviewUpvotes } from 'pseudoDB'
+import { orders, products, reviews, users, reviewUpvotes } from 'api/mockDB'
 import { getFilteredProducts } from 'utils/productFilterUtils'
 import { getSearchedProducts } from 'utils/productSearchUtils'
 import { getSortedProducts } from 'utils/productSortUtils'

@@ -1,11 +1,11 @@
-import { categories, reviews, orders } from 'pseudoDB'
+import { categories, reviews, orders } from 'api/mockDB'
 import {
   getProduct,
   getProductList,
   getReviews,
   processLogin,
   processSignUp
-} from './backend/logic'
+} from './mockBackend/logic'
 
 const FAKE_DELAY_IN_MS = 250
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchProducts } from 'api/services'
+import { fetchProducts } from 'api/mockAPIs'
 import { ProductCard } from 'components'
 import { calculateProductPrices } from 'utils/productPriceUtils'
 import { SORT_BY_VALUES } from 'constants'

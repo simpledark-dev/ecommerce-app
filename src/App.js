@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import routes from 'routes'
 import { Layout } from 'layouts'
-import { users } from 'pseudoDB'
+import { users } from 'api/mockDB'
 import './App.css'
 
 const storePreGeneratedData = () => {

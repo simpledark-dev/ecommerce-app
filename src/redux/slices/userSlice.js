@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { login } from 'api/services'
+import { login } from 'api/mockAPIs'
 
 export const getUser = createAsyncThunk(
   'currentUser/getUser',
