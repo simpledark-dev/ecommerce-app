@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setProducts } from 'redux/slices/productSlice'
+import { getProducts } from 'redux/slices/productSlice'
 import {
   filtersInitialState,
   setCategoryFilterList,
   clearFilters,
   setPriceRange
 } from 'redux/slices/searchSortFilterSlice'
-import { fetchProducts } from 'api/services'
 
 const ProductFilters = () => {
   const { searchKeyword, sortValue, categoryFilterList, priceRange } =
@@ -41,38 +40,40 @@ const ProductFilters = () => {
     )
 
     dispatch(setCategoryFilterList(updatedCategoryFilterList))
-    const productList = await fetchProducts(
-      searchKeyword,
-      sortValue,
-      updatedCategoryFilterList,
-      priceRange
+
+    dispatch(
+      getProducts({
+        searchKeyword,
+        sortValue,
+        categoryFilterList: updatedCategoryFilterList,
+        priceRange
+      })
     )
-    dispatch(setProducts(productList))
   }
 
   const handleApplyPriceRange = async () => {
     dispatch(setPriceRange(priceRangeInput))
-
-    const productList = await fetchProducts(
-      searchKeyword,
-      sortValue,
-      categoryFilterList,
-      priceRangeInput
+    dispatch(
+      getProducts({
+        searchKeyword,
+        sortValue,
+        categoryFilterList,
+        priceRange: priceRangeInput
+      })
     )
-    dispatch(setProducts(productList))
   }
 
   const handleClearFilter = async () => {
     setPriceRangeInput({ min: '', max: +Infinity })
 
-    const productList = await fetchProducts(
-      searchKeyword,
-      sortValue,
-      filtersInitialState.categoryFilterList,
-      filtersInitialState.priceRange
+    dispatch(
+      getProducts({
+        searchKeyword,
+        sortValue,
+        categoryFilterList: filtersInitialState.categoryFilterList,
+        priceRange: filtersInitialState.priceRange
+      })
     )
-
-    dispatch(setProducts(productList))
     dispatch(clearFilters())
   }
 

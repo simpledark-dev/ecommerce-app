@@ -1,7 +1,51 @@
-import { categories, reviews, orders } from 'pseudoDB'
-import { getProduct, getProductList, getReviews } from './backend/logic'
+import { categories, reviews, orders } from 'api/mockDB'
+import {
+  getProduct,
+  getProductList,
+  getReviews,
+  processLogin,
+  processSignUp
+} from './mockBackend/logic'
 
 const FAKE_DELAY_IN_MS = 250
+
+export const signUp = ({
+  name,
+  email,
+  password,
+  confirmedPassword,
+  is_admin,
+  delivery_address,
+  phone_number
+}) => {
+  return new Promise((resolve, reject) => {
+    try {
+      processSignUp(
+        name,
+        email,
+        password,
+        confirmedPassword,
+        is_admin,
+        delivery_address,
+        phone_number
+      )
+      setTimeout(() => resolve(true), FAKE_DELAY_IN_MS)
+    } catch (error) {
+      setTimeout(() => reject(error), FAKE_DELAY_IN_MS)
+    }
+  })
+}
+
+export const login = ({ email, password }) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const foundUser = processLogin(email, password)
+      setTimeout(() => resolve(foundUser), FAKE_DELAY_IN_MS)
+    } catch (error) {
+      setTimeout(() => reject(error), FAKE_DELAY_IN_MS)
+    }
+  })
+}
 
 export const fetchProducts = (
   searchKeyword,

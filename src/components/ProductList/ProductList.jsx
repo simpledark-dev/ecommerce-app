@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProducts } from 'api/services'
 import { ProductCard } from 'components'
-import { setProducts } from 'redux/slices/productSlice'
+import { getProducts } from 'redux/slices/productSlice'
 import { calculateProductPrices } from 'utils/productPriceUtils'
 
 const ProductList = () => {
@@ -13,16 +12,14 @@ const ProductList = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    async function loadProducts() {
-      const productList = await fetchProducts(
+    dispatch(
+      getProducts({
         searchKeyword,
         sortValue,
         categoryFilterList,
         priceRange
-      )
-      dispatch(setProducts(productList))
-    }
-    loadProducts()
+      })
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

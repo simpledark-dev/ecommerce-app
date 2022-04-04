@@ -1,8 +1,69 @@
+import CryptoJS from 'crypto-js'
 import { REVIEW_SORT_FILTER_VALUES } from 'constants'
-import { orders, products, reviews, users, reviewUpvotes } from 'pseudoDB'
+import { orders, products, reviews, users, reviewUpvotes } from 'api/mockDB'
 import { getFilteredProducts } from 'utils/productFilterUtils'
 import { getSearchedProducts } from 'utils/productSearchUtils'
 import { getSortedProducts } from 'utils/productSortUtils'
+import { DUMMY_HASH_SECRET_KEY } from 'constants'
+import { generateUniqueId } from 'utils/commonUtils'
+
+export const processSignUp = (
+  name,
+  email,
+  password,
+  confirmedPassword,
+  is_admin,
+  delivery_address,
+  phone_number
+) => {
+  if (password !== confirmedPassword) throw new Error('Passwords do not match')
+
+  const existingUsers = JSON.parse(localStorage.getItem('users')) || []
+
+  if (existingUsers.find(user => user.email === email))
+    throw new Error('User already exists')
+
+  const dummyHash = CryptoJS.AES.encrypt(
+    password,
+    DUMMY_HASH_SECRET_KEY
+  ).toString()
+
+  existingUsers.push({
+    id: `u-${generateUniqueId()}`,
+    name,
+    email,
+    password: dummyHash,
+    is_admin: is_admin,
+    delivery_address: delivery_address,
+    phone_number: phone_number,
+    profile_pic: 'https://picsum.photos/id/1074/50/50',
+    created_date_time: new Date()
+  })
+
+  localStorage.setItem('users', JSON.stringify(existingUsers))
+}
+
+export const processLogin = (email, password) => {
+  const existingUsers = JSON.parse(localStorage.getItem('users')) || []
+
+  const foundUser = existingUsers.find(user => user.email === email)
+
+  const wrongCredentialsMessage = 'Wrong email or password.'
+
+  if (!foundUser) throw new Error(wrongCredentialsMessage)
+
+  const passwordMatched =
+    CryptoJS.AES.decrypt(foundUser.password, DUMMY_HASH_SECRET_KEY).toString(
+      CryptoJS.enc.Utf8
+    ) === password
+
+  if (!passwordMatched) throw new Error(wrongCredentialsMessage)
+
+  const toSendUser = { ...foundUser }
+  delete toSendUser.password
+
+  return toSendUser
+}
 
 export const getProductList = (
   searchKeyword,

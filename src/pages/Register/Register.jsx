@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import CryptoJS from 'crypto-js'
 import { Link, useNavigate } from 'react-router-dom'
-import { generateUniqueId } from 'utils/commonUtils'
-import { DUMMY_HASH_SECRET_KEY } from 'constants'
 import { PATH } from 'constants'
+import { signUp } from 'api/mockAPIs'
 
 const Register = () => {
   const [name, setName] = useState('')
@@ -22,36 +20,20 @@ const Register = () => {
 
   const registerUser = async e => {
     e.preventDefault()
-    setError('')
-
-    if (password !== confirmedPassword)
-      return setError('Passwords do not match')
-
-    const existingUsers = JSON.parse(localStorage.getItem('users')) || []
-
-    if (existingUsers.find(user => user.email === email))
-      return setError('User already exists')
-
-    const dummyHash = CryptoJS.AES.encrypt(
-      password,
-      DUMMY_HASH_SECRET_KEY
-    ).toString()
-
-    existingUsers.push({
-      id: `u-${generateUniqueId()}`,
-      name,
-      email,
-      password: dummyHash,
-      is_admin: false,
-      delivery_address: '',
-      phone_number: '',
-      profile_pic: 'https://picsum.photos/id/1074/50/50',
-      created_date_time: new Date()
-    })
-
-    localStorage.setItem('users', JSON.stringify(existingUsers))
-
-    navigate(PATH.LOGIN)
+    try {
+      await signUp({
+        name,
+        email,
+        password,
+        confirmedPassword,
+        is_admin: false,
+        delivery_address: '',
+        phone_number: ''
+      })
+      navigate(PATH.LOGIN)
+    } catch (error) {
+      return setError(error.message)
+    }
   }
 
   if (currentUser) return ''
