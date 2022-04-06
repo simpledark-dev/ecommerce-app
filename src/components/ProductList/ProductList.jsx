@@ -23,6 +23,8 @@ const ProductList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  if (!products) return <p>Loading products...</p>
+
   const productList = products.map(product => {
     const {
       minPrice,

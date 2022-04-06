@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { fetchOneProduct, fetchProductReviews } from 'api/mockAPIs'
+import * as API from 'api/mockAPIs'
 import { getDisplayJoinedTime } from 'utils/dateUtils'
 import { REVIEW_SORT_FILTER_VALUES } from 'constants'
 import { calculateProductPrices } from 'utils/productPriceUtils'
@@ -24,19 +24,21 @@ const ProductPage = () => {
 
   const [product, setProduct] = useState(null)
   const [variationSelection, setVariationSelection] = useState([])
+  const [quantityInput, setQuantityInput] = useState(1)
+
   const [reviews, setReviews] = useState([])
   const [sortFilterValue, setSortFilterValue] = useState(MOST_UPVOTED)
   const { currentUser } = useSelector(state => state.currentUser)
   const navigate = useNavigate()
-  const { id } = useParams()
+  const { productId } = useParams()
 
   useEffect(() => {
-    const fetchProduct = async id => {
-      const fetchedProduct = await fetchOneProduct(id)
+    const fetchProduct = async productId => {
+      const fetchedProduct = await API.fetchOneProduct({ productId })
       setProduct(fetchedProduct)
     }
-    fetchProduct(id)
-  }, [id])
+    fetchProduct(productId)
+  }, [productId])
 
   useEffect(() => {
     if (
@@ -60,18 +62,40 @@ const ProductPage = () => {
   }, [product])
 
   useEffect(() => {
-    const fetchReviews = async id => {
-      const fetchedReviews = await fetchProductReviews(id, sortFilterValue)
+    const fetchReviews = async productId => {
+      const fetchedReviews = await API.fetchProductReviews({
+        productId,
+        sortFilterValue
+      })
       setReviews(fetchedReviews)
     }
-    fetchReviews(id)
-  }, [id, sortFilterValue])
+    fetchReviews(productId)
+  }, [productId, sortFilterValue])
 
   if (!product) return 'Loading...'
 
-  const handleAddToCart = () => {
+  const incrementQuantity = () => {
+    setQuantityInput(quantityInput => quantityInput + 1)
+  }
+
+  const decrementQuantity = () => {
+    setQuantityInput(quantityInput => Math.max(1, quantityInput - 1))
+  }
+
+  const handleAddToCart = async () => {
     if (!currentUser)
       return navigate(PATH.LOGIN, { state: { previousPath: pathname } })
+
+    // Given current user id + {product}, find and associate {product} with user
+
+    await API.addToCart({
+      userId: currentUser.id,
+      productToAddToCart: {
+        productId: product.id,
+        selectedVariations: variationSelection,
+        quantity: quantityInput
+      }
+    })
   }
 
   const isVariationValueSelected = (key, value) => {
@@ -195,7 +219,9 @@ const ProductPage = () => {
 
       <div>{displayedVariationSelections}</div>
       <div>
-        Quantity: <button>-</button> 5 <button>+</button>
+        Quantity: <button onClick={decrementQuantity}>-</button>{' '}
+        <span>{quantityInput}</span>{' '}
+        <button onClick={incrementQuantity}>+</button>
       </div>
       <p>
         <button onClick={handleAddToCart}>Add to Cart</button>{' '}

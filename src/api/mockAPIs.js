@@ -47,12 +47,12 @@ export const login = ({ email, password }) => {
   })
 }
 
-export const fetchProducts = (
+export const fetchProducts = ({
   searchKeyword,
   sortValue,
   categoryFilterList,
   priceRange
-) => {
+}) => {
   return new Promise((resolve, reject) => {
     const productList = getProductList(
       searchKeyword,
@@ -72,7 +72,7 @@ export const fetchProducts = (
   })
 }
 
-export const fetchOneProduct = productId => {
+export const fetchOneProduct = ({ productId }) => {
   return new Promise((resolve, reject) => {
     const foundProduct = getProduct(productId)
     if (!foundProduct) {
@@ -85,7 +85,12 @@ export const fetchOneProduct = productId => {
   })
 }
 
-export const fetchProductReviews = (productId, sortFilterValue) => {
+export const addToCart = ({
+  userId,
+  productToAddToCart: { productId, selectedVariations, quantity }
+}) => {}
+
+export const fetchProductReviews = ({ productId, sortFilterValue }) => {
   return new Promise((resolve, reject) => {
     const productReviews = getReviews(productId, sortFilterValue)
     if (!productReviews) {
