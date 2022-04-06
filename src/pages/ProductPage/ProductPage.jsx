@@ -34,8 +34,12 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchProduct = async productId => {
-      const fetchedProduct = await API.fetchOneProduct({ productId })
-      setProduct(fetchedProduct)
+      try {
+        const fetchedProduct = await API.fetchOneProduct({ productId })
+        setProduct(fetchedProduct)
+      } catch (error) {
+        console.log(error)
+      }
     }
     fetchProduct(currentProductId)
   }, [currentProductId])
@@ -63,11 +67,15 @@ const ProductPage = () => {
 
   useEffect(() => {
     const fetchReviews = async productId => {
-      const fetchedReviews = await API.fetchProductReviews({
-        productId,
-        sortFilterValue
-      })
-      setReviews(fetchedReviews)
+      try {
+        const fetchedReviews = await API.fetchProductReviews({
+          productId,
+          sortFilterValue
+        })
+        setReviews(fetchedReviews)
+      } catch (error) {
+        console.error(error)
+      }
     }
     fetchReviews(currentProductId)
   }, [currentProductId, sortFilterValue])
@@ -86,15 +94,21 @@ const ProductPage = () => {
     if (!currentUser)
       return navigate(PATH.LOGIN, { state: { previousPath: pathname } })
 
-    await API.addToCart({
-      userId: currentUser.id,
-      productToAddToCart: {
-        productId: product.id,
-        discount: product.discount,
-        selectedVariations: variationSelection,
-        quantity: quantityInput
-      }
-    })
+    try {
+      await API.addToCart({
+        userId: currentUser.id,
+        productToAddToCart: {
+          productId: product.id,
+          discount: product.discount,
+          selectedVariations: variationSelection,
+          quantity: quantityInput
+        }
+      })
+      // Reset quantity to 1 after adding to cart
+      setQuantityInput(1)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const isVariationValueSelected = (key, value) => {
