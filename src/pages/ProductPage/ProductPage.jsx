@@ -30,15 +30,15 @@ const ProductPage = () => {
   const [sortFilterValue, setSortFilterValue] = useState(MOST_UPVOTED)
   const { currentUser } = useSelector(state => state.currentUser)
   const navigate = useNavigate()
-  const { productId } = useParams()
+  const { id: currentProductId } = useParams()
 
   useEffect(() => {
     const fetchProduct = async productId => {
       const fetchedProduct = await API.fetchOneProduct({ productId })
       setProduct(fetchedProduct)
     }
-    fetchProduct(productId)
-  }, [productId])
+    fetchProduct(currentProductId)
+  }, [currentProductId])
 
   useEffect(() => {
     if (
@@ -69,8 +69,8 @@ const ProductPage = () => {
       })
       setReviews(fetchedReviews)
     }
-    fetchReviews(productId)
-  }, [productId, sortFilterValue])
+    fetchReviews(currentProductId)
+  }, [currentProductId, sortFilterValue])
 
   if (!product) return 'Loading...'
 
@@ -86,12 +86,11 @@ const ProductPage = () => {
     if (!currentUser)
       return navigate(PATH.LOGIN, { state: { previousPath: pathname } })
 
-    // Given current user id + {product}, find and associate {product} with user
-
     await API.addToCart({
       userId: currentUser.id,
       productToAddToCart: {
         productId: product.id,
+        discount: product.discount,
         selectedVariations: variationSelection,
         quantity: quantityInput
       }
