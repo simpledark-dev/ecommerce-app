@@ -1,11 +1,21 @@
 import CryptoJS from 'crypto-js'
 import { REVIEW_SORT_FILTER_VALUES } from 'constants'
-import { orders, products, reviews, users, reviewUpvotes } from 'api/mockDB'
+import {
+  orders,
+  products,
+  reviews,
+  carts,
+  users,
+  reviewUpvotes
+} from 'api/mockDB'
 import { getFilteredProducts } from 'utils/productFilterUtils'
 import { getSearchedProducts } from 'utils/productSearchUtils'
 import { getSortedProducts } from 'utils/productSortUtils'
 import { DUMMY_HASH_SECRET_KEY } from 'constants'
-import { generateUniqueId } from 'utils/commonUtils'
+import { areArraysOfObjectsEqual, generateUniqueId } from 'utils/commonUtils'
+
+/* YOUR BACKEND LOGIC (NODE.JS, DJANGO,...) */
+/* BELOW IS MOCK BACKEND LOGIC FOR DEMO PURPOSES */
 
 export const processSignUp = (
   name,
@@ -65,7 +75,7 @@ export const processLogin = (email, password) => {
   return toSendUser
 }
 
-export const getProductList = (
+export const processFetchProductList = (
   searchKeyword,
   sortValue,
   categoryFilterList,
@@ -81,7 +91,7 @@ export const getProductList = (
   return sortedProductes
 }
 
-export const getProduct = productId => {
+export const processFetchOneProduct = productId => {
   const foundProduct = products.find(product => product.id === productId)
 
   if (!foundProduct) return null
@@ -105,7 +115,40 @@ export const getProduct = productId => {
   })
 }
 
-export const getReviews = (productId, sortFilterValue) => {
+export const processAddToCart = () => {}
+
+export const processFetchUserCart = userId => {
+  const fetchedUserCart =
+    carts.find(userCart => userCart.user_id === userId)?.cart || []
+
+  const detailedCart = fetchedUserCart.map(inCartProduct => {
+    const product = processFetchOneProduct(inCartProduct.product_id)
+
+    const price =
+      (product.variations
+        ? product.variations.variations_selection_info.find(
+            variationSelection =>
+              areArraysOfObjectsEqual(
+                variationSelection.selections,
+                inCartProduct.selectedVariations
+              )
+          ).price_in_USD
+        : product.price_in_USD) *
+      (1 - product.discount)
+
+    return {
+      image: product.images[0],
+      name: product.name,
+      price: price,
+      subTotal: price * inCartProduct.quantity,
+      ...inCartProduct
+    }
+  })
+
+  return detailedCart
+}
+
+export const processFetchProductReviews = (productId, sortFilterValue) => {
   const productReviews = reviews.filter(
     review => review.product_id === productId
   )

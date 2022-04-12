@@ -99,7 +99,6 @@ const ProductPage = () => {
         userId: currentUser.id,
         productToAddToCart: {
           productId: product.id,
-          discount: product.discount,
           selectedVariations: variationSelection,
           quantity: quantityInput
         }
