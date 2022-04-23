@@ -3,11 +3,10 @@ import { useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import * as API from 'api/mockAPIs'
 import { getDisplayJoinedTime } from 'utils/dateUtils'
-import { REVIEW_SORT_FILTER_VALUES } from 'constants'
+import { PATH, REVIEW_SORT_FILTER_VALUES } from 'constants'
 import { calculateProductPrices } from 'utils/productPriceUtils'
 import { areArraysOfObjectsEqual } from 'utils/commonUtils'
 import { ProductRelatedList } from 'components'
-import { PATH } from 'constants'
 
 const {
   MOST_RECENT,
@@ -95,7 +94,7 @@ const ProductPage = () => {
       return navigate(PATH.LOGIN, { state: { previousPath: pathname } })
 
     try {
-      await API.addToCart({
+      await API.updateUserCart({
         userId: currentUser.id,
         productToAddToCart: {
           productId: product.id,
