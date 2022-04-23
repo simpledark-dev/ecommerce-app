@@ -1,13 +1,6 @@
 import CryptoJS from 'crypto-js'
 import { REVIEW_SORT_FILTER_VALUES } from 'constants'
-import {
-  orders,
-  products,
-  reviews,
-  carts,
-  users,
-  reviewUpvotes
-} from 'api/mockDB'
+import { orders, products, reviews, users, reviewUpvotes } from 'api/mockDB'
 import { getFilteredProducts } from 'utils/productFilterUtils'
 import { getSearchedProducts } from 'utils/productSearchUtils'
 import { getSortedProducts } from 'utils/productSortUtils'
@@ -115,11 +108,68 @@ export const processFetchOneProduct = productId => {
   })
 }
 
-export const processAddToCart = () => {}
+export const processUpdateUserCart = (userId, productToAddToCart) => {
+  let existingCarts = JSON.parse(localStorage.getItem('carts')) || []
+
+  const { productId, selectedVariations, quantity } = productToAddToCart
+
+  const userCart = existingCarts.find(cart => cart.user_id === userId)
+
+  if (!userCart) {
+    if (quantity < 1) return false
+
+    existingCarts.push({
+      id: `cart-${generateUniqueId()}`,
+      user_id: userId,
+      cart: [{ product_id: productId, selectedVariations, quantity }]
+    })
+  } else {
+    const currentProduct = userCart.cart.find(
+      product =>
+        product.product_id === productId &&
+        areArraysOfObjectsEqual(product.selectedVariations, selectedVariations)
+    )
+
+    if (!currentProduct) {
+      if (quantity < 1) return false
+
+      userCart.cart.push({
+        product_id: productId,
+        selectedVariations,
+        quantity
+      })
+    } else {
+      if (currentProduct.quantity + quantity <= 0) {
+        userCart.cart = userCart.cart.filter(
+          product =>
+            !(
+              product.product_id === currentProduct.product_id &&
+              areArraysOfObjectsEqual(
+                product.selectedVariations,
+                currentProduct.selectedVariations
+              )
+            )
+        )
+        if (userCart.cart.length === 0) {
+          existingCarts = existingCarts.filter(
+            ucart => userCart.id !== ucart.id
+          )
+        }
+      } else {
+        currentProduct.quantity += quantity
+      }
+    }
+  }
+
+  localStorage.setItem('carts', JSON.stringify(existingCarts))
+  return true
+}
 
 export const processFetchUserCart = userId => {
+  const existingCarts = JSON.parse(localStorage.getItem('carts')) || []
+
   const fetchedUserCart =
-    carts.find(userCart => userCart.user_id === userId)?.cart || []
+    existingCarts.find(userCart => userCart.user_id === userId)?.cart || []
 
   const detailedCart = fetchedUserCart.map(inCartProduct => {
     const product = processFetchOneProduct(inCartProduct.product_id)
@@ -139,8 +189,8 @@ export const processFetchUserCart = userId => {
     return {
       image: product.images[0],
       name: product.name,
-      price: price,
-      subTotal: price * inCartProduct.quantity,
+      price: price.toFixed(2),
+      subTotal: (price * inCartProduct.quantity).toFixed(2),
       ...inCartProduct
     }
   })

@@ -4,7 +4,7 @@ import {
   processFetchProductList,
   processFetchOneProduct,
   processFetchProductReviews,
-  processAddToCart,
+  processUpdateUserCart,
   processFetchUserCart
 } from './mockBackend/logic'
 
@@ -99,22 +99,16 @@ export const fetchProductReviews = ({ productId, sortFilterValue }) => {
   })
 }
 
-export const addToCart = ({
-  userId,
-  productToAddToCart: { productId, selectedVariations, quantity }
-}) => {
-  console.log(userId, productId, selectedVariations, quantity)
+export const updateUserCart = ({ userId, productToAddToCart }) => {
   return new Promise((resolve, reject) => {
-    setTimeout(
-      () =>
-        resolve(
-          processAddToCart({
-            userId,
-            productToAddToCart: { productId, selectedVariations, quantity }
-          })
-        ),
-      FAKE_DELAY_IN_MS
+    const updateUserCartSuccess = processUpdateUserCart(
+      userId,
+      productToAddToCart
     )
+    if (!updateUserCartSuccess) {
+      setTimeout(() => reject(new Error('Error update user cart!')))
+    }
+    setTimeout(() => resolve(), FAKE_DELAY_IN_MS)
   })
 }
 
