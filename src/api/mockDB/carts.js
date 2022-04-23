@@ -1,7 +1,7 @@
 const carts = [
   {
-    id: 'C1',
-    user_id: 'u-5ab9d471-77b6-4f39-91f3-20b79dcad82d',
+    id: 'cart-6dd9d471-1234-4f39-91f3-9112ffepdq2d',
+    user_id: 'U1',
     cart: [
       {
         product_id: 'P1',
@@ -13,7 +13,8 @@ const carts = [
       },
       {
         product_id: 'P2',
-        quantity: 1
+        quantity: 1,
+        selectedVariations: []
       }
     ]
   }
