@@ -20,12 +20,17 @@ const Checkout = () => {
   useEffect(() => {
     if (!currentUser) return navigate(PATH.HOME)
 
+    let mounted = true
+
     const loadUserCart = async () => {
       const fetchedCart = await API.fetchUserCart({ userId: currentUser.id })
-      setCart(fetchedCart)
+
+      if (mounted) setCart(fetchedCart)
     }
 
     loadUserCart()
+
+    return () => (mounted = false)
   }, [currentUser, navigate])
 
   useEffect(() => {
