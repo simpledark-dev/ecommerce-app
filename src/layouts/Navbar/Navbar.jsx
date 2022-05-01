@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+import * as API from 'api/mockAPIs'
 import { PATH } from 'constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
@@ -19,6 +21,19 @@ const Navbar = () => {
   const { currentUser } = useSelector(state => state.currentUser)
   const dispatch = useDispatch()
 
+  const [cart, setCart] = useState(null)
+
+  useEffect(() => {
+    if (!currentUser) return
+
+    const loadUserCart = async () => {
+      const fetchedCart = await API.fetchUserCart({ userId: currentUser.id })
+      setCart(fetchedCart)
+    }
+
+    loadUserCart()
+  })
+
   const handleLogout = () => {
     dispatch(removeCurrentUser())
   }
@@ -34,8 +49,11 @@ const Navbar = () => {
         {' | '}
         <Link to={HOME}>ProductSearch </Link>
         {' | '}
-        <Link to={CHECKOUT}>Checkout</Link>
-        {' | '}
+        {currentUser && (
+          <>
+            <Link to={CHECKOUT}>Cart {cart && `(${cart.length})`}</Link> |
+          </>
+        )}
         <Link to={PAYMENT}>Payment</Link>
         {' | '}
         <Link to={ORDERS}>UserOrders</Link>
