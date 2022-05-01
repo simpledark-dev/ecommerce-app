@@ -167,20 +167,23 @@ const Checkout = () => {
           </button>
         </div>
       ))}
-
-      <div>
-        <h3>Order Summary</h3>
-        <p>Subtotal: ${orderSummary.subTotal.toFixed(2)}</p>
-        <p>Shipping: ${orderSummary.shippingFees.toFixed(2)}</p>
-        <p>Taxes: ${orderSummary.taxes.toFixed(2)}</p>
-        <p>Total: ${orderSummary.total.toFixed(2)}</p>
-      </div>
-      <button
-        disabled={checkedOutCartItemIds.length === 0}
-        onClick={() => navigate(PATH.PAYMENT)}
-      >
-        Checkout ({checkedOutCartItemIds.length})
-      </button>
+      {cart?.length > 0 && (
+        <>
+          <div>
+            <h3>Order Summary</h3>
+            <p>Subtotal: ${orderSummary.subTotal.toFixed(2)}</p>
+            <p>Shipping: ${orderSummary.shippingFees.toFixed(2)}</p>
+            <p>Taxes: ${orderSummary.taxes.toFixed(2)}</p>
+            <p>Total: ${orderSummary.total.toFixed(2)}</p>
+          </div>
+          <button
+            disabled={checkedOutCartItemIds.length === 0}
+            onClick={() => navigate(PATH.PAYMENT)}
+          >
+            Checkout ({checkedOutCartItemIds.length})
+          </button>
+        </>
+      )}
     </div>
   )
 }
