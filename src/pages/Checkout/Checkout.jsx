@@ -9,7 +9,7 @@ const Checkout = () => {
   const [cart, setCart] = useState([])
   const [orderSummary, setOrderSummary] = useState({
     subTotal: 0,
-    shipping: 0,
+    shippingFees: 0,
     taxes: 0,
     total: 0
   })
@@ -29,7 +29,9 @@ const Checkout = () => {
 
   useEffect(() => {
     const checkedOutCart = cart.filter(product =>
-      checkedOutCartItemIds.includes(product.product_id)
+      checkedOutCartItemIds.includes(
+        `${product.product_id}-${JSON.stringify(product.selectedVariations)}`
+      )
     )
 
     const subTotal = checkedOutCart.reduce(
@@ -81,7 +83,10 @@ const Checkout = () => {
 
   return (
     <div>
-      <h2>Checkout</h2>
+      <p>
+        <b>1) Checkout</b> - 2) Payment - 3) Purchase Success{' '}
+      </p>
+      <h3>Your Cart</h3>
       {cart.map(productInCart => (
         <div
           style={{
@@ -95,8 +100,14 @@ const Checkout = () => {
         >
           <input
             type="checkbox"
-            value={productInCart.product_id}
-            checked={checkedOutCartItemIds.includes(productInCart.product_id)}
+            value={`${productInCart.product_id}-${JSON.stringify(
+              productInCart.selectedVariations
+            )}`}
+            checked={checkedOutCartItemIds.includes(
+              `${productInCart.product_id}-${JSON.stringify(
+                productInCart.selectedVariations
+              )}`
+            )}
             onChange={handleCheckedItems}
           />
           <img style={{ width: 50 }} src={productInCart.image} alt="product" />
@@ -158,7 +169,9 @@ const Checkout = () => {
         <p>Taxes: ${orderSummary.taxes.toFixed(2)}</p>
         <p>Total: ${orderSummary.total.toFixed(2)}</p>
       </div>
-      <button>Checkout</button>
+      <button onClick={() => navigate(PATH.PAYMENT)}>
+        Checkout ({checkedOutCartItemIds.length})
+      </button>
     </div>
   )
 }
