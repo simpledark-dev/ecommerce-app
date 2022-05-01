@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import * as API from 'api/mockAPIs'
 import { PATH } from 'constants'
+import { MOCK_TAX_RATE } from 'constants'
 
 const Checkout = () => {
   const { currentUser } = useSelector(state => state.currentUser)
@@ -39,7 +40,7 @@ const Checkout = () => {
       0
     )
     const shippingFees = subTotal > 0 ? 10.0 : 0
-    const taxes = 0.1 * subTotal
+    const taxes = MOCK_TAX_RATE * subTotal
 
     setOrderSummary({
       subTotal,
@@ -169,7 +170,10 @@ const Checkout = () => {
         <p>Taxes: ${orderSummary.taxes.toFixed(2)}</p>
         <p>Total: ${orderSummary.total.toFixed(2)}</p>
       </div>
-      <button onClick={() => navigate(PATH.PAYMENT)}>
+      <button
+        disabled={checkedOutCartItemIds.length === 0}
+        onClick={() => navigate(PATH.PAYMENT)}
+      >
         Checkout ({checkedOutCartItemIds.length})
       </button>
     </div>

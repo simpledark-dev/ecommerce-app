@@ -30,3 +30,5 @@ export const REVIEW_SORT_FILTER_VALUES = {
 }
 
 export const DUMMY_HASH_SECRET_KEY = 'dummy secret key'
+
+export const MOCK_TAX_RATE = 0.1
