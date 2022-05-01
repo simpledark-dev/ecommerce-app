@@ -41,25 +41,35 @@ const Navbar = () => {
   return (
     <nav>
       <h1>
-        <Link to={SIGN_UP}>Sign up</Link>
-        {' | '}
-        <Link to={LOGIN} state={{ previousPath: pathname }}>
-          Login
-        </Link>
-        {' | '}
+        {!currentUser && (
+          <>
+            <Link to={SIGN_UP}>Sign up</Link> |{' '}
+          </>
+        )}
+        {!currentUser && (
+          <>
+            <Link to={LOGIN} state={{ previousPath: pathname }}>
+              Login
+            </Link>{' '}
+            |{' '}
+          </>
+        )}
+
         <Link to={HOME}>ProductSearch </Link>
         {' | '}
         {currentUser && (
           <>
-            <Link to={CHECKOUT}>Cart {cart && `(${cart.length})`}</Link> |
+            <Link to={CHECKOUT}>Cart {cart && `(${cart.length})`}</Link>
+            {' | '}
+            <Link to={PAYMENT}>Payment</Link>
+            {' | '}
+            <Link to={ORDERS}>UserOrders</Link>
+            {' | '}
+            <Link to={USER_INFO}>UserInfo</Link>
+            {' | '}
           </>
         )}
-        <Link to={PAYMENT}>Payment</Link>
-        {' | '}
-        <Link to={ORDERS}>UserOrders</Link>
-        {' | '}
-        <Link to={USER_INFO}>UserInfo</Link>
-        {' | '}
+
         <Link to={NOT_FOUND}>Not Found</Link>
       </h1>
       {currentUser && <button onClick={handleLogout}>Logout</button>}
