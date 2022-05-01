@@ -11,6 +11,7 @@ const {
   HOME,
   CHECKOUT,
   PAYMENT,
+  PURCHASE_SUCCESS,
   ORDERS,
   USER_INFO,
   NOT_FOUND
@@ -62,6 +63,8 @@ const Navbar = () => {
             <Link to={CHECKOUT}>Cart {cart && `(${cart.length})`}</Link>
             {' | '}
             <Link to={PAYMENT}>Payment</Link>
+            {' | '}
+            <Link to={PURCHASE_SUCCESS}>PurchaseSuccess</Link>
             {' | '}
             <Link to={ORDERS}>UserOrders</Link>
             {' | '}

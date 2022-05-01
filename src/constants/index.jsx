@@ -5,6 +5,7 @@ export const PATH = {
   PRODUCT: '/product/:id',
   CHECKOUT: '/checkout',
   PAYMENT: '/checkout/payment',
+  PURCHASE_SUCCESS: '/checkout/success',
   ORDERS: '/orders',
   USER_INFO: '/info',
   NOT_FOUND: '404',

@@ -6,6 +6,7 @@ import {
   Login,
   Checkout,
   Payment,
+  PurchaseSuccess,
   UserInfo,
   UserOrders,
   NotFound
@@ -18,6 +19,7 @@ const routes = [
   { path: PATH.PRODUCT, element: <ProductPage /> },
   { path: PATH.CHECKOUT, element: <Checkout /> },
   { path: PATH.PAYMENT, element: <Payment /> },
+  { path: PATH.PURCHASE_SUCCESS, element: <PurchaseSuccess /> },
   { path: PATH.ORDERS, element: <UserOrders /> },
   { path: PATH.USER_INFO, element: <UserInfo /> },
   { path: PATH.INVALID, element: <NotFound /> }
