@@ -1,10 +1,11 @@
-import { categories, reviews, orders } from 'api/mockDB'
 import {
-  getProduct,
-  getProductList,
-  getReviews,
+  processSignUp,
   processLogin,
-  processSignUp
+  processFetchProductList,
+  processFetchOneProduct,
+  processFetchProductReviews,
+  processUpdateUserCart,
+  processFetchUserCart
 } from './mockBackend/logic'
 
 const FAKE_DELAY_IN_MS = 250
@@ -47,14 +48,14 @@ export const login = ({ email, password }) => {
   })
 }
 
-export const fetchProducts = (
+export const fetchProducts = ({
   searchKeyword,
   sortValue,
   categoryFilterList,
   priceRange
-) => {
+}) => {
   return new Promise((resolve, reject) => {
-    const productList = getProductList(
+    const productList = processFetchProductList(
       searchKeyword,
       sortValue,
       categoryFilterList,
@@ -72,9 +73,9 @@ export const fetchProducts = (
   })
 }
 
-export const fetchOneProduct = productId => {
+export const fetchOneProduct = ({ productId }) => {
   return new Promise((resolve, reject) => {
-    const foundProduct = getProduct(productId)
+    const foundProduct = processFetchOneProduct(productId)
     if (!foundProduct) {
       setTimeout(
         () => reject(new Error('Error fetching product!')),
@@ -85,9 +86,12 @@ export const fetchOneProduct = productId => {
   })
 }
 
-export const fetchProductReviews = (productId, sortFilterValue) => {
+export const fetchProductReviews = ({ productId, sortFilterValue }) => {
   return new Promise((resolve, reject) => {
-    const productReviews = getReviews(productId, sortFilterValue)
+    const productReviews = processFetchProductReviews(
+      productId,
+      sortFilterValue
+    )
     if (!productReviews) {
       setTimeout(() => reject(new Error('Error fetching reviews!')))
     }
@@ -95,38 +99,30 @@ export const fetchProductReviews = (productId, sortFilterValue) => {
   })
 }
 
-export const fetchAllReviews = () => {
+export const updateUserCart = ({ userId, productToAddToCart }) => {
   return new Promise((resolve, reject) => {
-    if (!reviews) {
-      setTimeout(
-        () => reject(new Error('Error fetching reviews')),
-        FAKE_DELAY_IN_MS
-      )
+    const updateUserCartSuccess = processUpdateUserCart(
+      userId,
+      productToAddToCart
+    )
+    if (!updateUserCartSuccess) {
+      setTimeout(() => reject(new Error('Error update user cart!')))
     }
-    setTimeout(() => resolve(reviews), FAKE_DELAY_IN_MS)
+    setTimeout(() => resolve(), FAKE_DELAY_IN_MS)
   })
 }
 
-export const fetchCategories = () => {
+export const fetchUserCart = ({ userId }) => {
   return new Promise((resolve, reject) => {
-    if (!categories) {
-      setTimeout(
-        () => reject(new Error('Error fetching categories')),
-        FAKE_DELAY_IN_MS
-      )
-    }
-    setTimeout(() => resolve(categories), FAKE_DELAY_IN_MS)
-  })
-}
-
-export const fetchOrders = () => {
-  return new Promise((resolve, reject) => {
-    if (!orders) {
-      setTimeout(
-        () => reject(new Error('Error fetching orders')),
-        FAKE_DELAY_IN_MS
-      )
-    }
-    setTimeout(() => resolve(orders), FAKE_DELAY_IN_MS)
+    setTimeout(() => {
+      const userCart = processFetchUserCart(userId)
+      if (!userCart) {
+        setTimeout(
+          () => reject(new Error('Error fetching user cart')),
+          FAKE_DELAY_IN_MS
+        )
+      }
+      setTimeout(() => resolve(userCart), FAKE_DELAY_IN_MS)
+    }, FAKE_DELAY_IN_MS)
   })
 }

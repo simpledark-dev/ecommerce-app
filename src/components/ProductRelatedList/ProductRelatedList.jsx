@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchProducts } from 'api/mockAPIs'
+import * as API from 'api/mockAPIs'
 import { ProductCard } from 'components'
 import { calculateProductPrices } from 'utils/productPriceUtils'
 import { SORT_BY_VALUES } from 'constants'
@@ -9,12 +9,12 @@ const ProductRelatedList = ({ searchKeyword, categoryFilterList }) => {
 
   useEffect(() => {
     async function loadProducts() {
-      const productList = await fetchProducts(
-        '',
-        SORT_BY_VALUES.MOST_POPULAR,
-        [],
-        { min: 0, max: +Infinity }
-      )
+      const productList = await API.fetchProducts({
+        searchKeyword: '',
+        sortValue: SORT_BY_VALUES.MOST_POPULAR,
+        categoryFilterList: [],
+        priceRange: { min: 0, max: +Infinity }
+      })
       setRelatedProducts(productList)
     }
     loadProducts()

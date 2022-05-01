@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { PATH } from 'constants'
-import { signUp } from 'api/mockAPIs'
+import * as API from 'api/mockAPIs'
 
 const Register = () => {
   const [name, setName] = useState('')
@@ -21,7 +21,7 @@ const Register = () => {
   const registerUser = async e => {
     e.preventDefault()
     try {
-      await signUp({
+      await API.signUp({
         name,
         email,
         password,

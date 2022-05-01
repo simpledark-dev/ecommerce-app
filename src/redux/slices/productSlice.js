@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { fetchProducts } from 'api/mockAPIs'
+import * as API from 'api/mockAPIs'
 
 export const getProducts = createAsyncThunk(
   'product/getProducts',
@@ -8,12 +8,12 @@ export const getProducts = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const data = await fetchProducts(
+      const data = await API.fetchProducts({
         searchKeyword,
         sortValue,
         categoryFilterList,
         priceRange
-      )
+      })
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue(error)
@@ -23,7 +23,7 @@ export const getProducts = createAsyncThunk(
 
 export const productSlice = createSlice({
   name: 'product',
-  initialState: { loading: false, error: {}, products: [] },
+  initialState: { loading: false, error: {}, products: null },
   reducers: {},
   extraReducers: {
     [getProducts.pending]: (state, action) => {

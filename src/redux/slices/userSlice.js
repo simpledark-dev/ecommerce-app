@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { login } from 'api/mockAPIs'
+import * as API from 'api/mockAPIs'
 
 export const getUser = createAsyncThunk(
   'currentUser/getUser',
   async ({ email, password }, thunkAPI) => {
     try {
-      const data = await login({ email, password })
+      const data = await API.login({ email, password })
       return data
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message)

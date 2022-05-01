@@ -1,21 +1,11 @@
-import { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import routes from 'routes'
 import { Layout } from 'layouts'
-import { users } from 'api/mockDB'
 import './App.css'
-
-const storePreGeneratedData = () => {
-  const existingUsers = localStorage.getItem('users')
-  if (!existingUsers) {
-    localStorage.setItem('users', JSON.stringify(users))
-  }
-}
+import { useStorePreGeneratedData } from 'hooks/useStorePreGeneratedData'
 
 const App = () => {
-  useEffect(() => {
-    storePreGeneratedData()
-  }, [])
+  useStorePreGeneratedData()
 
   return (
     <div className="App">

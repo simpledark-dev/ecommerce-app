@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { fetchOneProduct, fetchProductReviews } from 'api/mockAPIs'
+import * as API from 'api/mockAPIs'
 import { getDisplayJoinedTime } from 'utils/dateUtils'
-import { REVIEW_SORT_FILTER_VALUES } from 'constants'
+import { PATH, REVIEW_SORT_FILTER_VALUES } from 'constants'
 import { calculateProductPrices } from 'utils/productPriceUtils'
 import { areArraysOfObjectsEqual } from 'utils/commonUtils'
 import { ProductRelatedList } from 'components'
-import { PATH } from 'constants'
 
 const {
   MOST_RECENT,
@@ -24,19 +23,25 @@ const ProductPage = () => {
 
   const [product, setProduct] = useState(null)
   const [variationSelection, setVariationSelection] = useState([])
+  const [quantityInput, setQuantityInput] = useState(1)
+
   const [reviews, setReviews] = useState([])
   const [sortFilterValue, setSortFilterValue] = useState(MOST_UPVOTED)
   const { currentUser } = useSelector(state => state.currentUser)
   const navigate = useNavigate()
-  const { id } = useParams()
+  const { id: currentProductId } = useParams()
 
   useEffect(() => {
-    const fetchProduct = async id => {
-      const fetchedProduct = await fetchOneProduct(id)
-      setProduct(fetchedProduct)
+    const fetchProduct = async productId => {
+      try {
+        const fetchedProduct = await API.fetchOneProduct({ productId })
+        setProduct(fetchedProduct)
+      } catch (error) {
+        console.log(error)
+      }
     }
-    fetchProduct(id)
-  }, [id])
+    fetchProduct(currentProductId)
+  }, [currentProductId])
 
   useEffect(() => {
     if (
@@ -60,18 +65,48 @@ const ProductPage = () => {
   }, [product])
 
   useEffect(() => {
-    const fetchReviews = async id => {
-      const fetchedReviews = await fetchProductReviews(id, sortFilterValue)
-      setReviews(fetchedReviews)
+    const fetchReviews = async productId => {
+      try {
+        const fetchedReviews = await API.fetchProductReviews({
+          productId,
+          sortFilterValue
+        })
+        setReviews(fetchedReviews)
+      } catch (error) {
+        console.error(error)
+      }
     }
-    fetchReviews(id)
-  }, [id, sortFilterValue])
+    fetchReviews(currentProductId)
+  }, [currentProductId, sortFilterValue])
 
   if (!product) return 'Loading...'
 
-  const handleAddToCart = () => {
+  const incrementQuantity = () => {
+    setQuantityInput(quantityInput => quantityInput + 1)
+  }
+
+  const decrementQuantity = () => {
+    setQuantityInput(quantityInput => Math.max(1, quantityInput - 1))
+  }
+
+  const handleAddToCart = async () => {
     if (!currentUser)
       return navigate(PATH.LOGIN, { state: { previousPath: pathname } })
+
+    try {
+      await API.updateUserCart({
+        userId: currentUser.id,
+        productToAddToCart: {
+          productId: product.id,
+          selectedVariations: variationSelection,
+          quantity: quantityInput
+        }
+      })
+      // Reset quantity to 1 after adding to cart
+      setQuantityInput(1)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const isVariationValueSelected = (key, value) => {
@@ -195,7 +230,9 @@ const ProductPage = () => {
 
       <div>{displayedVariationSelections}</div>
       <div>
-        Quantity: <button>-</button> 5 <button>+</button>
+        Quantity: <button onClick={decrementQuantity}>-</button>{' '}
+        <span>{quantityInput}</span>{' '}
+        <button onClick={incrementQuantity}>+</button>
       </div>
       <p>
         <button onClick={handleAddToCart}>Add to Cart</button>{' '}
