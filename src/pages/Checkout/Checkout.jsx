@@ -7,6 +7,13 @@ import { PATH } from 'constants'
 const Checkout = () => {
   const { currentUser } = useSelector(state => state.currentUser)
   const [cart, setCart] = useState([])
+  const [orderSummary, setOrderSummary] = useState({
+    subTotal: 0,
+    shipping: 0,
+    taxes: 0,
+    total: 0
+  })
+  const [checkedOutCartItemIds, setCheckedOutCartItemIds] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -20,7 +27,39 @@ const Checkout = () => {
     loadUserCart()
   }, [currentUser, navigate])
 
+  useEffect(() => {
+    const checkedOutCart = cart.filter(product =>
+      checkedOutCartItemIds.includes(product.product_id)
+    )
+
+    const subTotal = checkedOutCart.reduce(
+      (acc, curr) => acc + Number(curr.subTotal),
+      0
+    )
+    const shippingFees = subTotal > 0 ? 10.0 : 0
+    const taxes = 0.1 * subTotal
+
+    setOrderSummary({
+      subTotal,
+      shippingFees,
+      taxes,
+      total: subTotal + shippingFees + taxes
+    })
+  }, [cart, checkedOutCartItemIds])
+
   if (!currentUser) return ''
+
+  const handleCheckedItems = e => {
+    const productId = e.target.value
+    if (checkedOutCartItemIds.includes(productId)) {
+      setCheckedOutCartItemIds(
+        checkedOutCartItemIds.filter(itemId => itemId !== productId)
+      )
+      return
+    }
+
+    setCheckedOutCartItemIds([...checkedOutCartItemIds, productId])
+  }
 
   const handleAddToCart = async (productId, variationSelection, quantity) => {
     try {
@@ -54,6 +93,12 @@ const Checkout = () => {
             productInCart.selectedVariations
           )}`}
         >
+          <input
+            type="checkbox"
+            value={productInCart.product_id}
+            checked={checkedOutCartItemIds.includes(productInCart.product_id)}
+            onChange={handleCheckedItems}
+          />
           <img style={{ width: 50 }} src={productInCart.image} alt="product" />
           <div>
             <p>{productInCart.name}</p>
@@ -105,6 +150,15 @@ const Checkout = () => {
           </button>
         </div>
       ))}
+
+      <div>
+        <h3>Order Summary</h3>
+        <p>Subtotal: ${orderSummary.subTotal.toFixed(2)}</p>
+        <p>Shipping: ${orderSummary.shippingFees.toFixed(2)}</p>
+        <p>Taxes: ${orderSummary.taxes.toFixed(2)}</p>
+        <p>Total: ${orderSummary.total.toFixed(2)}</p>
+      </div>
+      <button>Checkout</button>
     </div>
   )
 }
