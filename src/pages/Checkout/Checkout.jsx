@@ -8,13 +8,13 @@ import { MOCK_TAX_RATE } from 'constants'
 const Checkout = () => {
   const { currentUser } = useSelector(state => state.currentUser)
   const [cart, setCart] = useState([])
+  const [checkedOutCartItemIds, setCheckedOutCartItemIds] = useState([])
   const [orderSummary, setOrderSummary] = useState({
     subTotal: 0,
     shippingFees: 0,
     taxes: 0,
     total: 0
   })
-  const [checkedOutCartItemIds, setCheckedOutCartItemIds] = useState([])
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -163,7 +163,7 @@ const Checkout = () => {
               )
             }
           >
-            Del
+            X
           </button>
         </div>
       ))}

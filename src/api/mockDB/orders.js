@@ -23,7 +23,17 @@ const orders = [
         product_id: 'P7',
         quantity: 3
       }
-    ]
+    ],
+    shippingInfo: {
+      first_name: '',
+      last_name: '',
+      phone_number: '',
+      email: '',
+      address: '',
+      zip_code: '',
+      country: '',
+      state: ''
+    }
   },
   {
     id: 'O2',
@@ -45,7 +55,17 @@ const orders = [
         product_id: 'P2',
         quantity: 4
       }
-    ]
+    ],
+    shippingInfo: {
+      first_name: '',
+      last_name: '',
+      phone_number: '',
+      email: '',
+      address: '',
+      zip_code: '',
+      country: '',
+      state: ''
+    }
   },
   {
     id: 'O3',
@@ -63,7 +83,17 @@ const orders = [
         product_id: 'P7',
         quantity: 10
       }
-    ]
+    ],
+    shippingInfo: {
+      first_name: '',
+      last_name: '',
+      phone_number: '',
+      email: '',
+      address: '',
+      zip_code: '',
+      country: '',
+      state: ''
+    }
   }
 ]
 

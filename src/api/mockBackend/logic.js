@@ -198,6 +198,16 @@ export const processFetchUserCart = userId => {
   return detailedCart
 }
 
+export const processUpdateUserOrders = (
+  userId,
+  orderedProducts,
+  shippingInfo
+) => {
+  // Add new order + shipping info to user orders
+
+  return true
+}
+
 export const processFetchProductReviews = (productId, sortFilterValue) => {
   const productReviews = reviews.filter(
     review => review.product_id === productId

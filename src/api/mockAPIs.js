@@ -5,7 +5,8 @@ import {
   processFetchOneProduct,
   processFetchProductReviews,
   processUpdateUserCart,
-  processFetchUserCart
+  processFetchUserCart,
+  processUpdateUserOrders
 } from './mockBackend/logic'
 
 const FAKE_DELAY_IN_MS = 250
@@ -124,5 +125,19 @@ export const fetchUserCart = ({ userId }) => {
       }
       setTimeout(() => resolve(userCart), FAKE_DELAY_IN_MS)
     }, FAKE_DELAY_IN_MS)
+  })
+}
+
+export const updateUserOrders = ({ userId, orderedProducts, shippingInfo }) => {
+  return new Promise((resolve, reject) => {
+    const updateUserOrdersSuccess = processUpdateUserOrders(
+      userId,
+      orderedProducts,
+      shippingInfo
+    )
+    if (!updateUserOrdersSuccess) {
+      setTimeout(() => reject(new Error('Error update user orders!')))
+    }
+    setTimeout(() => resolve(), FAKE_DELAY_IN_MS)
   })
 }
